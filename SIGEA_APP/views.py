@@ -5,6 +5,9 @@ from django.shortcuts import render
 def index(request):
     return render(request, 'SIGEA_APP/index.html')
 
+def login(request):
+    return render(request, 'SIGEA_APP/login.html')
+
 
 
 

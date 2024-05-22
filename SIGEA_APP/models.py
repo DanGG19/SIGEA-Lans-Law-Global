@@ -14,7 +14,7 @@ class Actividades(models.Model):
     docanexoactividad = models.CharField(db_column='DOCANEXOACTIVIDAD', max_length=255, blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'actividades'
 
 
@@ -24,7 +24,7 @@ class Departamentos(models.Model):
     responsabledepartamento = models.CharField(db_column='RESPONSABLEDEPARTAMENTO', max_length=255)  # Field name made lowercase.
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'departamentos'
 
 
@@ -38,7 +38,7 @@ class Evaluacion(models.Model):
     fechaevaluacion = models.DateTimeField(db_column='FECHAEVALUACION')  # Field name made lowercase.
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'evaluacion'
 
 
@@ -54,7 +54,7 @@ class Plandesarrollo(models.Model):
     duracionmesesplandes = models.IntegerField(db_column='DURACIONMESESPLANDES')  # Field name made lowercase.
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'plandesarrollo'
 
 
@@ -66,7 +66,7 @@ class Recordatorio(models.Model):
     fecharecordatorio = models.DateTimeField(db_column='FECHARECORDATORIO')  # Field name made lowercase.
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'recordatorio'
 
 
@@ -77,7 +77,7 @@ class Servicios(models.Model):
     descripcionservicio = models.CharField(db_column='DESCRIPCIONSERVICIO', max_length=2000, blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'servicios'
 
 
@@ -95,5 +95,5 @@ class Usuario(models.Model):
     contrasena = models.CharField(db_column='CONTRASENA', max_length=255)  # Field name made lowercase.
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'usuario'

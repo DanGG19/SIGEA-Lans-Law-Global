@@ -8,6 +8,7 @@ body {
     background: url("../img/LANSLAW.jpg")  no-repeat center center fixed;
     background-size: cover;
     font-family: 'Courier New', Courier, monospace;
+    
 }
 
 body::before {
@@ -25,8 +26,6 @@ body::before {
     margin-top: 0%;
     position: relative;
     z-index: 1;
-    width: 100%;
-    max-width: 600px;
     padding: 20px;
     text-align: center;
 }
@@ -35,8 +34,6 @@ body::before {
        
     position: relative;
     z-index: 1;
-    width: 100%;
-    max-width: 600px;
     padding: 20px;
     background: rgba(255, 255, 255, 0); /* Contenedor semi-transparente */
     color: white;

@@ -1,94 +1,59 @@
 <!doctype html>
 <html lang="en">
-    <head>
-        <title>Title</title>
-        <!-- Required meta tags -->
-        <meta charset="utf-8" />
-        <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1, shrink-to-fit=no"
-        />
+<head>        
+    <title>SIGEA - LOGIN</title>
+    {% load static %}
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
-        <!-- Bootstrap CSS v5.2.1 -->
-        <link
-            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-            rel="stylesheet"
-            integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
-            crossorigin="anonymous"
-        />
-    </head>
+    <!-- Bootstrap CSS v5.2.1 -->
+    <link href="{% static 'css/Login.css' %}" rel="stylesheet">
+    <style>
+        /* Estilos para centrar la imagen en el encabezado */
+        header {
+            text-align: center;
+        }
 
-    <body>
-        <header>
-            <!-- place navbar here -->
-        </header>
-        <main>
+        header img {
+            max-width: 200px; /* Establece el ancho máximo del logo */
+            height: auto;
+            margin: 20px auto; /* Ajusta el margen para centrar verticalmente */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <!-- Coloca tu imagen de logo aquí -->
+        
+        <!-- place navbar here -->
+    </header>
+    <main>
+        <div class="logo-container">
+            <img src="static/img/logo_lanslawglobal.png" alt="Logo de SIGEA" />
+        </div>
+        <div class="login-container">
+            <form class="login-form">
+                <h2>Iniciar Sesión</h2>
+                <label for="username">Usuario</label>
+                <input type="text" id="username" name="username" required>
+                <label for="password">Contraseña</label>
+                <input type="password" id="password" name="password" required>
+                <button type="submit">Ingresar</button>
+            </form>
+        </div>
+    </main>
+    <footer>
+        <!-- place footer here -->
 
-            <div class="container-fluid">
-                <h1 class="h3 mb-4 text-gray-800">Blank Page</h1>
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <div class="p-5">
-                                <div class="text-center">
-                                    <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
-                                </div>
-                                <form class="user">
-                                    <div class="form-group row">
-                                        <div class="col-sm-6 mb-3 mb-sm-0">
-                                            <input type="text" class="form-control form-control-user" id="exampleFirstName"
-                                                placeholder="First Name">
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <input type="text" class="form-control form-control-user" id="exampleLastName"
-                                                placeholder="Last Name">
-                                        </div>
-                                    </div>
-                                    <div class="form-group
-                                        <input type="email" class="form-control form-control-user" id="exampleInputEmail"
-                                            placeholder="Email Address">
-                                    </div>
-                                    <div class="form-group
-                                        <input type="password" class="form-control form-control-user" id="exampleInputPassword"
-                                            placeholder="Password">
-                                    </div>
-                                    <a href="login.html" class="btn btn-primary btn-user btn-block">
-                                        Register Account
-                                    </a>
-                                    <hr>
-                                    <a href="index.html" class="btn btn-google btn-user btn-block">
-                                        <i class="fab fa-google fa-fw"></i> Register with Google
-                                    </a>
-                                    <a href="index.html" class="btn btn-facebook btn-user btn-block">
-                                        <i class="fab fa-facebook-f fa-fw"></i> Register with Facebook
-                                    </a>
-                                </form>
-                                <hr>
-                                <div class="text-center">
-                                    <a class="small" href="forgot-password.html">Forgot Password?</a>
-                                </div>
-                                <div class="text-center">
-                                    <a class="small" href="login.html">Already have an account? Login!</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>   
-            </div>
+        
+    </footer>
+    <!-- Bootstrap JavaScript Libraries -->
+    <div class="footers">
+    <p>&copy; 2024 DSI115-GRUPO#05. Todos los derechos reservados.</p>
+    </div>
+    <script></script>
 
-        </main>
-        <footer>
-            <!-- place footer here -->
-        </footer>
-        <!-- Bootstrap JavaScript Libraries -->
-        <script
-            src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-            integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
-            crossorigin="anonymous"
-        ></script>
-
-        <script
-            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
-            integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
-            crossorigin="anonymous"
-        ></script>
-    </body>
+    
+</body>
 </html>

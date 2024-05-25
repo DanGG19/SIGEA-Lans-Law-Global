@@ -1,0 +1,11 @@
+{% extends 'SIGEA_APP/admin/index.html' %}
+{% block title %}Usuario{% endblock %}
+{% block content %}
+<h1>{{ object.nombre }} {{ object.apellido }}</h1>
+    <p>Email: {{ object.email }}</p>
+    <p>Teléfono: {{ object.telefono }}</p>
+    <p>Salario: {{ object.salario }}</p>
+    <a href="{% url 'usuario_update' object.idusuario %}">Editar</a>
+    <a href="{% url 'usuario_delete' object.idusuario %}">Eliminar</a>
+    <a href="{% url 'usuario_list' %}">Volver a la lista</a>
+{% endblock %}

@@ -1,9 +1,13 @@
-from django.urls import include, path
+from django.urls import path
 from SIGEA_APP import views
 
-
 urlpatterns = [
-    path('', views.index, name="index"),#This is the default page, recordar que se debe llamar el nombre name="index" para las referencias
-    path('login/', views.login_V, name="login"), #This is the login page, recordar que se debe llamar al nombre name="login" para las referencias
-    path('accounts/login/', views.login_V, name="login"), #Esto ya existe en Django, es una carpeta ya está implemantada, aunque no se vea en el proyecto de Django para redirigir al login
+    path('', views.index, name="index"),  # Página de inicio
+    path('login/', views.login_V, name="login"),  # Página de login
+    path('accounts/login/', views.login_V, name="login"),  # Redirección a login
+    path('usuarios/', views.UsuarioListView.as_view(), name='usuario_list'),  # Listado de usuarios
+    path('usuarios/nuevo/', views.usuario_create_view, name='usuario_create'),  # Crear usuario
+    path('usuarios/<int:pk>/', views.UsuarioDetailView.as_view(), name='usuario_detail'),  # Detalle de usuario
+    path('usuarios/<int:pk>/editar/', views.usuario_update_view, name='usuario_update'),  # Editar usuario
+    path('usuarios/<int:pk>/eliminar/', views.usuario_delete_view, name='usuario_delete'),  # Eliminar usuario
 ]

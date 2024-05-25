@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SIGEA - Index</title>
+    <title>{% block title %}SIGEA{% endblock %}</title>
     {%load static%} <!--Carga los archivos estáticos-->
     <!-- Custom fonts for this template-->
     <link href="{%static 'vendor/fontawesome-free/css/all.min.css'%}" rel="stylesheet" type="text/css">
@@ -23,72 +23,12 @@
     <!-- Page Wrapper -->
     <div id="wrapper">
 
+        {% block sidenavbar %}
+           {% include 'SIGEA_APP/Side-navbar.html' with pruebita=request.user.tipousuario %} 
+        {% endblock  %}
+
         <!-- Sidebar -->
-        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
-            <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-                <div class="sidebar-brand-icon rotate-n-15">
-                    <i class="fas fa-laugh-wink"></i>
-                </div>
-                <div class="sidebar-brand-text mx-3">SIGEA</div>
-            </a>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider my-0">
-            <!-- Divider -->
-            <hr class="sidebar-divider">
-            <!-- Heading -->
-            <div class="sidebar-heading">
-                Nombre de algo.xd
-            </div>
-
-            <!-- Nav Item - Pages Collapse Menu -->
-            <!--lista de botones del Nav(Cada nav-item es un botón nuevo)-->
-            <li class="nav-item">
-            <!--lista de botones del Nav-->
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-                    aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fas fa-fw fa-cog"></i>
-                    <span>Components</span>
-                </a>
-                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Custom Components:</h6>
-                        <a class="collapse-item" href="buttons.html">Buttons</a>
-                        <a class="collapse-item" href="cards.html">Cards</a>
-                    </div>
-                </div>
-            </li>
-
-            <!-- Nav Item - Utilities Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
-                    aria-expanded="true" aria-controls="collapseUtilities">
-                    <i class="fas fa-fw fa-wrench"></i>
-                    <span>Utilities</span>
-                </a>
-                <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
-                    data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Custom Utilities:</h6>
-                        <a class="collapse-item" href="utilities-color.html">Colors</a>
-                        <a class="collapse-item" href="utilities-border.html">Borders</a>
-                        <a class="collapse-item" href="utilities-animation.html">Animations</a>
-                        <a class="collapse-item" href="utilities-other.html">Other</a>
-                    </div>
-                </div>
-            </li>        
-
-            <!-- Divider -->
-            <hr class="sidebar-divider d-none d-md-block">
-            <!-- Sidebar Toggler (Sidebar) -->
-            <!--botón para ocultar el sidebar -->
-            <div class="text-center d-none d-md-inline">
-                <button class="rounded-circle border-0" id="sidebarToggle"></button>
-            </div>
-          
-        </ul>
         <!-- End of Sidebar -->
 
         <!-- Content Wrapper -->
@@ -104,11 +44,11 @@
                     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
                         <i class="fa fa-bars"></i>
                     </button>
-
                     
                     <h1 class="display-5" href="{% url 'index' %}">SIGEA</h1>
 
-                    
+                    <input type="hidden" id="pruebita" value="{{ request.user.tipousuario }}" />
+
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
 
@@ -171,19 +111,25 @@
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-
-                    <!-- Page Heading -->
+                    {% block content %}
+                    
+                    {% endblock content %}
+                </div>
+                    
+                <!-- Page Heading -->
                                         
                 <!-- /.container-fluid -->
             </div>
+
+            {% block footer %}
+            {% include 'SIGEA_APP/footer.html' %}
+            {% endblock  %}
             <!-- End of Main Content -->
         </div>
         <!-- End of Content Wrapper -->
-        {% block footer %}
-        {% include 'SIGEA_APP/footer.html' %}
-        {% endblock  %}
     </div>
     <!-- End of Page Wrapper -->
+    
 
     <!-- Logout Modal-->
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -210,6 +156,19 @@
     <script src="{%static 'vendor/bootstrap/js/bootstrap.bundle.min.js'%}"></script><!--JS del los botones SideBar-->
     <!-- Custom scripts for all pages-->
     <script src="{%static 'js/sb-admin-2.min.js'%}"></script><!--JS del SideBar-->
+    <script>
+        $(document).ready(function () {
+            var tipousuario = $('#pruebita').val();
+            if (tipousuario == 1) {
+                alert('Usted entró como Administrador');
+            } else if (tipousuario == 2) {
+                alert('Usted entró como Secretaria');
+            } else if (tipousuario == 3) {
+                alert('Usted entró como Jefe de Departamento');
+            } else if (tipousuario == 4) {
+                alert('Usted entró como Empleado');
+            };})
+    </script>
 
 </body>
 </html>

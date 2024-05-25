@@ -97,7 +97,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'es'
 
 TIME_ZONE = 'UTC'
 
@@ -125,3 +125,9 @@ else:
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+#variables de configuración de logins y logout
+LOGIN_REDIRECT_URL = 'index' #Se configura la página a la que se redirige al usuario después de hacer login
+LOGOUT_REDIRECT_URL = 'index' #Se configura la página a la que se redirige al usuario después de hacer logout
+
+AUTH_USER_MODEL = 'SIGEA_APP.Usuario' #Se cambia el modelo de usuario por defecto de Django por el modelo de usuario personalizado

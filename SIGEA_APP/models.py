@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import BaseUserManager, AbstractBaseUser # Se importan las clases BaseUserManager y AbstractBaseUser de django para manejar la creación de usuarios
 
 # Create your models here.
 
@@ -81,19 +82,41 @@ class Servicios(models.Model):
         db_table = 'servicios'
 
 
-class Usuario(models.Model):
+    
+class UsuarioManager(BaseUserManager): # BaseUserManager es una clase que se encarga de manejar la creación de usuarios
+    def create_user(self, email, password=None, **extra_fields):
+        if not email: # Si no se ingresa un email, se lanza un error
+            raise ValueError('El usuario debe tener un email') # ValueError es una excepción que se lanza cuando un valor es incorrecto
+        email = self.normalize_email(email) # normalize_email es un método que se encarga de normalizar el email (convertirlo a minúsculas)
+        user = self.model(email=email, **extra_fields) # Se crea un usuario con el email normalizado y los campos extra que se pasen como argumento en el método
+        user.set_password(password) # Se encripta la contraseña del usuario con el método set_password de django
+        user.save(using=self._db) # Se guarda el usuario en la base de datos
+        return user # Se retorna el usuario creado
+
+    def create_superuser(self, email, password=None, **extra_fields): # Método para crear un superusuario
+        return self.create_user(email, password, **extra_fields) # Se llama al método create_user para crear un superusuario
+
+class Usuario(AbstractBaseUser): # AbstractBaseUser es una clase que se encarga de manejar la autenticación de los usuarios
     idusuario = models.AutoField(db_column='IDUSUARIO', primary_key=True)  # Field name made lowercase.
-    idservicio = models.ForeignKey(Servicios, models.DO_NOTHING, db_column='IDSERVICIO')  # Field name made lowercase.
-    idplandes = models.ForeignKey(Plandesarrollo, models.DO_NOTHING, db_column='IDPLANDES', blank=True, null=True)  # Field name made lowercase.
+    idservicio = models.ForeignKey('Servicios', models.DO_NOTHING, db_column='IDSERVICIO', blank=True, null=True)  # Field name made lowercase.
+    idplandes = models.ForeignKey('Plandesarrollo', models.DO_NOTHING, db_column='IDPLANDES', blank=True, null=True)  # Field name made lowercase.
     tipousuario = models.IntegerField(db_column='TIPOUSUARIO')  # Field name made lowercase.
     nombre = models.CharField(db_column='NOMBRE', max_length=255)  # Field name made lowercase.
     apellido = models.CharField(db_column='APELLIDO', max_length=255)  # Field name made lowercase.
     dui = models.CharField(db_column='DUI', max_length=9)  # Field name made lowercase.
     telefono = models.IntegerField(db_column='TELEFONO')  # Field name made lowercase.
     salario = models.DecimalField(db_column='SALARIO', max_digits=10, decimal_places=0)  # Field name made lowercase.
-    correo = models.CharField(db_column='CORREO', max_length=255)  # Field name made lowercase.
-    contrasena = models.CharField(db_column='CONTRASENA', max_length=255)  # Field name made lowercase.
+    email = models.EmailField(db_column='EMAIL', max_length=255, unique=True)  # Field name made lowercase.
+    password = models.CharField(db_column='PASSWORD', max_length=255) # Field name made lowercase.
+    
+    objects = UsuarioManager() # Se asigna el manager de Usuario a la variable objects
+    USERNAME_FIELD = 'email' # Se asigna el campo email como campo de autenticación
+    REQUIRED_FIELDS = ['nombre', 'apellido', 'dui', 'telefono', 'salario', 'tipousuario'] # Se asignan los campos requeridos para la creación de un usuario
 
-    class Meta:
-        managed = True
-        db_table = 'usuario'
+    class Meta: # Metaclase para configurar el modelo Usuario en la base de datos 
+        managed = True # Se indica que el modelo es gestionado por Django
+        db_table = 'usuario' # Se asigna el nombre de la tabla en la base de datos
+            
+    def __str__(self): # Método para retornar el email del usuario como representación del objeto en string 
+        return self.email # Se retorna el email del usuario 
+

@@ -5,9 +5,8 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('SIGEA_APP.urls')),
-    
-]
+    path('', include('SIGEA_APP.urls'))
+  ]
 
 
 

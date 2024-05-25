@@ -9,7 +9,7 @@
     <meta name="author" content="">
 
     <title>SIGEA - Index</title>
-    {%load static%}
+    {%load static%} <!--Carga los archivos estáticos-->
     <!-- Custom fonts for this template-->
     <link href="{%static 'vendor/fontawesome-free/css/all.min.css'%}" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
@@ -145,7 +145,7 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">USUARIO</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{user.nombre}} {{user.apellido}}</span> <!--Nombre y apellido del usuario-->
                                 <img class="img-profile rounded-circle"
                                     src="https://media-gua1-1.cdn.whatsapp.net/v/t61.24694-24/424451942_1108699453708935_7417637537185791217_n.jpg?ccb=11-4&oh=01_Q5AaILiyHoPpl_1uQpig5fxsBZ3jaCtpDqw-LhFtWsKARk3I&oe=664611D3&_nc_sid=e6ed6c&_nc_cat=103">
                             </a>

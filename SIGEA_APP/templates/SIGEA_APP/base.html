@@ -156,7 +156,7 @@
     <script src="{%static 'vendor/bootstrap/js/bootstrap.bundle.min.js'%}"></script><!--JS del los botones SideBar-->
     <!-- Custom scripts for all pages-->
     <script src="{%static 'js/sb-admin-2.min.js'%}"></script><!--JS del SideBar-->
-    <script>
+    {% comment %} <script>
         $(document).ready(function () {
             var tipousuario = $('#pruebita').val();
             if (tipousuario == 1) {
@@ -168,7 +168,7 @@
             } else if (tipousuario == 4) {
                 alert('Usted entró como Empleado');
             };})
-    </script>
+    </script> {% endcomment %}
 
 </body>
 </html>

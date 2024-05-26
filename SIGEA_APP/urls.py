@@ -1,13 +1,13 @@
 from django.urls import path
-from SIGEA_APP import views
+from . import views
 
 urlpatterns = [
-    path('', views.index, name="index"),  # Página de inicio
-    path('login/', views.login_V, name="login"),  # Página de login
-    path('accounts/login/', views.login_V, name="login"),  # Redirección a login
-    path('usuarios/', views.UsuarioListView.as_view(), name='usuario_list'),  # Listado de usuarios
-    path('usuarios/nuevo/', views.usuario_create_view, name='usuario_create'),  # Crear usuario
-    path('usuarios/<int:pk>/', views.UsuarioDetailView.as_view(), name='usuario_detail'),  # Detalle de usuario
-    path('usuarios/<int:pk>/editar/', views.usuario_update_view, name='usuario_update'),  # Editar usuario
-    path('usuarios/<int:pk>/eliminar/', views.usuario_delete_view, name='usuario_delete'),  # Eliminar usuario
+    path('', views.index, name="index"),
+    path('login/', views.login_V, name="login"),
+    path('accounts/login/', views.login_V, name="login"),
+    path('usuario/', views.usuario_list, name='usuario_list'),
+    path('usuario/create/', views.usuario_create, name='usuario_create'),
+    path('usuario/update/<int:idusuario>/', views.usuario_update, name='usuario_update'),  # Actualizar aquí
+    path('usuario/delete/<int:idusuario>/', views.usuario_delete, name='usuario_delete'),  # Actualizar aquí
+    path('usuario/detail/<int:idusuario>/', views.usuario_detail, name='usuario_detail'),  # Actualizar aquí
 ]

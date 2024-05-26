@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Detalles del Usuario</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>Detalles del Usuario</h1>
+        <p><strong>Nombre:</strong> {{ usuario.nombre }}</p>
+        <p><strong>Apellido:</strong> {{ usuario.apellido }}</p>
+        <p><strong>DUI:</strong> {{ usuario.dui }}</p>
+        <p><strong>Teléfono:</strong> {{ usuario.telefono }}</p>
+        <p><strong>Salario:</strong> {{ usuario.salario }}</p>
+        <p><strong>Email:</strong> {{ usuario.email }}</p>
+        <p><strong>Tipo Usuario:</strong> {{ usuario.tipousuario }}</p>
+        <p><strong>ID Servicio:</strong> {{ usuario.idservicio }}</p>
+        <button type="button" class="btn btn-secondary" onclick="window.history.back()">Volver</button>
+    </div>
+</body>
+</html>

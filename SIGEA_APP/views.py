@@ -1,9 +1,10 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.urls import reverse_lazy
-from django.views.generic import ListView, DetailView
 from .models import Usuario
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login
+from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse
+from .forms import UsuarioForm
 
 @login_required
 def index(request):
@@ -24,65 +25,48 @@ def login_V(request):
             return redirect('index')
         else:
             return render(request, 'registration/login.html', {'error_message': 'Datos Incorrectos'})
-    return render(request, 'registration/login.html')
+    return render(request, 'SIGEA_APP/registration/login.html')
 
-class UsuarioListView(ListView):
-    model = Usuario
-    template_name = 'SIGEA_APP/usuario_list.html'
+@csrf_exempt
+def usuario_list(request):
+    usuarios = Usuario.objects.all()
+    return render(request, 'SIGEA_APP/CRUD_USUARIOS/usuario_list.html', {'usuarios': usuarios})
 
-class UsuarioDetailView(DetailView):
-    model = Usuario
-    template_name = 'SIGEA_APP/usuario_detail.html'
-
-def usuario_create_view(request):
+@csrf_exempt
+def usuario_create(request):
     if request.method == 'POST':
-        nombre = request.POST.get('nombre')
-        apellido = request.POST.get('apellido')
-        dui = request.POST.get('dui')
-        telefono = request.POST.get('telefono')
-        salario = request.POST.get('salario')
-        email = request.POST.get('email')
-        password = request.POST.get('password')
-        tipousuario = request.POST.get('tipousuario')
-        idservicio = request.POST.get('idservicio')
-        idplandes = request.POST.get('idplandes')
+        form = UsuarioForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return JsonResponse({'success': True})
+        else:
+            return JsonResponse({'success': False, 'errors': form.errors})
+    else:
+        form = UsuarioForm()
+    return render(request, 'SIGEA_APP/CRUD_USUARIOS/usuario_form.html', {'form': form})
 
-        usuario = Usuario(
-            nombre=nombre,
-            apellido=apellido,
-            dui=dui,
-            telefono=telefono,
-            salario=salario,
-            email=email,
-            password=password,
-            tipousuario=tipousuario,
-            idservicio_id=idservicio,
-            idplandes_id=idplandes,
-        )
-        usuario.save()
-        return redirect('usuario_list')
-    return render(request, 'SIGEA_APP/usuario_form.html')
-
-def usuario_update_view(request, pk):
-    usuario = get_object_or_404(Usuario, pk=pk)
+@csrf_exempt
+def usuario_update(request, idusuario):  # Usamos idusuario aquí
+    usuario = get_object_or_404(Usuario, idusuario=idusuario)  # y aquí también
     if request.method == 'POST':
-        usuario.nombre = request.POST.get('nombre')
-        usuario.apellido = request.POST.get('apellido')
-        usuario.dui = request.POST.get('dui')
-        usuario.telefono = request.POST.get('telefono')
-        usuario.salario = request.POST.get('salario')
-        usuario.email = request.POST.get('email')
-        usuario.password = request.POST.get('password')
-        usuario.tipousuario = request.POST.get('tipousuario')
-        usuario.idservicio_id = request.POST.get('idservicio')
-        usuario.idplandes_id = request.POST.get('idplandes')
-        usuario.save()
-        return redirect('usuario_list')
-    return render(request, 'SIGEA_APP/usuario_form.html', {'usuario': usuario})
+        form = UsuarioForm(request.POST, instance=usuario)
+        if form.is_valid():
+            form.save()
+            return JsonResponse({'success': True})
+        else:
+            return JsonResponse({'success': False, 'errors': form.errors})
+    else:
+        form = UsuarioForm(instance=usuario)
+    return render(request, 'SIGEA_APP/CRUD_USUARIOS/usuario_form.html', {'form': form})
 
-def usuario_delete_view(request, pk):
-    usuario = get_object_or_404(Usuario, pk=pk)
+def usuario_detail(request, idusuario):  # Usamos idusuario aquí
+    usuario = get_object_or_404(Usuario, idusuario=idusuario)  # y aquí también
+    return render(request, 'SIGEA_APP/CRUD_USUARIOS/usuario_detail.html', {'usuario': usuario})
+
+@csrf_exempt
+def usuario_delete(request, idusuario):  # Usamos idusuario aquí
+    usuario = get_object_or_404(Usuario, idusuario=idusuario)  # y aquí también
     if request.method == 'POST':
         usuario.delete()
-        return redirect('usuario_list')
-    return render(request, 'SIGEA_APP/usuario_confirm_delete.html', {'usuario': usuario})
+        return JsonResponse({'success': True})
+    return JsonResponse({'success': False})

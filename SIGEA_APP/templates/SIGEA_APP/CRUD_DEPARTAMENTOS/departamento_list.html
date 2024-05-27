@@ -4,8 +4,14 @@
 
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+<style>
+    .scrollable-content {
+        max-height: 70vh; /* Ajusta esta altura según tus necesidades */
+        overflow-y: auto;
+    }
+</style>
 
-<div class="container mt-5">
+<div class="scrollable-content mt-5">
     <h1>Departamentos</h1>
     <button class="btn btn-primary" data-toggle="modal" data-target="#createModal">Crear Departamento</button>
     <div class="table-responsive">

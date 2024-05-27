@@ -5,9 +5,14 @@
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
 
-</head>
-<body>
-    <div class="container mt-5">
+<style>
+    .scrollable-content {
+        max-height: 70vh; /* Ajusta esta altura según tus necesidades */
+        overflow-y: auto;
+    }
+</style>
+
+    <div class="scrollable-content mt-5">
         <h1>Usuarios</h1>
         <button class="btn btn-primary" data-toggle="modal" data-target="#createModal">Crear Usuario</button>
         <div class="table-responsive">
@@ -186,5 +191,4 @@
             });
         }
     </script>
-</body>
 {% endblock %}

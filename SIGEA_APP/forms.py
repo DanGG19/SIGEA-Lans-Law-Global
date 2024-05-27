@@ -8,6 +8,19 @@ class UsuarioForm(forms.ModelForm): #Se crea un formulario para el modelo Usuari
         fields = [ #Se definen los campos del formulario.
             'nombre', 'apellido', 'dui', 'telefono', 'salario', 'email', 'password', 'tipousuario', 'idservicio'  #Lista de campos del modelo que estarán en el formulario.
         ]
+        labels = { #Se definen las etiquetas de los campos del formulario.
+            'nombre':'Nombre: ', #Etiqueta para el campo nombre.
+            'apellido':'Apellido: ', #Etiqueta para el campo apellido.
+            'dui':'DUI: ', #Etiqueta para el campo dui.
+            'telefono':'Teléfono: ', #Etiqueta para el campo teléfono.
+            'salario':'Salario: ', #Etiqueta para el campo salario.
+            'email':'Email: ', #Etiqueta para el campo email.
+            'password':'Contraseña: ', #Etiqueta para el campo password.
+            'tipousuario':'Tipo de Usuario: ', #Etiqueta para el campo tipousuario.
+            'idservicio':'Servicio: ' #Etiqueta para el campo idservicio.
+        }
+        
+        
         widgets = {
             'password': forms.PasswordInput(),#Configura el widget PasswordInput para el campo password para que se oculte el texto ingresado.
         }

@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.hashers import make_password #Se importa la función make_password para encriptar la contraseña.
-from .models import Usuario
+from .models import *
 
 class UsuarioForm(forms.ModelForm): #Se crea un formulario para el modelo Usuario.
     class Meta: #Se define la clase Meta.
@@ -20,4 +20,9 @@ class UsuarioForm(forms.ModelForm): #Se crea un formulario para el modelo Usuari
             usuario.save() #Se guarda el usuario en la base de datos.
         return usuario #Se retorna el usuario guardado.
         
-
+class DepartamentosForm(forms.ModelForm):
+    class Meta:
+        model = Departamentos
+        fields = ['divisiondepartamento', 'responsabledepartamento']
+        labels = {'divisiondepartamento':'División de Departamento: ', 
+                  'responsabledepartamento':'Responsable de Departamento'}

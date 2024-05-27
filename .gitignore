@@ -24,3 +24,4 @@ SIGEA/__pycache__/settings.cpython-312.pyc
 SIGEA_APP/__pycache__/models.cpython-312.pyc
 SIGEA_APP/__pycache__/urls.cpython-312.pyc
 SIGEA_APP/__pycache__/views.cpython-312.pyc
+*.pyc

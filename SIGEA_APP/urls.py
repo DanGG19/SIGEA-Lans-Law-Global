@@ -15,4 +15,9 @@ urlpatterns = [
     path('departamento/update/<int:iddepartamento>/', views.departamento_update, name='departamento_update'),  # Ruta para actualizar un usuario, que llama a la vista usuario_update.
     path('departamento/delete/<int:iddepartamento>/', views.departamento_delete, name='departamento_delete'),  # Ruta para eliminar un usuario, que llama a la vista usuario_delete.
     path('departamento/detail/<int:iddepartamento>/', views.departameto_detail, name='departamento_detail'),  # Ruta para ver los detalles de un usuario, que llama a la vista usuario_detail.
+    path('servicio/', views.servicio_list, name='servicio_list'),
+    path('servicio/create/', views.servicio_create, name='servicio_create'), #Ruta para crear un usuario, que llama a la vista usuario_create.
+    path('servicio/update/<int:idservicio>/', views.servicio_update, name='servicio_update'),  # Ruta para actualizar un usuario, que llama a la vista usuario_update.
+    path('servicio/delete/<int:idservicio>/', views.servicio_delete, name='servicio_delete'),  # Ruta para eliminar un usuario, que llama a la vista usuario_delete.
+    path('servicio/detail/<int:idservicio>/', views.servicio_detail, name='servicio_detail'),  # Ruta para ver los detalles de un usuario, que llama a la vista usuario_detail.
 ]

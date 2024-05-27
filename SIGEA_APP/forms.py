@@ -39,3 +39,19 @@ class DepartamentosForm(forms.ModelForm):
         fields = ['divisiondepartamento', 'responsabledepartamento']
         labels = {'divisiondepartamento':'División de Departamento: ', 
                   'responsabledepartamento':'Responsable de Departamento'}
+        
+class ServiciosForm(forms.ModelForm):
+    iddepartamento = forms.ModelChoiceField(
+        queryset=Departamentos.objects.all(),
+        label='Departamento',
+        to_field_name='divisiondepartamento'
+    )
+
+    class Meta:
+        model = Servicios
+        fields = ['iddepartamento', 'nombreservicio', 'descripcionservicio']
+        labels = {
+            'iddepartamento': 'Departamento',
+            'nombreservicio': 'Nombre del servicio',
+            'descripcionservicio': 'Descripcion del servicio'
+        }

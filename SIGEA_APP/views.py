@@ -115,3 +115,48 @@ def departamento_delete(request, iddepartamento):  # Usamos idusuario aquí #Vis
         departamento.delete() #Se elimina el usuario de la base de datos.
         return JsonResponse({'success': True}) #Se retorna un JSON con el mensaje de éxito.
     return JsonResponse({'success': False}) #Si el método no es POST, se retorna un JSON con el mensaje de error.
+
+#Views para servicios
+@csrf_exempt # Decorador para deshabilitar la protección CSRF
+def servicio_list(request): #Vista para listar los usuarios
+    servicios = Servicios.objects.all() #Se obtienen todos los usuarios de la base de datos.
+    return render(request, 'SIGEA_APP/CRUD_SERVICIO/servicio_list.html', {'servicio': servicios}) #Se renderiza la plantilla usuario_list.html con los usuarios obtenidos.
+
+@csrf_exempt # Decorador para deshabilitar la protección CSRF
+def servicio_create(request): #Vista para crear un usuario
+    if request.method == 'POST': #Si el método es POST, se crea un formulario con los datos del usuario.
+        form = ServiciosForm(request.POST) #Se crea un formulario con los datos del usuario.
+        if form.is_valid(): #Si el formulario es válido, se guarda el usuario en la base de datos.
+            form.save() #Se guarda el usuario en la base de datos.
+            return JsonResponse({'success': True}) #Se retorna un JSON con el mensaje de éxito.
+        else:
+            return JsonResponse({'success': False, 'errors': form.errors}) #Si el formulario no es válido, se retorna un JSON con el mensaje de error.
+    else:
+        form = ServiciosForm()
+    return render(request, 'SIGEA_APP/CRUD_SERVICIO/servicio_form.html', {'form': form}) #Si el método no es POST, se muestra el formulario para crear un usuario.
+
+@csrf_exempt
+def servicio_update(request, idservicio):
+    servicio = get_object_or_404(Servicios, idservicio=idservicio)
+    if request.method == 'POST':
+        form = ServiciosForm(request.POST, instance=servicio)
+        if form.is_valid():
+            form.save()
+            return JsonResponse({'success': True})
+        else:
+            return JsonResponse({'success': False, 'errors': form.errors})
+    else:
+        form = ServiciosForm(instance=servicio)
+    return render(request, 'SIGEA_APP/CRUD_SERVICIO/servicio_form.html', {'form': form})
+
+def servicio_detail(request, idservicio):  # Usamos idusuario aquí #Vista para ver los detalles de un usuario
+    servicios = get_object_or_404(Servicios, idservicio=idservicio)  # y aquí también #Se obtiene el usuario a mostrar.
+    return render(request, 'SIGEA_APP/CRUD_SERVICIO/servicio_detail.html', {'servicios': servicios}) #Se renderiza la plantilla usuario_detail.html con los datos del usuario.
+
+@csrf_exempt # Decorador para deshabilitar la protección CSRF
+def servicio_delete(request, idservicio):  # Usamos idusuario aquí #Vista para eliminar un usuario
+    servicios = get_object_or_404(Servicios	, idservicio=idservicio)  # y aquí también #Se obtiene el usuario a eliminar.
+    if request.method == 'POST': #Si el método es POST, se elimina el usuario de la base de datos.
+        servicios.delete() #Se elimina el usuario de la base de datos.
+        return JsonResponse({'success': True}) #Se retorna un JSON con el mensaje de éxito.
+    return JsonResponse({'success': False}) #Si el método no es POST, se retorna un JSON con el mensaje de error.

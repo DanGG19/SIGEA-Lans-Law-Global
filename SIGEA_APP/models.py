@@ -120,3 +120,14 @@ class Usuario(AbstractBaseUser): # AbstractBaseUser es una clase que se encarga 
     def __str__(self): # Método para retornar el email del usuario como representación del objeto en string 
         return self.email # Se retorna el email del usuario 
 
+#MODELOS PARA LOS EVENTOS
+class Eventos(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=255, null=True, blank=True)
+    descripcionevento = models.CharField(db_column='DESCRIPCIONEVENTO', max_length=2000, blank=True, null=True)
+    start = models.DateTimeField(null=True, blank=True)
+    end = models.DateTimeField(null=True, blank=True)
+
+    class Meta:
+        managed = True
+        db_table = "events"

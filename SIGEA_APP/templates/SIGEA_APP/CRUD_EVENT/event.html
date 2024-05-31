@@ -1,0 +1,122 @@
+{% extends 'SIGEA_APP/admin/index.html' %}
+{% block title %}Evento{% endblock %}
+{% block content %}
+
+<script src='https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@6.1.13/index.global.min.js'></script>
+
+<style>
+    .scrollable-content {
+        max-height: 70vh; /* Ajusta esta altura según tus necesidades */
+        overflow-y: auto;
+    }
+</style>
+
+
+
+<div class="scrollable-content mt-5">
+    <h1>Calendario</h1>
+    <button class="btn btn-primary" data-toggle="modal" data-target="#createModal">Crear Evento</button>
+    <div id='calendar'></div>
+    <!-- Detail Modal -->
+    <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="createModalLabel">Crear Nuevo Evento</h5>
+            <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <!-- formulario -->
+            <form id="eventForm">
+              <div class="form-group">
+                  <label >Título:</label>
+                  <input type="text" class="form-control" id="eventTitle" name="name" required>
+              </div>
+              <div class="form-group">
+                  <label >Fecha y hora de inicio:</label>
+                  <input type="date" class="form-control" id="eventStart" name="start" required>
+              </div>
+              <div class="form-group">
+                  <label >Fecha y hora de finalización:</label>
+                  <input type="date" class="form-control" id="eventEnd" name="end" required>
+              </div>
+              <div class="form-group">
+                  <label >Descripción:</label>
+                  <textarea class="form-control" id="eventDescription" name="descripcionevento" rows="3"></textarea>
+              </div>
+              <button id="insertar" type="submit" class="btn btn-primary" data-url="{% url 'event_create' %}">Crear Evento</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var calendarEl = document.getElementById('calendar');
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+      timeZone: 'UTC',
+      initialView: 'dayGridMonth',
+      aspectRatio: 1.5,
+      headerToolbar: {
+        left: 'prev,next',
+        center: 'title',
+        right: 'dayGridMonth,timeGridWeek,timeGridDay'
+      },
+      selectable: true,
+      editable: true,
+      resourceAreaHeaderContent: 'Rooms',
+    });
+
+    calendar.on('select', function(info) {
+      alert('Seleccionaste desde ' + info.startStr + ' hasta ' + info.endStr);
+    });
+
+    calendar.render();
+
+    //ajax del formulario
+  $(document).on('submit', '#eventForm', function (event)  {
+    const button = $('#insertar').data('url');
+    event.preventDefault();
+    var formData = $(this).serialize();
+
+    var eventTitle = document.getElementById('eventTitle').value;
+      var eventStart = new Date(document.getElementById('eventStart').value).toISOString();
+      var eventEnd = new Date(document.getElementById('eventEnd').value).toISOString();
+      // Agregar el evento al calendario
+      calendar.addEvent({
+        title: eventTitle,
+        start: eventStart,
+        end: eventEnd
+      });
+    
+    $.ajax({
+      url: button,
+      type: 'POST',
+      data: formData,
+      success: function (data) {
+          if (data.success) {
+            $('#createModal').modal('hide');
+            alert(data.message);
+          } else {
+              alert(data.errors)
+          }
+      },
+      error: function (xhr, status, error) {
+          alert('Error en la solicitud AJAX:');
+          alert(xhr.toString());
+          alert(status);
+          alert(error);
+      }
+  })
+  });
+
+    
+  });
+  
+  
+  
+</script>
+
+{% endblock %}

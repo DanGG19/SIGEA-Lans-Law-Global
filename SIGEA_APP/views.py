@@ -5,6 +5,8 @@ from django.contrib.auth import authenticate, login
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from .forms import *
+from django.utils import timezone
+from datetime import datetime
 
 @login_required # Decorador para proteger la vista con login
 def index(request): #Vista protegida por login que redirige al usuario a diferentes plantillas según su tipo de usuario (tipousuario).
@@ -160,3 +162,25 @@ def servicio_delete(request, idservicio):  # Usamos idusuario aquí #Vista para 
         servicios.delete() #Se elimina el usuario de la base de datos.
         return JsonResponse({'success': True}) #Se retorna un JSON con el mensaje de éxito.
     return JsonResponse({'success': False}) #Si el método no es POST, se retorna un JSON con el mensaje de error.
+
+def event(request):
+    return render(request, 'SIGEA_APP/CRUD_EVENT/event.html')
+
+@csrf_exempt
+def event_create(request):
+    if request.method == 'POST':
+        titulo = request.POST.get('name')
+        descripcion = request.POST.get('descripcionevento')
+        fechainicio = request.POST.get('start')
+        fechafin = request.POST.get('end')
+        
+
+
+        # Crea un nuevo evento en la base de datos
+        nuevo_evento = Eventos(name=titulo, descripcionevento=descripcion, start=fechainicio, end=fechafin)
+        nuevo_evento.save()
+        # Devuelve una respuesta JSON indicando que la creación del evento fue exitosa
+        return JsonResponse({'success': True, 'message':'Has creado un evento exitosamente'})
+    else:
+        # Si la solicitud no es de tipo POST, devuelve un error
+        return JsonResponse({'success': False, 'message': 'La solicitud debe ser de tipo POST'})

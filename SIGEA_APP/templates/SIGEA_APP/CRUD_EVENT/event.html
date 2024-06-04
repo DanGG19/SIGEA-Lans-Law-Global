@@ -51,7 +51,37 @@
       </div>
     </div>
 </div>
-
+<!-- Detail Modal -->
+<div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="detailModalLabel">Detalles del Evento</h5>
+        <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="detailForm">
+          <div class="form-group">
+            <label>Título:</label>
+            <input type="text" class="form-control" id="detailTitle" readonly>
+          </div>
+          <div class="form-group">
+            <label>Fecha y hora de inicio:</label>
+            <input type="datetime-local" class="form-control" id="detailStart" readonly>
+          </div>
+          <div class="form-group">
+            <label>Fecha y hora de finalización:</label>
+            <input type="datetime-local" class="form-control" id="detailEnd" readonly>
+          </div>
+          <div class="form-group">
+            <label>Descripción:</label>
+            <textarea class="form-control" id="detailDescription" rows="3" readonly></textarea>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');
@@ -62,15 +92,31 @@
       headerToolbar: {
         left: 'prev,next',
         center: 'title',
-        right: 'dayGridMonth,timeGridWeek,timeGridDay'
+        right: 'dayGridMonth,timeGridWeek,timeGridDay,multiMonthYear'
       },
       selectable: true,
       editable: true,
+      dayMaxEvents: true,
+      events: '/events/',
       resourceAreaHeaderContent: 'Rooms',
+
+      // Handler for event clicks
+      eventClick: function(info) {
+        // Prevent the default action
+        info.jsEvent.preventDefault();
+
+        // Populate the modal with the event details
+        document.getElementById('detailTitle').value = info.event.title;
+        document.getElementById('detailStart').value = new Date(info.event.start).toISOString().slice(0,16);
+        document.getElementById('detailEnd').value = new Date(info.event.end).toISOString().slice(0,16);
+        document.getElementById('detailDescription').value = info.event.extendedProps.description || '';
+        // Show the modal
+        $('#detailModal').modal('show');
+      }
     });
 
     calendar.on('select', function(info) {
-      alert('Seleccionaste desde ' + info.startStr + ' hasta ' + info.endStr);
+      $('#createModal').modal('show');
     });
 
     calendar.render();
@@ -111,12 +157,8 @@
       }
   })
   });
-
-    
-  });
   
-  
-  
+});
 </script>
 
 {% endblock %}

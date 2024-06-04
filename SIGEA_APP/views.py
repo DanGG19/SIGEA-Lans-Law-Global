@@ -184,3 +184,16 @@ def event_create(request):
     else:
         # Si la solicitud no es de tipo POST, devuelve un error
         return JsonResponse({'success': False, 'message': 'La solicitud debe ser de tipo POST'})
+    
+
+def event_list(request):
+    eventos = Eventos.objects.all()
+    eventos_json = []
+    for evento in eventos:
+        eventos_json.append({
+            'title': evento.name,
+            'start': evento.start.isoformat(),
+            'end': evento.end.isoformat(),
+            'description': evento.descripcionevento.format(),
+        })
+    return JsonResponse(eventos_json, safe=False)

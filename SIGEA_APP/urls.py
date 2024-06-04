@@ -22,4 +22,5 @@ urlpatterns = [
     path('servicio/detail/<int:idservicio>/', views.servicio_detail, name='servicio_detail'),  # Ruta para ver los detalles de un usuario, que llama a la vista usuario_detail.
     path('eventos', views.event, name='eventos'),
     path('eventos/create', views.event_create, name='event_create'),
+    path('events/', views.event_list, name='event_list'),
 ]

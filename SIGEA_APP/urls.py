@@ -1,5 +1,5 @@
 from django.urls import path
-from . import views
+from SIGEA_APP import views 
 
 urlpatterns = [
     path('', views.index, name="index"), #Ruta para la página de inicio, que llama a la vista index.
@@ -20,7 +20,7 @@ urlpatterns = [
     path('servicio/update/<int:idservicio>/', views.servicio_update, name='servicio_update'),  # Ruta para actualizar un usuario, que llama a la vista usuario_update.
     path('servicio/delete/<int:idservicio>/', views.servicio_delete, name='servicio_delete'),  # Ruta para eliminar un usuario, que llama a la vista usuario_delete.
     path('servicio/detail/<int:idservicio>/', views.servicio_detail, name='servicio_detail'),  # Ruta para ver los detalles de un usuario, que llama a la vista usuario_detail.
-    path('eventos', views.event, name='eventos'),
-    path('eventos/create', views.event_create, name='event_create'),
-    path('events/', views.event_list, name='event_list'),
+    path('actividades', views.actividades, name='actividades'),
+    path('actividades/create', views.actividades_create, name='actividades_create'),
+    path('actividades/list', views.actividades_list, name='actividades_list'),
 ]

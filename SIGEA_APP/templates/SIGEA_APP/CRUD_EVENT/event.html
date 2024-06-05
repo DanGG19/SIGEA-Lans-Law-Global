@@ -1,5 +1,5 @@
 {% extends 'SIGEA_APP/admin/index.html' %}
-{% block title %}Evento{% endblock %}
+{% block title %}Actividad{% endblock %}
 {% block content %}
 
 <script src='https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@6.1.13/index.global.min.js'></script>
@@ -15,36 +15,36 @@
 
 <div class="scrollable-content mt-5">
     <h1>Calendario</h1>
-    <button class="btn btn-primary" data-toggle="modal" data-target="#createModal">Crear Evento</button>
+    <button class="btn btn-primary" data-toggle="modal" data-target="#createModal">Crear Actividad</button>
     <div id='calendar'></div>
     <!-- Detail Modal -->
     <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="createModalLabel">Crear Nuevo Evento</h5>
+            <h5 class="modal-title" id="createModalLabel">Crear Nueva Actividad</h5>
             <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
             <!-- formulario -->
-            <form id="eventForm">
+            <form id="newActividad">
               <div class="form-group">
-                  <label >Título:</label>
-                  <input type="text" class="form-control" id="eventTitle" name="name" required>
+                  <label >Nombre de actividad:</label>
+                  <input type="text" class="form-control" id="actividadTitle" name="nombreactividad" required>
               </div>
               <div class="form-group">
-                  <label >Fecha y hora de inicio:</label>
-                  <input type="date" class="form-control" id="eventStart" name="start" required>
+                  <label >Fecha y hora de realización:</label>
+                  <input type="datetime-local" class="form-control" id="actividadStart" name="fechaactividad" required>
               </div>
               <div class="form-group">
-                  <label >Fecha y hora de finalización:</label>
-                  <input type="date" class="form-control" id="eventEnd" name="end" required>
+                <label >Tipo de actividad:</label>
+                <input type="text" class="form-control" id="actividadTipo" name="tipoactividad"></input>
               </div>
               <div class="form-group">
                   <label >Descripción:</label>
-                  <textarea class="form-control" id="eventDescription" name="descripcionevento" rows="3"></textarea>
+                  <textarea class="form-control" id="actividadDescription" name="descripcionactividad" rows="3"></textarea>
               </div>
-              <button id="insertar" type="submit" class="btn btn-primary" data-url="{% url 'event_create' %}">Crear Evento</button>
+              <button id="insertaract" type="submit" class="btn btn-primary" data-url="{% url 'actividades_create' %}">Crear Evento</button>
             </form>
           </div>
         </div>
@@ -56,25 +56,25 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="detailModalLabel">Detalles del Evento</h5>
+        <h5 class="modal-title" id="detailModalLabel">Detalles del Actividad</h5>
         <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <form id="detailForm">
           <div class="form-group">
-            <label>Título:</label>
+            <label>Nombre de actividad:</label>
             <input type="text" class="form-control" id="detailTitle" readonly>
           </div>
           <div class="form-group">
-            <label>Fecha y hora de inicio:</label>
+            <label>Fecha y hora de realización:</label>
             <input type="datetime-local" class="form-control" id="detailStart" readonly>
           </div>
           <div class="form-group">
-            <label>Fecha y hora de finalización:</label>
-            <input type="datetime-local" class="form-control" id="detailEnd" readonly>
+            <label >Tipo de actividad:</label>
+            <input type="text" class="form-control" id="detailTypeActivity" readonly></input>
           </div>
           <div class="form-group">
-            <label>Descripción:</label>
+            <label>Descripción:</label>+
             <textarea class="form-control" id="detailDescription" rows="3" readonly></textarea>
           </div>
         </form>
@@ -82,6 +82,7 @@
     </div>
   </div>
 </div>
+
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');
@@ -97,7 +98,7 @@
       selectable: true,
       editable: true,
       dayMaxEvents: true,
-      events: '/events/',
+      events: '/actividades/list',
       resourceAreaHeaderContent: 'Rooms',
 
       // Handler for event clicks
@@ -108,8 +109,8 @@
         // Populate the modal with the event details
         document.getElementById('detailTitle').value = info.event.title;
         document.getElementById('detailStart').value = new Date(info.event.start).toISOString().slice(0,16);
-        document.getElementById('detailEnd').value = new Date(info.event.end).toISOString().slice(0,16);
         document.getElementById('detailDescription').value = info.event.extendedProps.description || '';
+        document.getElementById('detailTypeActivity').value = info.event.extendedProps.typeact || '';
         // Show the modal
         $('#detailModal').modal('show');
       }
@@ -122,19 +123,20 @@
     calendar.render();
 
     //ajax del formulario
-  $(document).on('submit', '#eventForm', function (event)  {
-    const button = $('#insertar').data('url');
+  $(document).on('submit', '#newActividad', function (event)  {
+    const button = $('#insertaract').data('url');
     event.preventDefault();
     var formData = $(this).serialize();
 
-    var eventTitle = document.getElementById('eventTitle').value;
-      var eventStart = new Date(document.getElementById('eventStart').value).toISOString();
-      var eventEnd = new Date(document.getElementById('eventEnd').value).toISOString();
+    console.log(button);
+
+    var eventTitle = document.getElementById('actividadTitle').value;
+    var eventStart = new Date(document.getElementById('actividadStart').value).toISOString();
+    
       // Agregar el evento al calendario
       calendar.addEvent({
-        title: eventTitle,
-        start: eventStart,
-        end: eventEnd
+        title: actividadTitle,
+        start: actividadStart,
       });
     
     $.ajax({
@@ -145,6 +147,7 @@
           if (data.success) {
             $('#createModal').modal('hide');
             alert(data.message);
+            location.reload();
           } else {
               alert(data.errors)
           }

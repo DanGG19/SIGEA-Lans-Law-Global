@@ -163,21 +163,23 @@ def servicio_delete(request, idservicio):  # Usamos idusuario aquí #Vista para 
         return JsonResponse({'success': True}) #Se retorna un JSON con el mensaje de éxito.
     return JsonResponse({'success': False}) #Si el método no es POST, se retorna un JSON con el mensaje de error.
 
-def event(request):
+def actividades(request):
     return render(request, 'SIGEA_APP/CRUD_EVENT/event.html')
 
 @csrf_exempt
-def event_create(request):
+def actividades_create(request):
     if request.method == 'POST':
-        titulo = request.POST.get('name')
-        descripcion = request.POST.get('descripcionevento')
-        fechainicio = request.POST.get('start')
-        fechafin = request.POST.get('end')
+        nombreactividad = request.POST.get('nombreactividad')
+        tipoactividad = request.POST.get('tipoactividad')
+        descripcionactividad = request.POST.get('descripcionactividad')
+        fechaactividad = request.POST.get('fechaactividad')
         
+        usuario = get_object_or_404(Usuario, email=request.user.email)
 
+        print(f'nombre de actividad: {nombreactividad}, tipo: {tipoactividad}, descripcion: {descripcionactividad}, fecha: {fechaactividad}')
 
         # Crea un nuevo evento en la base de datos
-        nuevo_evento = Eventos(name=titulo, descripcionevento=descripcion, start=fechainicio, end=fechafin)
+        nuevo_evento = Actividades(nombreactividad=nombreactividad, descripcionactividad=descripcionactividad, fechaactividad=fechaactividad, tipoactividad=tipoactividad, idusuario=usuario)
         nuevo_evento.save()
         # Devuelve una respuesta JSON indicando que la creación del evento fue exitosa
         return JsonResponse({'success': True, 'message':'Has creado un evento exitosamente'})
@@ -185,15 +187,15 @@ def event_create(request):
         # Si la solicitud no es de tipo POST, devuelve un error
         return JsonResponse({'success': False, 'message': 'La solicitud debe ser de tipo POST'})
     
-
-def event_list(request):
-    eventos = Eventos.objects.all()
-    eventos_json = []
-    for evento in eventos:
-        eventos_json.append({
-            'title': evento.name,
-            'start': evento.start.isoformat(),
-            'end': evento.end.isoformat(),
-            'description': evento.descripcionevento.format(),
+def actividades_list(request):
+    actividades = Actividades.objects.all()
+    actividades_json = []
+    for acti in actividades:
+        actividades_json.append({
+            'title': acti.nombreactividad,
+            'start': acti.fechaactividad.isoformat(),
+            'description': acti.descripcionactividad.format(),
+            'typeact': acti.tipoactividad,
         })
-    return JsonResponse(eventos_json, safe=False)
+    print(actividades_json)
+    return JsonResponse(actividades_json, safe=False)

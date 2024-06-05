@@ -4,6 +4,7 @@
 
 <script src='https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@6.1.13/index.global.min.js'></script>
 
+
 <style>
     .scrollable-content {
         max-height: 70vh; /* Ajusta esta altura según tus necesidades */
@@ -12,76 +13,131 @@
 </style>
 
 
+  <div class="scrollable-content mt-5">
 
-<div class="scrollable-content mt-5">
     <h1>Calendario</h1>
     <button class="btn btn-primary" data-toggle="modal" data-target="#createModal">Crear Actividad</button>
     <div id='calendar'></div>
-    <!-- Detail Modal -->
+
+    <!-- Create Modal Crear Nueva Actividad -->
     <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="createModalLabel">Crear Nueva Actividad</h5>
-            <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+
+            <button type="button" data-dismiss="modal" class="btn text-secondary">
+              <p style="width: 24px; height: 24px;">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                  <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM175 175c9.4-9.4 24.6-9.4 33.9 0l47 47 47-47c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-47 47 47 47c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-47-47-47 47c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l47-47-47-47c-9.4-9.4-9.4-24.6 0-33.9z"/>
+                </svg>
+              </p>
+            </button>
+
           </div>
           <div class="modal-body">
-            <!-- formulario -->
+            <!-- Formulario de Actividad de Crear Actividad-->
             <form id="newActividad">
               <div class="form-group">
-                  <label >Nombre de actividad:</label>
+                  <label >Nombre de actividad :</label>
                   <input type="text" class="form-control" id="actividadTitle" name="nombreactividad" required>
               </div>
               <div class="form-group">
-                  <label >Fecha y hora de realización:</label>
+                  <label >Fecha y hora de inicio:</label>
                   <input type="datetime-local" class="form-control" id="actividadStart" name="fechaactividad" required>
               </div>
               <div class="form-group">
+                <label >Fecha y hora de finalización:</label>
+                <input type="datetime-local" class="form-control" id="actividadEND" name="fechafin" required>
+              </div>
+              <div class="form-group">
                 <label >Tipo de actividad:</label>
-                <input type="text" class="form-control" id="actividadTipo" name="tipoactividad"></input>
+                <input type="text" class="form-control" id="actividadTipo" name="tipoactividad" required></input>
               </div>
               <div class="form-group">
                   <label >Descripción:</label>
                   <textarea class="form-control" id="actividadDescription" name="descripcionactividad" rows="3"></textarea>
               </div>
-              <button id="insertaract" type="submit" class="btn btn-primary" data-url="{% url 'actividades_create' %}">Crear Evento</button>
+              <button id="insertaract" type="submit" class="btn btn-primary" data-url="{% url 'actividades_create' %}">
+                Crear Evento
+              </button>
             </form>
           </div>
         </div>
       </div>
     </div>
 </div>
-<!-- Detail Modal -->
+
+<!-- Modal Detalles del Actividad -->
 <div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="detailModalLabel">Detalles del Actividad</h5>
-        <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+        <button type="button" data-dismiss="modal" class="btn text-secondary">
+          <p style="width: 24px; height: 24px;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+              <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM175 175c9.4-9.4 24.6-9.4 33.9 0l47 47 47-47c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-47 47 47 47c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-47-47-47 47c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l47-47-47-47c-9.4-9.4-9.4-24.6 0-33.9z"/>
+            </svg>
+          </p>
+        </button>
       </div>
       <div class="modal-body">
-        <form id="detailForm">
+
+        <!-- Formulario Detalles del Actividad -->
+
           <div class="form-group">
-            <label>Nombre de actividad:</label>
+            <label>Nombre de actividad :</label>
             <input type="text" class="form-control" id="detailTitle" readonly>
           </div>
           <div class="form-group">
-            <label>Fecha y hora de realización:</label>
+            <label>Fecha y hora de inicio:</label>
             <input type="datetime-local" class="form-control" id="detailStart" readonly>
+          </div>
+          <div class="form-group">
+            <label>Fecha y hora de finalización:</label>
+            <input type="datetime-local" class="form-control" id="detailEnd" readonly>
           </div>
           <div class="form-group">
             <label >Tipo de actividad:</label>
             <input type="text" class="form-control" id="detailTypeActivity" readonly></input>
           </div>
           <div class="form-group">
-            <label>Descripción:</label>+
+            <label>Descripción:</label>
             <textarea class="form-control" id="detailDescription" rows="3" readonly></textarea>
           </div>
-        </form>
+
+          <button type="button" class="btn btn-primary" onclick="mostrarFormulario()"> Añadir Recordatorio </button>
+        <!-- Formulario Recordatorio -->
+        <div id="newRecordatorio" style="display: none;" onsubmit="ocultarFormulario()">
+          <form id="newRecordatorioForm">
+            <div class="form-group">
+              <label >Nombre de Recordatorio:</label>
+              <input type="text" class="form-control" id="recordatorioTitle" name="nombrerecordatorio" required>
+            </div>
+            <div class="form-group">
+              <label >Fecha y hora del Recordatorio:</label>
+              <input type="datetime-local" class="form-control" id="RecordatorioStart" name="fecharecordatorio" required>
+            </div>
+            <div class="form-group">
+              <label >Descripción:</label>
+              <textarea class="form-control" id="recordatorioDescription" name="descripcionrecordatorio" rows="3"></textarea>
+            </div>
+            
+            <div class="form-group">
+              <label>Actividad:</label>
+              <input type="hidden" id="idactividad" name="idactividad">
+            </div>
+            <button id="insertarRec" type="submit" class="btn btn-primary" data-url="{% url 'recordatorio_create' %}">
+              Crear Recordatorio
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   </div>
 </div>
+
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
@@ -105,12 +161,13 @@
       eventClick: function(info) {
         // Prevent the default action
         info.jsEvent.preventDefault();
-
         // Populate the modal with the event details
         document.getElementById('detailTitle').value = info.event.title;
         document.getElementById('detailStart').value = new Date(info.event.start).toISOString().slice(0,16);
+        document.getElementById('detailEnd').value = new Date(info.event.end).toISOString().slice(0,16);
         document.getElementById('detailDescription').value = info.event.extendedProps.description || '';
         document.getElementById('detailTypeActivity').value = info.event.extendedProps.typeact || '';
+        document.getElementById('idactividad').value = info.event.extendedProps.idacti;
         // Show the modal
         $('#detailModal').modal('show');
       }
@@ -130,15 +187,6 @@
 
     console.log(button);
 
-    var eventTitle = document.getElementById('actividadTitle').value;
-    var eventStart = new Date(document.getElementById('actividadStart').value).toISOString();
-    
-      // Agregar el evento al calendario
-      calendar.addEvent({
-        title: actividadTitle,
-        start: actividadStart,
-      });
-    
     $.ajax({
       url: button,
       type: 'POST',
@@ -160,8 +208,51 @@
       }
   })
   });
+
+  //enviar Formulacio por AJAX
+    $(document).on('submit', '#newRecordatorioForm', function (event)  {
+    event.preventDefault();
+    var button = $('#insertarRec').data('url');
+    var formData = $(this).serialize();
+
+    $.ajax({
+      url: button,
+      type: 'POST',
+      data: formData,
+      success: function (data) {
+          if (data.success) {
+            $('#insertarRec').modal('hide');
+            alert(data.message);
+            location.reload();
+          } else {
+              alert(data.errors)
+          }
+      },
+      error: function (xhr, status, error) {
+          alert('Error en la solicitud AJAX:');
+          alert(xhr.toString());
+          alert(status);
+          alert(error);
+      }
+  })
+  });
   
 });
+
+
+// JavaScript para recordatorio
+
+function mostrarFormulario(){
+  var form = document.getElementById('newRecordatorio');
+  form.style.display = 'block';
+
+}
+
+function ocultarFormulario(){
+  var form = document.getElementById('newRecordatorio');
+  form.style.display = 'none';
+}
+
 </script>
 
 {% endblock %}

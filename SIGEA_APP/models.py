@@ -10,6 +10,7 @@ class Actividades(models.Model):
     tipoactividad = models.CharField(db_column='TIPOACTIVIDAD', max_length=255)  # Field name made lowercase.
     nombreactividad = models.CharField(db_column='NOMBREACTIVIDAD', max_length=255)  # Field name made lowercase.
     fechaactividad = models.DateTimeField(db_column='FECHAACTIVIDAD')  # Field name made lowercase.
+    fechafin = models.DateTimeField(db_column='FECHAFIN')  # Field name made lowercase.
     descripcionactividad = models.CharField(db_column='DESCRIPCIONACTIVIDAD', max_length=2000, blank=True, null=True)  # Field name made lowercase.
     invitadosactividad = models.CharField(db_column='INVITADOSACTIVIDAD', max_length=2000, blank=True, null=True)  # Field name made lowercase.
     docanexoactividad = models.CharField(db_column='DOCANEXOACTIVIDAD', max_length=255, blank=True, null=True)  # Field name made lowercase.

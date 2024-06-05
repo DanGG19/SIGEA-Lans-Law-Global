@@ -164,7 +164,8 @@ def servicio_delete(request, idservicio):  # Usamos idusuario aquí #Vista para 
     return JsonResponse({'success': False}) #Si el método no es POST, se retorna un JSON con el mensaje de error.
 
 def actividades(request):
-    return render(request, 'SIGEA_APP/CRUD_EVENT/event.html')
+    actividades = Actividades.objects.all()
+    return render(request, 'SIGEA_APP/CRUD_EVENT/event.html', {'actividades':actividades})
 
 @csrf_exempt
 def actividades_create(request):
@@ -173,13 +174,14 @@ def actividades_create(request):
         tipoactividad = request.POST.get('tipoactividad')
         descripcionactividad = request.POST.get('descripcionactividad')
         fechaactividad = request.POST.get('fechaactividad')
+        fechafin = request.POST.get('fechafin')
         
         usuario = get_object_or_404(Usuario, email=request.user.email)
 
         print(f'nombre de actividad: {nombreactividad}, tipo: {tipoactividad}, descripcion: {descripcionactividad}, fecha: {fechaactividad}')
 
         # Crea un nuevo evento en la base de datos
-        nuevo_evento = Actividades(nombreactividad=nombreactividad, descripcionactividad=descripcionactividad, fechaactividad=fechaactividad, tipoactividad=tipoactividad, idusuario=usuario)
+        nuevo_evento = Actividades(nombreactividad=nombreactividad, descripcionactividad=descripcionactividad, fechaactividad=fechaactividad, tipoactividad=tipoactividad, idusuario=usuario, fechafin=fechafin)
         nuevo_evento.save()
         # Devuelve una respuesta JSON indicando que la creación del evento fue exitosa
         return JsonResponse({'success': True, 'message':'Has creado un evento exitosamente'})
@@ -194,8 +196,33 @@ def actividades_list(request):
         actividades_json.append({
             'title': acti.nombreactividad,
             'start': acti.fechaactividad.isoformat(),
+            'end': acti.fechafin.isoformat(),
             'description': acti.descripcionactividad.format(),
             'typeact': acti.tipoactividad,
+            'idacti':acti.idactividad
         })
     print(actividades_json)
     return JsonResponse(actividades_json, safe=False)
+
+@csrf_exempt
+def recordatorio_create(request):
+    if request.method == 'POST':
+        nombrerecordatorio = request.POST.get('nombrerecordatorio')
+        fecharecordatorio = request.POST.get('fecharecordatorio')
+        descripcionrecordatorio = request.POST.get('descripcionrecordatorio')
+        idactividad = request.POST.get('idactividad')
+        idacti = Actividades.objects.get(idactividad=idactividad)
+
+        # Crea un nuevo evento en la base de datos
+        nuevo_recordatorio = Recordatorio(
+            nombrerecordatorio=nombrerecordatorio, 
+            descripcionrecordatorio=descripcionrecordatorio, 
+            fecharecordatorio=fecharecordatorio,
+            idactividad=idacti,
+        )
+        nuevo_recordatorio.save()
+        # Devuelve una respuesta JSON indicando que la creación del evento fue exitosa
+        return JsonResponse({'success': True, 'message':'Has creado un recordatorio exitosamente'})
+    else:
+        # Si la solicitud no es de tipo POST, devuelve un error
+        return JsonResponse({'success': False, 'message': 'La solicitud debe ser de tipo POST'})

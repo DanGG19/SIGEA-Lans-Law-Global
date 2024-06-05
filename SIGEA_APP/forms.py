@@ -40,6 +40,7 @@ class DepartamentosForm(forms.ModelForm):
         labels = {'divisiondepartamento':'División de Departamento: ', 
                   'responsabledepartamento':'Responsable de Departamento'}
         
+
 class ServiciosForm(forms.ModelForm):
     iddepartamento = forms.ModelChoiceField(
         queryset=Departamentos.objects.all(),

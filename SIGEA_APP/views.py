@@ -204,6 +204,14 @@ def actividades_list(request):
     print(actividades_json)
     return JsonResponse(actividades_json, safe=False)
 
+@csrf_exempt # Decorador para deshabilitar la protección CSRF
+def actividad_delete(request, idactividad):  # Usamos idusuario aquí #Vista para eliminar un usuario
+    actividad = get_object_or_404(Actividades, idactividad=idactividad)  # y aquí también #Se obtiene el usuario a eliminar.
+    if request.method == 'POST': #Si el método es POST, se elimina el usuario de la base de datos.
+        actividad.delete() #Se elimina el usuario de la base de datos.
+        return JsonResponse({'success': True}) #Se retorna un JSON con el mensaje de éxito.
+    return JsonResponse({'success': False}) #Si el método no es POST, se retorna un JSON con el mensaje de error.
+
 @csrf_exempt
 def recordatorio_create(request):
     if request.method == 'POST':
@@ -226,3 +234,5 @@ def recordatorio_create(request):
     else:
         # Si la solicitud no es de tipo POST, devuelve un error
         return JsonResponse({'success': False, 'message': 'La solicitud debe ser de tipo POST'})
+    
+    

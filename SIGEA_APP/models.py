@@ -62,7 +62,7 @@ class Plandesarrollo(models.Model):
 
 class Recordatorio(models.Model):
     idrecordatorio = models.AutoField(db_column='IDRECORDATORIO', primary_key=True)  # Field name made lowercase.
-    idactividad = models.ForeignKey(Actividades, models.DO_NOTHING, db_column='IDACTIVIDAD')  # Field name made lowercase.
+    idactividad = models.ForeignKey(Actividades, db_column='IDACTIVIDAD', on_delete=models.CASCADE)  # Field name made lowercase.
     nombrerecordatorio = models.CharField(db_column='NOMBRERECORDATORIO', max_length=255)  # Field name made lowercase.
     descripcionrecordatorio = models.CharField(db_column='DESCRIPCIONRECORDATORIO', max_length=2000, blank=True, null=True)  # Field name made lowercase.
     fecharecordatorio = models.DateTimeField(db_column='FECHARECORDATORIO')  # Field name made lowercase.

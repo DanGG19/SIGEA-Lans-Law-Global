@@ -23,5 +23,6 @@ urlpatterns = [
     path('actividades', views.actividades, name='actividades'),
     path('actividades/create', views.actividades_create, name='actividades_create'),
     path('actividades/list', views.actividades_list, name='actividades_list'),
+    path('actividades/delete/<int:idactividad>/', views.actividad_delete, name='actividad_delete'),
     path('recordatorio/create', views.recordatorio_create, name='recordatorio_create'),
 ]

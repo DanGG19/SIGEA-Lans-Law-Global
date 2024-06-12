@@ -2,13 +2,24 @@ from django import forms
 from django.contrib.auth.hashers import make_password #Se importa la función make_password para encriptar la contraseña.
 from .models import *
 
+# forms.py
+
 class UsuarioForm(forms.ModelForm):
+    departamento = forms.ModelChoiceField(
+        queryset=Departamentos.objects.all(),
+        empty_label="Selecciona un Departamento",
+        required=True,
+        label='Departamento'
+    )
+
     class Meta:
         model = Usuario
         fields = [
-            'nombre', 'apellido', 'dui', 'telefono', 'salario', 'email', 'password', 'tipousuario', 'idservicio', 'foto_perfil'
+            'departamento', 'idservicio', 'nombre', 'apellido', 'dui', 'telefono', 'salario', 'email', 'password', 'tipousuario', 'foto_perfil'
         ]
         labels = {
+            'departamento': 'Departamento: ',
+            'idservicio': 'Servicio: ',
             'nombre': 'Nombre: ',
             'apellido': 'Apellido: ',
             'dui': 'DUI: ',
@@ -17,7 +28,6 @@ class UsuarioForm(forms.ModelForm):
             'email': 'Email: ',
             'password': 'Contraseña: ',
             'tipousuario': 'Tipo de Usuario: ',
-            'idservicio': 'Servicio: ',
             'foto_perfil': 'Foto de Perfil: '
         }
         widgets = {
@@ -31,8 +41,7 @@ class UsuarioForm(forms.ModelForm):
         if commit:
             usuario.save()
         return usuario
-    
-        
+
 class DepartamentosForm(forms.ModelForm):
     class Meta:
         model = Departamentos

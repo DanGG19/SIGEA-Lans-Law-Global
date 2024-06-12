@@ -28,6 +28,9 @@ class Departamentos(models.Model):
     class Meta:
         managed = True
         db_table = 'departamentos'
+        
+    def __str__(self):
+        return self.divisiondepartamento
 
 
 class Evaluacion(models.Model):
@@ -73,14 +76,17 @@ class Recordatorio(models.Model):
 
 
 class Servicios(models.Model):
-    idservicio = models.AutoField(db_column='IDSERVICIO', primary_key=True)  # Field name made lowercase.
-    iddepartamento = models.ForeignKey(Departamentos, models.DO_NOTHING, db_column='IDDEPARTAMENTO')  # Field name made lowercase.
-    nombreservicio = models.CharField(db_column='NOMBRESERVICIO', max_length=255)  # Field name made lowercase.
-    descripcionservicio = models.CharField(db_column='DESCRIPCIONSERVICIO', max_length=2000, blank=True, null=True)  # Field name made lowercase.
+    idservicio = models.AutoField(db_column='IDSERVICIO', primary_key=True)
+    iddepartamento = models.ForeignKey(Departamentos, models.DO_NOTHING, db_column='IDDEPARTAMENTO')
+    nombreservicio = models.CharField(db_column='NOMBRESERVICIO', max_length=255)
+    descripcionservicio = models.CharField(db_column='DESCRIPCIONSERVICIO', max_length=2000, blank=True, null=True)
 
     class Meta:
         managed = True
         db_table = 'servicios'
+        
+    def __str__(self):
+        return self.nombreservicio 
 
 
     

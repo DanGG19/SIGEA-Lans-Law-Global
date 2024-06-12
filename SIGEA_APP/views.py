@@ -34,6 +34,7 @@ def usuario_list(request):
     usuarios = Usuario.objects.all()
     return render(request, 'SIGEA_APP/CRUD_USUARIOS/usuario_list.html', {'usuarios': usuarios})
 
+
 @csrf_exempt
 def usuario_create(request):
     if request.method == 'POST':
@@ -45,7 +46,13 @@ def usuario_create(request):
             return JsonResponse({'success': False, 'errors': form.errors})
     else:
         form = UsuarioForm()
+        if 'departamento_id' in request.GET:
+            departamento_id = request.GET['departamento_id']
+            servicios = Servicios.objects.filter(iddepartamento=departamento_id)
+            return JsonResponse({'servicios': list(servicios.values('idservicio', 'nombreservicio'))})
+
     return render(request, 'SIGEA_APP/CRUD_USUARIOS/usuario_form.html', {'form': form})
+
 
 @csrf_exempt
 def usuario_update(request, idusuario):

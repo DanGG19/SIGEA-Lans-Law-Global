@@ -29,6 +29,20 @@ def login_V(request): #Vista para el inicio de sesión
             return render(request, 'registration/login.html', {'error_message': 'Datos Incorrectos'}) #Se muestra un mensaje de error.
     return render(request, 'registration/login.html') #Si el método no es POST, se muestra el formulario de inicio de sesión.
 
+#Perfil de usuario
+@login_required
+def edit_profile(request):
+    if request.method == 'POST':
+        form = EditProfileForm(request.POST, request.FILES, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('edit_profile')
+    else:
+        form = EditProfileForm(instance=request.user)
+    
+    return render(request, 'SIGEA_APP/CRUD_USUARIOS/edit_profile.html', {'form': form})
+
+
 @csrf_exempt # Decorador para deshabilitar la protección CSRF
 def usuario_list(request):
     usuarios = Usuario.objects.all()

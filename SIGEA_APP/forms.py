@@ -1,6 +1,6 @@
-from django import forms
+from django import forms 
 from django.contrib.auth.hashers import make_password #Se importa la función make_password para encriptar la contraseña.
-from .models import *
+from .models import * #Se importan todos los modelos de la aplicación.
 
 # forms.py
 
@@ -65,3 +65,8 @@ class ServiciosForm(forms.ModelForm):
             'nombreservicio': 'Nombre del servicio',
             'descripcionservicio': 'Descripcion del servicio'
         }
+
+class EditProfileForm(forms.ModelForm):
+    class Meta:
+        model = Usuario
+        fields = ['nombre', 'apellido', 'dui', 'telefono', 'salario', 'email', 'foto_perfil']

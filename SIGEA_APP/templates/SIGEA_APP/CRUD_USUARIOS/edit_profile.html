@@ -1,0 +1,12 @@
+{% extends 'SIGEA_APP/base.html' %}
+
+{% block content %}
+<div class="container">
+    <h1>Editar Perfil</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+    </form>
+</div>
+{% endblock %}

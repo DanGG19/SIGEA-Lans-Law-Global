@@ -10,185 +10,213 @@
         max-height: 70vh; /* Ajusta esta altura según tus necesidades */
         overflow-y: auto;
     }
+
+    .profile-img {
+        max-width: 40%; /* Ajusta este valor según el tamaño deseado */
+        height: auto;
+        display: block;
+        margin: 0 auto; /* Centrar la imagen si es necesario */
+    }
 </style>
 
-    <div class="scrollable-content mt-5">
-        <h1>Usuarios</h1>
-        <button class="btn btn-primary" data-toggle="modal" data-target="#createModal">Crear Usuario</button>
-        <div class="table-responsive">
-        <table class="table table-striped table-hover table-borderless table-primary align-middle ">
-            <thead class="table-dark">
-                <tr>
-                    <th>ID</th>
-                    <th>Nombre</th>
-                    <th>Apellido</th>
-                    <th>Email</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for usuario in usuarios %}
-                <tr>
-                    <td>{{ usuario.idusuario }}</td>
-                    <td>{{ usuario.nombre }}</td>
-                    <td>{{ usuario.apellido }}</td>
-                    <td>{{ usuario.email }}</td>
-                    <td>
-                        <button class="btn btn-info" data-toggle="modal" data-target="#detailModal{{ usuario.idusuario }}">Ver</button>
-                        <button class="btn btn-warning" data-toggle="modal" data-target="#updateModal{{ usuario.idusuario }}" onclick="loadUpdateForm({{ usuario.idusuario }})">Editar</button>
-                        <button class="btn btn-danger" data-toggle="modal" data-target="#deleteModal{{ usuario.idusuario }}">Eliminar</button>
-                    </td>
-                </tr>
+<div class="scrollable-content mt-5">
+    <h1>Usuarios</h1>
+    <button class="btn btn-primary" data-toggle="modal" data-target="#createModal">Crear Usuario</button>
+    <div class="table-responsive">
+    <table class="table table-striped table-hover table-borderless table-primary align-middle">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Email</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for usuario in usuarios %}
+            <tr>
+                <td>{{ usuario.idusuario }}</td>
+                <td>{{ usuario.nombre }}</td>
+                <td>{{ usuario.apellido }}</td>
+                <td>{{ usuario.email }}</td>
+                <td>
+                    <button class="btn btn-info" data-toggle="modal" data-target="#detailModal{{ usuario.idusuario }}">Ver</button>
+                    <button class="btn btn-warning" data-toggle="modal" data-target="#updateModal{{ usuario.idusuario }}" onclick="loadUpdateForm({{ usuario.idusuario }})">Editar</button>
+                    <button class="btn btn-danger" data-toggle="modal" data-target="#deleteModal{{ usuario.idusuario }}">Eliminar</button>
+                </td>
+            </tr>
 
-                <!-- Detail Modal -->
-                <div class="modal fade" id="detailModal{{ usuario.idusuario }}" tabindex="-1" role="dialog" aria-labelledby="detailModalLabel{{ usuario.idusuario }}" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="detailModalLabel{{ usuario.idusuario }}">Detalles del Usuario</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
+            <!-- Detail Modal -->
+            <div class="modal fade" id="detailModal{{ usuario.idusuario }}" tabindex="-1" role="dialog" aria-labelledby="detailModalLabel{{ usuario.idusuario }}" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="detailModalLabel{{ usuario.idusuario }}">Detalles del Usuario</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="card mb-3">
+                              {% if usuario.foto_perfil %}
+                                  <img src="{{ usuario.foto_perfil.url }}" class="card-img-top profile-img" alt="Foto de perfil">
+                              {% else %}
+                                  <img src="url_a_imagen_por_defecto" class="card-img-top profile-img" alt="Foto de perfil">
+                              {% endif %}
+                              <div class="card-body">
+                                <h5 class="card-title">{{ usuario.nombre }} {{ usuario.apellido }}</h5>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item"><strong>Email:</strong> {{ usuario.email }}</li>
+                                    <li class="list-group-item"><strong>DUI:</strong> {{ usuario.dui }}</li>
+                                    <li class="list-group-item"><strong>Teléfono:</strong> {{ usuario.telefono }}</li>
+                                    <li class="list-group-item"><strong>Salario:</strong> {{ usuario.salario }}</li>
+                                    <li class="list-group-item"><strong>Tipo Usuario:</strong> {{ usuario.tipousuario }}</li>
+                                    <li class="list-group-item"><strong>ID Servicio:</strong> {{ usuario.idservicio }}</li>
+                                </ul>
+                                <p class="card-text">
+                                    <small class="text-muted">
+                                        Último inicio de sesión: 
+                                        {% if usuario.last_login %}
+                                            {{ usuario.last_login }}
+                                        {% else %}
+                                            No hay registro
+                                        {% endif %}
+                                    </small>
+                                </p>
+                              </div>
                             </div>
-                            <div class="modal-body">
-                                <p><strong>Nombre:</strong> {{ usuario.nombre }}</p>
-                                <p><strong>Apellido:</strong> {{ usuario.apellido }}</p>
-                                <p><strong>DUI:</strong> {{ usuario.dui }}</p>
-                                <p><strong>Teléfono:</strong> {{ usuario.telefono }}</p>
-                                <p><strong>Salario:</strong> {{ usuario.salario }}</p>
-                                <p><strong>Email:</strong> {{ usuario.email }}</p>
-                                <p><strong>Tipo Usuario:</strong> {{ usuario.tipousuario }}</p>
-                                <p><strong>ID Servicio:</strong> {{ usuario.idservicio }}</p>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <!-- Update Modal -->
-                <div class="modal fade" id="updateModal{{ usuario.idusuario }}" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel{{ usuario.idusuario }}" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="updateModalLabel{{ usuario.idusuario }}">Editar Usuario</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <form id="updateForm{{ usuario.idusuario }}">
-                                    <!-- form fields will be loaded here -->
-                                </form>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                                <button type="button" class="btn btn-primary" onclick="submitUpdateForm({{ usuario.idusuario }})">Guardar Cambios</button>
-                            </div>
+            <!-- Update Modal -->
+            <div class="modal fade" id="updateModal{{ usuario.idusuario }}" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel{{ usuario.idusuario }}" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="updateModalLabel{{ usuario.idusuario }}">Editar Usuario</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="updateForm{{ usuario.idusuario }}">
+                                <!-- form fields will be loaded here -->
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                            <button type="button" class="btn btn-primary" onclick="submitUpdateForm({{ usuario.idusuario }})">Guardar Cambios</button>
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <!-- Delete Modal -->
-                <div class="modal fade" id="deleteModal{{ usuario.idusuario }}" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel{{ usuario.idusuario }}" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="deleteModalLabel{{ usuario.idusuario }}">Eliminar Usuario</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                ¿Estás seguro de que deseas eliminar este usuario?
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                                <button type="button" class="btn btn-danger" onclick="deleteUsuario({{ usuario.idusuario }})">Eliminar</button>
-                            </div>
+            <!-- Delete Modal -->
+            <div class="modal fade" id="deleteModal{{ usuario.idusuario }}" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel{{ usuario.idusuario }}" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="deleteModalLabel{{ usuario.idusuario }}">Eliminar Usuario</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            ¿Estás seguro de que deseas eliminar este usuario?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                            <button type="button" class="btn btn-danger" onclick="deleteUsuario({{ usuario.idusuario }})">Eliminar</button>
                         </div>
                     </div>
                 </div>
-                {% endfor %}
-            </tbody>
-        </table>
-        </div>
+            </div>
+            {% endfor %}
+        </tbody>
+    </table>
     </div>
+</div>
 
-    <!-- Create Modal -->
-    <div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="createModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="createModalLabel">Crear Usuario</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form id="createForm">
-                        <!-- form fields will be loaded here -->
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-primary" onclick="submitCreateForm()">Guardar</button>
-                </div>
+<!-- Create Modal -->
+<div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="createModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createModalLabel">Crear Usuario</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="createForm">
+                    <!-- form fields will be loaded here -->
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" onclick="submitCreateForm()">Guardar</button>
             </div>
         </div>
     </div>
+</div>
 
-    <script>
-               // Load form for create modal
-        $(document).ready(function() {
-            $('#createModal').on('shown.bs.modal', function () {
-                $.get('{% url "usuario_create" %}', function(data) {
-                    $('#createForm').html(data);
-                });
+<script>
+    // Load form for create modal
+    $(document).ready(function() {
+        $('#createModal').on('shown.bs.modal', function () {
+            $.get('{% url "usuario_create" %}', function(data) {
+                $('#createForm').html(data);
             });
         });
+    });
 
-        // Load form for update modal
-        function loadUpdateForm(id) {
-            $.get('/usuario/update/' + id + '/', function(data) {
-                $('#updateForm' + id).html(data);
-            });
-        }
+    // Load form for update modal
+    function loadUpdateForm(id) {
+        $.get('/usuario/update/' + id + '/', function(data) {
+            $('#updateForm' + id).html(data);
+        });
+    }
 
-        // Submit create form
-        function submitCreateForm() {
-            var form = $('#createForm');
-            $.post('{% url "usuario_create" %}', form.serialize(), function(data) {
-                if (data.success) {
-                    location.reload();
-                } else {
-                    alert('Error: ' + JSON.stringify(data.errors));
-                }
-            });
-        }
+    // Submit create form
+    function submitCreateForm() {
+        var form = $('#createForm');
+        $.post('{% url "usuario_create" %}', form.serialize(), function(data) {
+            if (data.success) {
+                location.reload();
+            } else {
+                alert('Error: ' + JSON.stringify(data.errors));
+            }
+        });
+    }
 
-        // Submit update form
-        function submitUpdateForm(idusuario) {
-            var form = $('#updateForm' + idusuario);
-            $.post('/usuario/update/' + idusuario + '/', form.serialize(), function(data) {
-                if (data.success) {
-                    location.reload();
-                } else {
-                    alert('Error: ' + JSON.stringify(data.errors));
-                }
-            });
-        }
+    // Submit update form
+    function submitUpdateForm(idusuario) {
+        var form = $('#updateForm' + idusuario);
+        $.post('/usuario/update/' + idusuario + '/', form.serialize(), function(data) {
+            if (data.success) {
+                location.reload();
+            } else {
+                alert('Error: ' + JSON.stringify(data.errors));
+            }
+        });
+    }
 
-        // Delete usuario
-        function deleteUsuario(idusuario) {
-            $.post('/usuario/delete/' + idusuario + '/', function(data) {
-                if (data.success) {
-                    location.reload();
-                } else {
-                    alert('Error');
-                }
-            });
-        }
-    </script>
+    // Delete usuario
+    function deleteUsuario(idusuario) {
+        $.post('/usuario/delete/' + idusuario + '/', function(data) {
+            if (data.success) {
+                location.reload();
+            } else {
+                alert('Error');
+            }
+        });
+    }
+</script>
+
 {% endblock %}

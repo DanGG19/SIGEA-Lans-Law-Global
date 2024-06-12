@@ -97,26 +97,27 @@ class UsuarioManager(BaseUserManager): # BaseUserManager es una clase que se enc
     def create_superuser(self, email, password=None, **extra_fields): # Método para crear un superusuario
         return self.create_user(email, password, **extra_fields) # Se llama al método create_user para crear un superusuario
 
-class Usuario(AbstractBaseUser): # AbstractBaseUser es una clase que se encarga de manejar la autenticación de los usuarios
-    idusuario = models.AutoField(db_column='IDUSUARIO', primary_key=True)  # Field name made lowercase.
-    idservicio = models.ForeignKey('Servicios', models.DO_NOTHING, db_column='IDSERVICIO', blank=True, null=True)  # Field name made lowercase.
-    idplandes = models.ForeignKey('Plandesarrollo', models.DO_NOTHING, db_column='IDPLANDES', blank=True, null=True)  # Field name made lowercase.
-    tipousuario = models.IntegerField(db_column='TIPOUSUARIO')  # Field name made lowercase.
-    nombre = models.CharField(db_column='NOMBRE', max_length=255)  # Field name made lowercase.
-    apellido = models.CharField(db_column='APELLIDO', max_length=255)  # Field name made lowercase.
-    dui = models.CharField(db_column='DUI', max_length=9)  # Field name made lowercase.
-    telefono = models.IntegerField(db_column='TELEFONO')  # Field name made lowercase.
-    salario = models.DecimalField(db_column='SALARIO', max_digits=10, decimal_places=0)  # Field name made lowercase.
-    email = models.EmailField(db_column='EMAIL', max_length=255, unique=True)  # Field name made lowercase.
-    password = models.CharField(db_column='PASSWORD', max_length=255) # Field name made lowercase.
-    
-    objects = UsuarioManager() # Se asigna el manager de Usuario a la variable objects
-    USERNAME_FIELD = 'email' # Se asigna el campo email como campo de autenticación
-    REQUIRED_FIELDS = ['nombre', 'apellido', 'dui', 'telefono', 'salario', 'tipousuario'] # Se asignan los campos requeridos para la creación de un usuario
+class Usuario(AbstractBaseUser):
+    idusuario = models.AutoField(db_column='IDUSUARIO', primary_key=True)
+    idservicio = models.ForeignKey('Servicios', models.DO_NOTHING, db_column='IDSERVICIO', blank=True, null=True)
+    idplandes = models.ForeignKey('Plandesarrollo', models.DO_NOTHING, db_column='IDPLANDES', blank=True, null=True)
+    tipousuario = models.IntegerField(db_column='TIPOUSUARIO')
+    nombre = models.CharField(db_column='NOMBRE', max_length=255)
+    apellido = models.CharField(db_column='APELLIDO', max_length=255)
+    dui = models.CharField(db_column='DUI', max_length=9)
+    telefono = models.IntegerField(db_column='TELEFONO')
+    salario = models.DecimalField(db_column='SALARIO', max_digits=10, decimal_places=0)
+    email = models.EmailField(db_column='EMAIL', max_length=255, unique=True)
+    password = models.CharField(db_column='PASSWORD', max_length=255)
+    foto_perfil = models.ImageField(upload_to='fotos_perfil/', blank=True, null=True)  # Nuevo campo para la foto de perfil
 
-    class Meta: # Metaclase para configurar el modelo Usuario en la base de datos 
-        managed = True # Se indica que el modelo es gestionado por Django
-        db_table = 'usuario' # Se asigna el nombre de la tabla en la base de datos
-            
-    def __str__(self): # Método para retornar el email del usuario como representación del objeto en string 
-        return self.email # Se retorna el email del usuario 
+    objects = UsuarioManager()
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['nombre', 'apellido', 'dui', 'telefono', 'salario', 'tipousuario']
+
+    class Meta:
+        managed = True
+        db_table = 'usuario'
+
+    def __str__(self):
+        return self.email

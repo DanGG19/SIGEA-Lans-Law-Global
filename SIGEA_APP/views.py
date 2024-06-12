@@ -30,48 +30,48 @@ def login_V(request): #Vista para el inicio de sesión
     return render(request, 'registration/login.html') #Si el método no es POST, se muestra el formulario de inicio de sesión.
 
 @csrf_exempt # Decorador para deshabilitar la protección CSRF
-def usuario_list(request): #Vista para listar los usuarios
-    usuarios = Usuario.objects.all() #Se obtienen todos los usuarios de la base de datos.
-    return render(request, 'SIGEA_APP/CRUD_USUARIOS/usuario_list.html', {'usuarios': usuarios}) #Se renderiza la plantilla usuario_list.html con los usuarios obtenidos.
+def usuario_list(request):
+    usuarios = Usuario.objects.all()
+    return render(request, 'SIGEA_APP/CRUD_USUARIOS/usuario_list.html', {'usuarios': usuarios})
 
-@csrf_exempt # Decorador para deshabilitar la protección CSRF
-def usuario_create(request): #Vista para crear un usuario
-    if request.method == 'POST': #Si el método es POST, se crea un formulario con los datos del usuario.
-        form = UsuarioForm(request.POST) #Se crea un formulario con los datos del usuario.
-        if form.is_valid(): #Si el formulario es válido, se guarda el usuario en la base de datos.
-            form.save() #Se guarda el usuario en la base de datos.
-            return JsonResponse({'success': True}) #Se retorna un JSON con el mensaje de éxito.
+@csrf_exempt
+def usuario_create(request):
+    if request.method == 'POST':
+        form = UsuarioForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return JsonResponse({'success': True})
         else:
-            return JsonResponse({'success': False, 'errors': form.errors}) #Si el formulario no es válido, se retorna un JSON con el mensaje de error.
+            return JsonResponse({'success': False, 'errors': form.errors})
     else:
         form = UsuarioForm()
-    return render(request, 'SIGEA_APP/CRUD_USUARIOS/usuario_form.html', {'form': form}) #Si el método no es POST, se muestra el formulario para crear un usuario.
+    return render(request, 'SIGEA_APP/CRUD_USUARIOS/usuario_form.html', {'form': form})
 
-@csrf_exempt # Decorador para deshabilitar la protección CSRF
-def usuario_update(request, idusuario): # Usamos idusuario aquí #Vista para actualizar un usuario
-    usuario = get_object_or_404(Usuario, idusuario=idusuario) # y aquí también #Se obtiene el usuario a actualizar.
-    if request.method == 'POST': #Si el método es POST, se crea un formulario con los datos del usuario.
-        form = UsuarioForm(request.POST, instance=usuario) #Se crea un formulario con los datos del usuario.
-        if form.is_valid():#Si el formulario es válido, se actualiza el usuario en la base de datos.
-            form.save() #Se actualiza el usuario en la base de datos.
-            return JsonResponse({'success': True}) #Se retorna un JSON con el mensaje de éxito.
+@csrf_exempt
+def usuario_update(request, idusuario):
+    usuario = get_object_or_404(Usuario, idusuario=idusuario)
+    if request.method == 'POST':
+        form = UsuarioForm(request.POST, request.FILES, instance=usuario)
+        if form.is_valid():
+            form.save()
+            return JsonResponse({'success': True})
         else:
-            return JsonResponse({'success': False, 'errors': form.errors}) #Si el formulario no es válido, se retorna un JSON con el mensaje de error.
+            return JsonResponse({'success': False, 'errors': form.errors})
     else:
-        form = UsuarioForm(instance=usuario) #Si el método no es POST, se muestra el formulario para actualizar un usuario.
-    return render(request, 'SIGEA_APP/CRUD_USUARIOS/usuario_form.html', {'form': form}) #Se renderiza la plantilla usuario_form.html con el formulario para actualizar un usuario.
+        form = UsuarioForm(instance=usuario)
+    return render(request, 'SIGEA_APP/CRUD_USUARIOS/usuario_form.html', {'form': form})
 
-def usuario_detail(request, idusuario):  # Usamos idusuario aquí #Vista para ver los detalles de un usuario
-    usuario = get_object_or_404(Usuario, idusuario=idusuario)  # y aquí también #Se obtiene el usuario a mostrar.
-    return render(request, 'SIGEA_APP/CRUD_USUARIOS/usuario_detail.html', {'usuario': usuario}) #Se renderiza la plantilla usuario_detail.html con los datos del usuario.
+def usuario_detail(request, idusuario):
+    usuario = get_object_or_404(Usuario, idusuario=idusuario)
+    return render(request, 'SIGEA_APP/CRUD_USUARIOS/usuario_detail.html', {'usuario': usuario})
 
-@csrf_exempt # Decorador para deshabilitar la protección CSRF
-def usuario_delete(request, idusuario):  # Usamos idusuario aquí #Vista para eliminar un usuario
-    usuario = get_object_or_404(Usuario, idusuario=idusuario)  # y aquí también #Se obtiene el usuario a eliminar.
-    if request.method == 'POST': #Si el método es POST, se elimina el usuario de la base de datos.
-        usuario.delete() #Se elimina el usuario de la base de datos.
-        return JsonResponse({'success': True}) #Se retorna un JSON con el mensaje de éxito.
-    return JsonResponse({'success': False}) #Si el método no es POST, se retorna un JSON con el mensaje de error.
+@csrf_exempt
+def usuario_delete(request, idusuario):
+    usuario = get_object_or_404(Usuario, idusuario=idusuario)
+    if request.method == 'POST':
+        usuario.delete()
+        return JsonResponse({'success': True})
+    return JsonResponse({'success': False})
 
 #Views para departamentos
 @csrf_exempt # Decorador para deshabilitar la protección CSRF

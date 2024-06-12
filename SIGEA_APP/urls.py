@@ -1,5 +1,7 @@
 from django.urls import path
+from SIGEA import settings
 from SIGEA_APP import views 
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('', views.index, name="index"), #Ruta para la página de inicio, que llama a la vista index.
@@ -26,3 +28,5 @@ urlpatterns = [
     path('actividades/delete/<int:idactividad>/', views.actividad_delete, name='actividad_delete'),
     path('recordatorio/create', views.recordatorio_create, name='recordatorio_create'),
 ]
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

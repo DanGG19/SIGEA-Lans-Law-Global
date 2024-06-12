@@ -8,30 +8,40 @@ from .forms import *
 from django.utils import timezone
 from datetime import datetime
 
-@login_required # Decorador para proteger la vista con login
-def index(request): #Vista protegida por login que redirige al usuario a diferentes plantillas según su tipo de usuario (tipousuario).
-    if request.user.tipousuario == 1: #Si el tipo de usuario es 1, se redirige al usuario a la plantilla de administrador.
-        return render(request, 'SIGEA_APP/admin/index.html')
-    elif request.user.tipousuario == 2: #Si el tipo de usuario es 2, se redirige al usuario a la plantilla de secretaria.
-        return render(request, 'SIGEA_APP/secretaria/index.html')
-    elif request.user.tipousuario == 3: #Si el tipo de usuario es 3, se redirige al usuario a la plantilla de abogado.
-        return render(request, 'SIGEA_APP/abogado/index.html')
+@login_required
+def index(request):
+    user_type = request.user.tipousuario.idtipousuario
+    context = {'pruebita': user_type}
+    if user_type == 1:  # Redirige al administrador
+        return render(request, 'SIGEA_APP/admin/index.html', context)
+    elif user_type == 2:  # Redirige a la secretaria
+        return render(request, 'SIGEA_APP/secretaria/index.html', context)
+    elif user_type == 3:  # Redirige al jefe de departamento
+        return render(request, 'SIGEA_APP/jefe_departamento/index.html', context)
+    elif user_type == 4:  # Redirige al abogado
+        return render(request, 'SIGEA_APP/abogado/index.html', context)
+    else:
+        return redirect('login')
+    
+    
+def login_V(request):
+    if request.method == 'POST':
+        email = request.POST['email']
+        password = request.POST['password']
+        user = authenticate(request, username=email, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('index')
+        else:
+            return render(request, 'registration/login.html', {'error_message': 'Datos Incorrectos'})
+    return render(request, 'registration/login.html')
 
-def login_V(request): #Vista para el inicio de sesión
-    if request.method == 'POST': #Si el método es POST, se obtienen los datos del formulario y se autentica al usuario.
-        email = request.POST['email'] #Se obtiene el email del formulario.
-        password = request.POST['password'] #Se obtiene la contraseña del formulario.
-        user = authenticate(request, username=email, password=password) #Se autentica al usuario con el email y la contraseña.
-        if user is not None: #Si el usuario es autenticado, se inicia sesión y se redirige al usuario a la página de inicio.
-            login(request, user) #Se inicia sesión.
-            return redirect('index') #Se redirige al usuario a la página de inicio.
-        else: #Si los datos son incorrectos, se muestra un mensaje de error.
-            return render(request, 'registration/login.html', {'error_message': 'Datos Incorrectos'}) #Se muestra un mensaje de error.
-    return render(request, 'registration/login.html') #Si el método no es POST, se muestra el formulario de inicio de sesión.
+
 
 #Perfil de usuario
 @login_required
 def edit_profile(request):
+    user_type = request.user.tipousuario.idtipousuario
     if request.method == 'POST':
         form = EditProfileForm(request.POST, request.FILES, instance=request.user)
         if form.is_valid():
@@ -40,13 +50,22 @@ def edit_profile(request):
     else:
         form = EditProfileForm(instance=request.user)
     
-    return render(request, 'SIGEA_APP/CRUD_USUARIOS/edit_profile.html', {'form': form})
+    context = {
+        'pruebita': user_type,
+        'form': form
+    }
+    
+    return render(request, 'SIGEA_APP/CRUD_USUARIOS/edit_profile.html', context)
 
 
 @csrf_exempt # Decorador para deshabilitar la protección CSRF
 def usuario_list(request):
-    usuarios = Usuario.objects.all()
-    return render(request, 'SIGEA_APP/CRUD_USUARIOS/usuario_list.html', {'usuarios': usuarios})
+    user_type = request.user.tipousuario.idtipousuario
+    context = {
+        'pruebita': user_type,
+        'usuarios': Usuario.objects.all()
+    }
+    return render(request, 'SIGEA_APP/CRUD_USUARIOS/usuario_list.html', context)
 
 
 @csrf_exempt
@@ -95,8 +114,13 @@ def usuario_delete(request, idusuario):
 #Views para departamentos
 @csrf_exempt # Decorador para deshabilitar la protección CSRF
 def departamento_list(request): #Vista para listar los usuarios
-    departamento = Departamentos.objects.all() #Se obtienen todos los usuarios de la base de datos.
-    return render(request, 'SIGEA_APP/CRUD_DEPARTAMENTOS/departamento_list.html', {'departamento': departamento}) #Se renderiza la plantilla usuario_list.html con los usuarios obtenidos.
+    user_type = request.user.tipousuario.idtipousuario
+    context = {
+        'pruebita': user_type,
+        'departamento': Departamentos.objects.all() #Se obtienen todos los usuarios de la base de datos.
+    }
+    
+    return render(request, 'SIGEA_APP/CRUD_DEPARTAMENTOS/departamento_list.html', context) #Se renderiza la plantilla usuario_list.html con los usuarios obtenidos.
 
 @csrf_exempt # Decorador para deshabilitar la protección CSRF
 def departamento_create(request): #Vista para crear un usuario
@@ -140,8 +164,12 @@ def departamento_delete(request, iddepartamento):  # Usamos idusuario aquí #Vis
 #Views para servicios
 @csrf_exempt # Decorador para deshabilitar la protección CSRF
 def servicio_list(request): #Vista para listar los usuarios
-    servicios = Servicios.objects.all() #Se obtienen todos los usuarios de la base de datos.
-    return render(request, 'SIGEA_APP/CRUD_SERVICIO/servicio_list.html', {'servicio': servicios}) #Se renderiza la plantilla usuario_list.html con los usuarios obtenidos.
+    user_type = request.user.tipousuario.idtipousuario
+    context = {
+        'pruebita': user_type,
+        'servicios': Servicios.objects.all() #Se obtienen todos los usuarios de la base de datos.
+    }
+    return render(request, 'SIGEA_APP/CRUD_SERVICIO/servicio_list.html', context) #Se renderiza la plantilla usuario_list.html con los usuarios obtenidos.
 
 @csrf_exempt # Decorador para deshabilitar la protección CSRF
 def servicio_create(request): #Vista para crear un usuario
@@ -182,9 +210,20 @@ def servicio_delete(request, idservicio):  # Usamos idusuario aquí #Vista para 
         return JsonResponse({'success': True}) #Se retorna un JSON con el mensaje de éxito.
     return JsonResponse({'success': False}) #Si el método no es POST, se retorna un JSON con el mensaje de error.
 
+
+#ACTIVIDADES
+@login_required
 def actividades(request):
+    user_type = request.user.tipousuario.idtipousuario
     actividades = Actividades.objects.all()
-    return render(request, 'SIGEA_APP/CRUD_EVENT/event.html', {'actividades':actividades})
+    
+    context = {
+        'pruebita': user_type,
+        'actividades': actividades
+    }
+    
+    return render(request, 'SIGEA_APP/CRUD_EVENT/event.html', context)
+
 
 @csrf_exempt
 def actividades_create(request):

@@ -1,7 +1,4 @@
-
-
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
         <div class="sidebar-brand-icon rotate-n-15">
@@ -20,30 +17,27 @@
     </div>
 
     {% if pruebita == 1 %}
-    
     <!-- Nav Item - Reportes -->  
-    <!--lista de botones del Nav(Cada nav-item es un botón nuevo)-->
     <li class="nav-item">
-        <!--lista de botones del Nav-->
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseReportes"
-                aria-expanded="true" aria-controls="collapseReportes">
-                <i class="fas fa-fw fa-cog"></i>
-                <span>Reportes</span>
-            </a>
-            <div id="collapseReportes" class="collapse" aria-labelledby="headingReportes" data-parent="#accordionSidebar">
-                <div class="bg-white py-2 collapse-inner rounded">
-                    <h6 class="collapse-header">Tipos de Reportes</h6>
-                    <a class="collapse-item" href="{% url 'usuario_list' %}">Empleados</a>
-                    <a class="collapse-item" href="{% url 'departamento_list' %}">Departamentos</a>
-                    <a class="collapse-item" href="#">Casos</a>
-                    <a class="collapse-item" href="{% url 'actividades' %}">Actividades</a>
-                    <a class="collapse-item" href="#">Documentos</a>
-                    <a class="collapse-item" href="#">Evaluaciones</a>
-                </div>
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseReportes"
+            aria-expanded="true" aria-controls="collapseReportes">
+            <i class="fas fa-fw fa-cog"></i>
+            <span>Reportes</span>
+        </a>
+        <div id="collapseReportes" class="collapse" aria-labelledby="headingReportes" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <h6 class="collapse-header">Tipos de Reportes</h6>
+                <a class="collapse-item" href="{% url 'usuario_list' %}">Empleados</a>
+                <a class="collapse-item" href="{% url 'departamento_list' %}">Departamentos</a>
+                <a class="collapse-item" href="#">Casos</a>
+                <a class="collapse-item" href="{% url 'actividades' %}">Actividades</a>
+                <a class="collapse-item" href="#">Documentos</a>
+                <a class="collapse-item" href="#">Evaluaciones</a>
             </div>
-        </li>
-    <!-- Nav Item - Empleados -->  
+        </div>
+    </li>
     {% elif pruebita == 2 %}
+    <!-- Nav Item - Empleados -->  
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseEmpleados"
             aria-expanded="true" aria-controls="collapseEmpleados">
@@ -58,7 +52,6 @@
             </div>
         </div>
     </li>        
-    
     <!-- Nav Item - Departamentos -->
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseDepartamentos"
@@ -89,9 +82,7 @@
             </div>
         </div>
     </li>       
-
     {% elif pruebita == 3 %}
-   
     <!-- Nav Item - Documentos -->
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseDocuemntos"
@@ -137,22 +128,11 @@
             </div>
         </div>
     </li>       
-    
-    <!-- FIN DE ITEMS (De momentoxd) -->
     {% endif %}
-
-    
-
-
-    
-
     <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">
     <!-- Sidebar Toggler (Sidebar) -->
-    <!--botón para ocultar el sidebar -->
     <div class="text-center d-none d-md-inline">
         <button class="rounded-circle border-0" id="sidebarToggle"></button>
     </div>
-  
 </ul>
-    

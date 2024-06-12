@@ -89,25 +89,43 @@ class Servicios(models.Model):
         return self.nombreservicio 
 
 
-    
-class UsuarioManager(BaseUserManager): # BaseUserManager es una clase que se encarga de manejar la creación de usuarios
-    def create_user(self, email, password=None, **extra_fields):
-        if not email: # Si no se ingresa un email, se lanza un error
-            raise ValueError('El usuario debe tener un email') # ValueError es una excepción que se lanza cuando un valor es incorrecto
-        email = self.normalize_email(email) # normalize_email es un método que se encarga de normalizar el email (convertirlo a minúsculas)
-        user = self.model(email=email, **extra_fields) # Se crea un usuario con el email normalizado y los campos extra que se pasen como argumento en el método
-        user.set_password(password) # Se encripta la contraseña del usuario con el método set_password de django
-        user.save(using=self._db) # Se guarda el usuario en la base de datos
-        return user # Se retorna el usuario creado
+class TipoUsuario(models.Model):
+    idtipousuario = models.AutoField(db_column='IDTIPOUSUARIO', primary_key=True)
+    descripcion = models.CharField(db_column='DESCRIPCION', max_length=255)
 
-    def create_superuser(self, email, password=None, **extra_fields): # Método para crear un superusuario
-        return self.create_user(email, password, **extra_fields) # Se llama al método create_user para crear un superusuario
+    class Meta:
+        managed = True
+        db_table = 'tipousuario'
+
+    def __str__(self):
+        return self.descripcion
+
+class UsuarioManager(BaseUserManager):
+    def create_user(self, email, password=None, tipousuario=None, **extra_fields):
+        if not email:
+            raise ValueError('El usuario debe tener un email')
+        email = self.normalize_email(email)
+        
+        if tipousuario is not None:
+            try:
+                TipoUsuarioModel = self.model._meta.get_field('tipousuario').remote_field.model
+                tipousuario = TipoUsuarioModel.objects.get(pk=tipousuario)
+            except TipoUsuarioModel.DoesNotExist:
+                raise ValueError('TipoUsuario no válido')
+
+        user = self.model(email=email, tipousuario=tipousuario, **extra_fields)
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+
+    def create_superuser(self, email, password=None, tipousuario=1, **extra_fields):
+        return self.create_user(email, password, tipousuario=tipousuario, **extra_fields)
 
 class Usuario(AbstractBaseUser):
     idusuario = models.AutoField(db_column='IDUSUARIO', primary_key=True)
     idservicio = models.ForeignKey('Servicios', models.DO_NOTHING, db_column='IDSERVICIO', blank=True, null=True)
     idplandes = models.ForeignKey('Plandesarrollo', models.DO_NOTHING, db_column='IDPLANDES', blank=True, null=True)
-    tipousuario = models.IntegerField(db_column='TIPOUSUARIO')
+    tipousuario = models.ForeignKey(TipoUsuario, models.DO_NOTHING, db_column='IDTIPOUSUARIO')  # Actualizado
     nombre = models.CharField(db_column='NOMBRE', max_length=255)
     apellido = models.CharField(db_column='APELLIDO', max_length=255)
     dui = models.CharField(db_column='DUI', max_length=9)
@@ -115,7 +133,7 @@ class Usuario(AbstractBaseUser):
     salario = models.DecimalField(db_column='SALARIO', max_digits=10, decimal_places=0)
     email = models.EmailField(db_column='EMAIL', max_length=255, unique=True)
     password = models.CharField(db_column='PASSWORD', max_length=255)
-    foto_perfil = models.ImageField(upload_to='fotos_perfil/', blank=True, null=True)  # Nuevo campo para la foto de perfil
+    foto_perfil = models.ImageField(upload_to='fotos_perfil/', blank=True, null=True)
 
     objects = UsuarioManager()
     USERNAME_FIELD = 'email'

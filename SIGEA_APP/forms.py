@@ -9,7 +9,8 @@ class UsuarioForm(forms.ModelForm):
         queryset=Departamentos.objects.all(),
         empty_label="Selecciona un Departamento",
         required=True,
-        label='Departamento'
+        label='Departamento',
+        widget=forms.Select(attrs={'class': 'form-control'})
     )
 
     class Meta:
@@ -31,7 +32,16 @@ class UsuarioForm(forms.ModelForm):
             'foto_perfil': 'Foto de Perfil: '
         }
         widgets = {
-            'password': forms.PasswordInput(),
+            'idservicio': forms.Select(attrs={'class': 'form-control'}),
+            'nombre': forms.TextInput(attrs={'class': 'form-control'}),
+            'apellido': forms.TextInput(attrs={'class': 'form-control'}),
+            'dui': forms.TextInput(attrs={'class': 'form-control'}),
+            'telefono': forms.TextInput(attrs={'class': 'form-control'}),
+            'salario': forms.NumberInput(attrs={'class': 'form-control'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+            'password': forms.PasswordInput(attrs={'class': 'form-control'}),
+            'tipousuario': forms.Select(attrs={'class': 'form-control'}),
+            'foto_perfil': forms.FileInput(attrs={'class': 'form-control'}),
         }
 
     def save(self, commit=True):
@@ -70,3 +80,12 @@ class EditProfileForm(forms.ModelForm):
     class Meta:
         model = Usuario
         fields = ['nombre', 'apellido', 'dui', 'telefono', 'salario', 'email', 'foto_perfil']
+        widgets = {
+            'nombre': forms.TextInput(attrs={'class': 'form-control'}),
+            'apellido': forms.TextInput(attrs={'class': 'form-control'}),
+            'dui': forms.TextInput(attrs={'class': 'form-control'}),
+            'telefono': forms.TextInput(attrs={'class': 'form-control'}),
+            'salario': forms.NumberInput(attrs={'class': 'form-control'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+            'foto_perfil': forms.FileInput(attrs={'class': 'form-control'}),
+        }

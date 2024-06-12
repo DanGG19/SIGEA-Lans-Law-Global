@@ -105,7 +105,8 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <form id="updateForm{{ usuario.idusuario }}">
+                                <form id="updateForm{{ usuario.idusuario }}" method="post" enctype="multipart/form-data">
+                                    {% csrf_token %}
                                     <!-- form fields will be loaded here -->
                                 </form>
                             </div>
@@ -154,7 +155,8 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form id="createForm">
+                <form id="createForm" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
                     <!-- form fields will be loaded here -->
                 </form>
             </div>
@@ -191,7 +193,7 @@
             $.get('{% url "usuario_create" %}', {departamento_id: departamentoId}, function(data) {
                 var servicioSelect = $(formSelector + ' select[name="idservicio"]');
                 servicioSelect.empty();
-                if (data.servicios.length >0) {
+                if (data.servicios.length > 0) {
                     $.each(data.servicios, function(index, servicio) {
                         servicioSelect.append(new Option(servicio.nombreservicio, servicio.idservicio));
                     });
@@ -204,39 +206,72 @@
 
     // Submit create form
     function submitCreateForm() {
-        var form = $('#createForm');
-        $.post('{% url "usuario_create" %}', form.serialize(), function(data) {
-            if (data.success) {
-                location.reload();
-            } else {
-                alert('Error: ' + JSON.stringify(data.errors));
+        var form = $('#createForm')[0];
+        var formData = new FormData(form);
+        
+        $.ajax({
+            url: '{% url "usuario_create" %}',
+            type: 'POST',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function(data) {
+                if (data.success) {
+                    location.reload();
+                } else {
+                    alert('Error: ' + JSON.stringify(data.errors));
+                }
+            },
+            error: function(xhr, status, error) {
+                alert('Error: ' + xhr.responseText);
             }
         });
     }
 
     // Submit update form
     function submitUpdateForm(idusuario) {
-        var form = $('#updateForm' + idusuario);
-        $.post('/usuario/update/' + idusuario + '/', form.serialize(), function(data) {
-            if (data.success) {
-                location.reload();
-            } else {
-                alert('Error: ' + JSON.stringify(data.errors));
+        var form = $('#updateForm' + idusuario)[0];
+        var formData = new FormData(form);
+        
+        $.ajax({
+            url: '/usuario/update/' + idusuario + '/',
+            type: 'POST',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function(data) {
+                if (data.success) {
+                    location.reload();
+                } else {
+                    alert('Error: ' + JSON.stringify(data.errors));
+                }
+            },
+            error: function(xhr, status, error) {
+                alert('Error: ' + xhr.responseText);
             }
         });
     }
 
-    // Delete usuario
-    function deleteUsuario(idusuario) {
-        $.post('/usuario/delete/' + idusuario + '/', function(data) {
-            if (data.success) {
-                location.reload();
-            } else {
-                alert('Error');
+    // Delete user
+    function deleteUsuario(id) {
+        $.ajax({
+            url: '/usuario/delete/' + id + '/',
+            type: 'POST',
+            data: {
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            success: function(data) {
+                if (data.success) {
+                    location.reload();
+                } else {
+                    alert('Error al eliminar el usuario');
+                }
+            },
+            error: function(xhr, status, error) {
+                alert('Error: ' + xhr.responseText);
             }
         });
     }
 </script>
 
 {% endblock %}
-

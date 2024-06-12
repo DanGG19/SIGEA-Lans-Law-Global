@@ -50,9 +50,7 @@ def usuario_create(request):
             departamento_id = request.GET['departamento_id']
             servicios = Servicios.objects.filter(iddepartamento=departamento_id)
             return JsonResponse({'servicios': list(servicios.values('idservicio', 'nombreservicio'))})
-
     return render(request, 'SIGEA_APP/CRUD_USUARIOS/usuario_form.html', {'form': form})
-
 
 @csrf_exempt
 def usuario_update(request, idusuario):

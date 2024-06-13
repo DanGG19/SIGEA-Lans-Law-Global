@@ -1,10 +1,10 @@
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
     <!-- Sidebar - Brand -->
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{% url 'index' %}">
         <div class="sidebar-brand-icon rotate-n-15">
             <i class="fas fa-laugh-wink"></i>
         </div>
-        <div class="sidebar-brand-text mx-3">SIGEA</div>
+        <div class="sidebar-brand-text mx-3">SIGEA </div>
     </a>
 
     <!-- Divider -->
@@ -19,7 +19,18 @@
     {% if pruebita == 1 %}
     <!-- Nav Item - Reportes -->  
     <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseReportes"
+
+        <a class="nav-link" href="{% url 'usuario_list' %} " >Empleados </a>
+        <hr class="sidebar-divider d-none d-md-block">
+        <a class="nav-link" href="{% url 'departamento_list' %}">Departamentos</a>
+        <hr class="sidebar-divider d-none d-md-block">
+        <a class="nav-link" href="{% url 'servicio_list' %}">Servivicios</a>
+        <hr class="sidebar-divider d-none d-md-block">
+        <a class="nav-link" href="{% url 'actividades' %}">Actividades</a>
+
+
+        <!-- Apartado de reportes, IMPLEMENTAR LUEGO-->
+        {% comment %} <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseReportes"
             aria-expanded="true" aria-controls="collapseReportes">
             <i class="fas fa-fw fa-cog"></i>
             <span>Reportes</span>
@@ -29,105 +40,18 @@
                 <h6 class="collapse-header">Tipos de Reportes</h6>
                 <a class="collapse-item" href="{% url 'usuario_list' %}">Empleados</a>
                 <a class="collapse-item" href="{% url 'departamento_list' %}">Departamentos</a>
-                <a class="collapse-item" href="#">Casos</a>
+                <a class="collapse-item" href="{% url 'servicio_list' %}">Servivicios</a>
                 <a class="collapse-item" href="{% url 'actividades' %}">Actividades</a>
+                <a class="collapse-item" href="#">Casos</a>
                 <a class="collapse-item" href="#">Documentos</a>
                 <a class="collapse-item" href="#">Evaluaciones</a>
             </div>
-        </div>
+        </div> {% endcomment %}
     </li>
     {% elif pruebita == 2 %}
-    <!-- Nav Item - Empleados -->  
-    <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseEmpleados"
-            aria-expanded="true" aria-controls="collapseEmpleados">
-            <i class="fas fa-fw fa-wrench"></i>
-            <span>Empleados</span>
-        </a>
-        <div id="collapseEmpleados" class="collapse" aria-labelledby="headingEmpleados"
-            data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-                <h6 class="collapse-header">Custom Utilities:</h6>
-                <a class="collapse-item" href="utilities-color.html">Colors</a>
-            </div>
-        </div>
-    </li>        
-    <!-- Nav Item - Departamentos -->
-    <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseDepartamentos"
-            aria-expanded="true" aria-controls="collapseDepartamentos">
-            <i class="fas fa-fw fa-wrench"></i>
-            <span>Departamentos</span>
-        </a>
-        <div id="collapseDepartamentos" class="collapse" aria-labelledby="headingDepartamentos"
-            data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-                <h6 class="collapse-header">Custom Utilities:</h6>
-                <a class="collapse-item" href="utilities-color.html">Colors</a>
-            </div>
-        </div>
-    </li>       
-    <!-- Nav Item - Actividades -->
-    <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseActividades"
-            aria-expanded="true" aria-controls="collapseActividades">
-            <i class="fas fa-fw fa-wrench"></i>
-            <span>Actividades</span>
-        </a>
-        <div id="collapseActividades" class="collapse" aria-labelledby="headingActividades"
-            data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-                <h6 class="collapse-header">Custom Utilities:</h6>
-                <a class="collapse-item" href="utilities-color.html">Colors</a>
-            </div>
-        </div>
-    </li>       
+      
     {% elif pruebita == 3 %}
-    <!-- Nav Item - Documentos -->
-    <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseDocuemntos"
-            aria-expanded="true" aria-controls="collapseDocuemntos">
-            <i class="fas fa-fw fa-wrench"></i>
-            <span>Documentos</span>
-        </a>
-        <div id="collapseDocuemntos" class="collapse" aria-labelledby="headingDocuemntos"
-            data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-                <h6 class="collapse-header">Custom Utilities:</h6>
-                <a class="collapse-item" href="utilities-color.html">Colors</a>
-            </div>
-        </div>
-    </li>       
-    <!-- Nav Item - Evaluaciones -->
-    <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseEvaluciones"
-            aria-expanded="true" aria-controls="collapseEvaluciones">
-            <i class="fas fa-fw fa-wrench"></i>
-            <span>Evaluaciones</span>
-        </a>
-        <div id="collapseEvaluciones" class="collapse" aria-labelledby="headingEvaluciones"
-            data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-                <h6 class="collapse-header">Custom Utilities:</h6>
-                <a class="collapse-item" href="utilities-color.html">Colors</a>
-            </div>
-        </div>
-    </li>       
-    <!-- Nav Item - Casos -->
-    <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseCasos"
-            aria-expanded="true" aria-controls="collapseCasos">
-            <i class="fas fa-fw fa-wrench"></i>
-            <span>Casos</span>
-        </a>
-        <div id="collapseCasos" class="collapse" aria-labelledby="headingCasos"
-            data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-                <h6 class="collapse-header">Custom Utilities:</h6>
-                <a class="collapse-item" href="utilities-color.html">Colors</a>
-            </div>
-        </div>
-    </li>       
+   
     {% endif %}
     <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">

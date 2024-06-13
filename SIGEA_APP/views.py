@@ -167,7 +167,7 @@ def servicio_list(request): #Vista para listar los usuarios
     user_type = request.user.tipousuario.idtipousuario
     context = {
         'pruebita': user_type,
-        'servicios': Servicios.objects.all() #Se obtienen todos los usuarios de la base de datos.
+        'servicio': Servicios.objects.all() #NOTA: La variable es "servicio" no "servicios"
     }
     return render(request, 'SIGEA_APP/CRUD_SERVICIO/servicio_list.html', context) #Se renderiza la plantilla usuario_list.html con los usuarios obtenidos.
 

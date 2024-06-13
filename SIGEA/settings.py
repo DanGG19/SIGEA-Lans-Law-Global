@@ -134,3 +134,11 @@ LOGIN_REDIRECT_URL = 'index' #Se configura la página a la que se redirige al us
 LOGOUT_REDIRECT_URL = 'index' #Se configura la página a la que se redirige al usuario después de hacer logout
 
 AUTH_USER_MODEL = 'SIGEA_APP.Usuario' #Se cambia el modelo de usuario por defecto de Django por el modelo de usuario personalizado
+
+#ALLAN ESTUVO AQUí 13/06/2024
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST="smtp.gmail.com"
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = "sigea.lanslaw@gmail.com"
+EMAIL_HOST_PASSWORD = "wjah gumn rrfd tbot"

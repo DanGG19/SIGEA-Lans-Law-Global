@@ -7,6 +7,8 @@ from django.http import JsonResponse
 from .forms import *
 from django.utils import timezone
 from datetime import datetime
+from django.core.mail import send_mail
+from django.conf import settings
 
 @login_required
 def index(request):
@@ -71,6 +73,14 @@ def usuario_list(request):
 @csrf_exempt
 def usuario_create(request):
     if request.method == 'POST':
+
+        #ALLAN ESTUVO AQUI, CORREO DE CONFIRMACIÖN DE CREACIÖN DE USUARIO
+        subject = "¡Excelente! Se ha creado un usuario"
+        message ="Ahora formas parte de nuestra empresa, LANS LAW GLOBAL está feliz de tenerte, tus credenciales son:\nCorreo: "+request.POST["email"]+"\nContraseña: "+request.POST["password"]
+        email_from=settings.EMAIL_HOST_USER
+        recipient_list=[request.POST["email"]]
+        send_mail(subject, message, email_from, recipient_list, fail_silently=False)
+
         form = UsuarioForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()

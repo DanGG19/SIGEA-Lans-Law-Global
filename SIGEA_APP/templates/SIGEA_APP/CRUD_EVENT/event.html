@@ -12,7 +12,6 @@
     }
 </style>
 
-
   <div class="scrollable-content mt-5">
 
     <h1>Calendario</h1>
@@ -58,6 +57,15 @@
                   <label >Descripción:</label>
                   <textarea class="form-control" id="actividadDescription" name="descripcionactividad" rows="3"></textarea>
               </div>
+              <div class="form-group">
+                <label for="invitados">Invitados:</label>
+                <select id="invitados" name="invitadosactividad" multiple required>
+                    <!-- Opciones de usuarios -->
+                  {% for usuario in usuarios %}
+                    <option value="{{ usuario.idusuario }}">{{ usuario.nombre }}</option>
+                  {% endfor %}
+                </select>
+            </div>
               <button id="insertaract" type="submit" class="btn btn-primary" data-url="{% url 'actividades_create' %}">
                 Crear Evento
               </button>
@@ -104,6 +112,12 @@
             <label>Descripción:</label>
             <textarea class="form-control" id="detailDescription" rows="3" readonly></textarea>
           </div>
+          <div id="invitadosContainer">
+            <h5>Invitados:</h5>
+            <ul id="invitadosList">
+                <!-- Los invitados se llenarán dinámicamente aquí -->
+            </ul>
+        </div>
           <button type="button" class="btn btn-primary" onclick="mostrarFormulario()"> Añadir Recordatorio </button>
           <button class="btn btn-danger" data-toggle="modal" data-target="#deleteModal{{ actividades.idactividad }}">Eliminar</button>
 
@@ -187,6 +201,17 @@
         document.getElementById('detailDescription').value = info.event.extendedProps.description || '';
         document.getElementById('detailTypeActivity').value = info.event.extendedProps.typeact || '';
         document.getElementById('idactividad').value = info.event.extendedProps.idacti;
+        
+        // Cargar los invitados de la actividad
+            var invitadosListContainer = document.getElementById('invitadosList');
+            invitadosListContainer.innerHTML = ''; // Limpiar la lista de invitados
+
+            var invitados = info.event.extendedProps.invitados;  // Obtener los invitados del evento
+            invitados.forEach(function(invitado) {
+                var invitadoItem = document.createElement('li');
+                invitadoItem.textContent = invitado.nombre + ' ' + invitado.apellido;
+                invitadosListContainer.appendChild(invitadoItem);
+            });
         // Show the modal
         $('#detailModal').modal('show');
       }
@@ -202,7 +227,13 @@
   $(document).on('submit', '#newActividad', function (event)  {
     const button = $('#insertaract').data('url');
     event.preventDefault();
-    var formData = $(this).serialize();
+    var formData = $(this).serializeArray();
+    var invitados = $('#invitados').val(); // Obtener los valores seleccionados del select múltiple
+    
+    // Añadir los invitados al formData
+    invitados.forEach(function(invitado) {
+        formData.push({ name: 'invitadosactividad', value: invitado });
+    });
 
     console.log(button);
 

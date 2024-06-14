@@ -226,14 +226,15 @@ def servicio_delete(request, idservicio):  # Usamos idusuario aquí #Vista para 
 def actividades(request):
     user_type = request.user.tipousuario.idtipousuario
     actividades = Actividades.objects.all()
+    usuarios = Usuario.objects.all()
     
     context = {
         'pruebita': user_type,
-        'actividades': actividades
+        'actividades': actividades,
+        'usuarios': usuarios
     }
     
     return render(request, 'SIGEA_APP/CRUD_EVENT/event.html', context)
-
 
 @csrf_exempt
 def actividades_create(request):
@@ -243,14 +244,20 @@ def actividades_create(request):
         descripcionactividad = request.POST.get('descripcionactividad')
         fechaactividad = request.POST.get('fechaactividad')
         fechafin = request.POST.get('fechafin')
+        invitados_ids = request.POST.getlist('invitadosactividad')
         
         usuario = get_object_or_404(Usuario, email=request.user.email)
 
         print(f'nombre de actividad: {nombreactividad}, tipo: {tipoactividad}, descripcion: {descripcionactividad}, fecha: {fechaactividad}')
-
+        
         # Crea un nuevo evento en la base de datos
         nuevo_evento = Actividades(nombreactividad=nombreactividad, descripcionactividad=descripcionactividad, fechaactividad=fechaactividad, tipoactividad=tipoactividad, idusuario=usuario, fechafin=fechafin)
         nuevo_evento.save()
+        
+        for invitado_id in invitados_ids:
+                invitado = get_object_or_404(Usuario, idusuario=invitado_id)
+                nuevo_evento.invitadosactividad.add(invitado)
+
         # Devuelve una respuesta JSON indicando que la creación del evento fue exitosa
         return JsonResponse({'success': True, 'message':'Has creado un evento exitosamente'})
     else:
@@ -261,13 +268,22 @@ def actividades_list(request):
     actividades = Actividades.objects.all()
     actividades_json = []
     for acti in actividades:
+        invitados = acti.invitadosactividad.all()  # Obtener todos los invitados de la actividad
+        invitados_list = []
+        for invitado in invitados:
+            invitados_list.append({
+                'nombre': invitado.nombre,
+                'apellido': invitado.apellido,
+            })
+    for acti in actividades:
         actividades_json.append({
             'title': acti.nombreactividad,
             'start': acti.fechaactividad.isoformat(),
             'end': acti.fechafin.isoformat(),
             'description': acti.descripcionactividad.format(),
             'typeact': acti.tipoactividad,
-            'idacti':acti.idactividad
+            'idacti':acti.idactividad,
+            'invitados': invitados_list, 
         })
     print(actividades_json)
     return JsonResponse(actividades_json, safe=False)
@@ -302,5 +318,4 @@ def recordatorio_create(request):
     else:
         # Si la solicitud no es de tipo POST, devuelve un error
         return JsonResponse({'success': False, 'message': 'La solicitud debe ser de tipo POST'})
-    
-    
+

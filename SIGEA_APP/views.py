@@ -74,12 +74,12 @@ def usuario_list(request):
 def usuario_create(request):
     if request.method == 'POST':
 
-        #ALLAN ESTUVO AQUI, CORREO DE CONFIRMACIÖN DE CREACIÖN DE USUARIO
-        subject = "¡Excelente! Se ha creado un usuario"
-        message ="Ahora formas parte de nuestra empresa, LANS LAW GLOBAL está feliz de tenerte, tus credenciales son:\nCorreo: "+request.POST["email"]+"\nContraseña: "+request.POST["password"]
-        email_from=settings.EMAIL_HOST_USER
-        recipient_list=[request.POST["email"]]
-        send_mail(subject, message, email_from, recipient_list, fail_silently=False)
+        # #ALLAN ESTUVO AQUI, CORREO DE CONFIRMACIÖN DE CREACIÖN DE USUARIO
+        # subject = "¡Excelente! Se ha creado un usuario"
+        # message ="Ahora formas parte de nuestra empresa, LANS LAW GLOBAL está feliz de tenerte, tus credenciales son:\nCorreo: "+request.POST["email"]+"\nContraseña: "+request.POST["password"]
+        # email_from=settings.EMAIL_HOST_USER
+        # recipient_list=[request.POST["email"]]
+        # send_mail(subject, message, email_from, recipient_list, fail_silently=False)
 
         form = UsuarioForm(request.POST, request.FILES)
         if form.is_valid():
@@ -239,6 +239,7 @@ def actividades(request):
 @csrf_exempt
 def actividades_create(request):
     if request.method == 'POST':
+
         nombreactividad = request.POST.get('nombreactividad')
         tipoactividad = request.POST.get('tipoactividad')
         descripcionactividad = request.POST.get('descripcionactividad')
@@ -247,6 +248,7 @@ def actividades_create(request):
         invitados_ids = request.POST.getlist('invitadosactividad')
         
         usuario = get_object_or_404(Usuario, email=request.user.email)
+
 
         print(f'nombre de actividad: {nombreactividad}, tipo: {tipoactividad}, descripcion: {descripcionactividad}, fecha: {fechaactividad}')
         
@@ -257,16 +259,30 @@ def actividades_create(request):
         for invitado_id in invitados_ids:
                 invitado = get_object_or_404(Usuario, idusuario=invitado_id)
                 nuevo_evento.invitadosactividad.add(invitado)
+                #ALLAN ESTUVO AQUI, CORREO DE CONFIRMACIÖN DE CREACIÖN DE USUARIO
+                # subject = "Se te ha invitado a una Actividad"
+                # message = "Se le informa que ha sido invitado a participar en la actividad "+request.POST['nombreactividad']+", la actividad se llevará acabo desde: \nInicio: "+request.POST['fechaactividad']+"\nFin: "+request.POST['fechafin']+"\n¡TE ESPERAMOS!"
+                # email_from=settings.EMAIL_HOST_USER
+                # recipient_list=[invitado.email]
+                # send_mail(subject, message, email_from, recipient_list, fail_silently=False)
 
         # Devuelve una respuesta JSON indicando que la creación del evento fue exitosa
         return JsonResponse({'success': True, 'message':'Has creado un evento exitosamente'})
     else:
         # Si la solicitud no es de tipo POST, devuelve un error
         return JsonResponse({'success': False, 'message': 'La solicitud debe ser de tipo POST'})
-    
+
+def search_users(request):
+    query = request.GET.get('q')
+    usuarios = Usuario.objects.filter(nombre__icontains=query) | Usuario.objects.filter(apellido__icontains=query)
+    results = [{'id': usuario.idusuario, 'nombre': usuario.nombre, 'apellido': usuario.apellido} for usuario in usuarios]
+    return JsonResponse(results, safe=False)
+
+
 def actividades_list(request):
     actividades = Actividades.objects.all()
     actividades_json = []
+    
     for acti in actividades:
         invitados = acti.invitadosactividad.all()  # Obtener todos los invitados de la actividad
         invitados_list = []
@@ -275,16 +291,17 @@ def actividades_list(request):
                 'nombre': invitado.nombre,
                 'apellido': invitado.apellido,
             })
-    for acti in actividades:
+        
         actividades_json.append({
             'title': acti.nombreactividad,
             'start': acti.fechaactividad.isoformat(),
             'end': acti.fechafin.isoformat(),
             'description': acti.descripcionactividad.format(),
             'typeact': acti.tipoactividad,
-            'idacti':acti.idactividad,
-            'invitados': invitados_list, 
+            'idacti': acti.idactividad,
+            'invitados': invitados_list,
         })
+    
     print(actividades_json)
     return JsonResponse(actividades_json, safe=False)
 

@@ -2,8 +2,9 @@
 {% block title %}Actividad{% endblock %}
 {% block content %}
 
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script src='https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@6.1.13/index.global.min.js'></script>
-
 
 <style>
     .scrollable-content {
@@ -12,310 +13,363 @@
     }
 </style>
 
-  <div class="scrollable-content mt-5">
-
+<div class="scrollable-content mt-5">
     <h1>Calendario</h1>
     <button class="btn btn-primary" data-toggle="modal" data-target="#createModal">Crear Actividad</button>
     <div id='calendar'></div>
 
     <!-- Create Modal Crear Nueva Actividad -->
     <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="createModalLabel">Crear Nueva Actividad</h5>
-
-            <button type="button" data-dismiss="modal" class="btn text-secondary">
-              <p style="width: 24px; height: 24px;">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                  <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM175 175c9.4-9.4 24.6-9.4 33.9 0l47 47 47-47c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-47 47 47 47c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-47-47-47 47c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l47-47-47-47c-9.4-9.4-9.4-24.6 0-33.9z"/>
-                </svg>
-              </p>
-            </button>
-          </div>
-
-          <div class="modal-body">
-            <!-- Formulario de Actividad de Crear Actividad-->
-            <form id="newActividad">
-              <div class="form-group">
-                  <label >Nombre de actividad :</label>
-                  <input type="text" class="form-control" id="actividadTitle" name="nombreactividad" required>
-              </div>
-              <div class="form-group">
-                  <label >Fecha y hora de inicio:</label>
-                  <input type="datetime-local" class="form-control" id="actividadStart" name="fechaactividad" required>
-              </div>
-              <div class="form-group">
-                <label >Fecha y hora de finalización:</label>
-                <input type="datetime-local" class="form-control" id="actividadEND" name="fechafin" required>
-              </div>
-              <div class="form-group">
-                <label >Tipo de actividad:</label>
-                <input type="text" class="form-control" id="actividadTipo" name="tipoactividad" required></input>
-              </div>
-              <div class="form-group">
-                  <label >Descripción:</label>
-                  <textarea class="form-control" id="actividadDescription" name="descripcionactividad" rows="3"></textarea>
-              </div>
-              <div class="form-group">
-                <label for="invitados">Invitados:</label>
-                <select id="invitados" name="invitadosactividad" multiple required>
-                    <!-- Opciones de usuarios -->
-                  {% for usuario in usuarios %}
-                    <option value="{{ usuario.idusuario }}">{{ usuario.nombre }}</option>
-                  {% endfor %}
-                </select>
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createModalLabel">Crear Nueva Actividad</h5>
+                    <button type="button" data-dismiss="modal" class="btn text-secondary">
+                        <p style="width: 24px; height: 24px;">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                                <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM175 175c9.4-9.4 24.6-9.4 33.9 0l47 47 47-47c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-47 47 47 47c9.4 9.4 9.4 24.6 0 33.9s24.6 9.4 33.9 0l-47-47-47 47c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l47-47-47-47c-9.4-9.4-9.4-24.6 0-33.9z"/>
+                            </svg>
+                        </p>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- Formulario de Actividad de Crear Actividad-->
+                    <form id="newActividad" method="post" action="{% url 'actividades_create' %}">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label>Nombre de actividad:</label>
+                            <input type="text" class="form-control" id="actividadTitle" name="nombreactividad" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Fecha y hora de inicio:</label>
+                            <input type="datetime-local" class="form-control" id="actividadStart" name="fechaactividad" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Fecha y hora de finalización:</label>
+                            <input type="datetime-local" class="form-control" id="actividadEND" name="fechafin" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Tipo de actividad:</label>
+                            <input type="text" class="form-control" id="actividadTipo" name="tipoactividad" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Descripción:</label>
+                            <textarea class="form-control" id="actividadDescription" name="descripcionactividad" rows="3"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="searchUser">Buscar Invitados:</label>
+                            <input type="text" id="searchUser" class="form-control" placeholder="Buscar usuario por nombre">
+                            <div id="userList">
+                                <!-- Los usuarios se cargarán dinámicamente aquí -->
+                            </div>
+                        </div>
+                        <button id="insertaract" type="submit" class="btn btn-primary" data-url="{% url 'actividades_create' %}">
+                            Crear Evento
+                        </button>
+                    </form>
+                </div>
             </div>
-              <button id="insertaract" type="submit" class="btn btn-primary" data-url="{% url 'actividades_create' %}">
-                Crear Evento
-              </button>
-            </form>
-          </div>
         </div>
-      </div>
     </div>
 </div>
 
 <!-- Modal Detalles del Actividad -->
 <div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="detailModalLabel">Detalles del Actividad</h5>
-        <button type="button" data-dismiss="modal" class="btn text-secondary">
-          <p style="width: 24px; height: 24px;">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-              <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM175 175c9.4-9.4 24.6-9.4 33.9 0l47 47 47-47c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-47 47 47 47c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-47-47-47 47c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l47-47-47-47c-9.4-9.4-9.4-24.6 0-33.9z"/>
-            </svg>
-          </p>
-        </button>
-      </div>
-      <div class="modal-body">
-        <!-- Formulario Detalles del Actividad -->
-          <div class="form-group">
-            <label>Nombre de actividad :</label>
-            <input type="text" class="form-control" id="detailTitle" readonly>
-          </div>
-          <div class="form-group">
-            <label>Fecha y hora de inicio:</label>
-            <input type="datetime-local" class="form-control" id="detailStart" readonly>
-          </div>
-          <div class="form-group">
-            <label>Fecha y hora de finalización:</label>
-            <input type="datetime-local" class="form-control" id="detailEnd" readonly>
-          </div>
-          <div class="form-group">
-            <label >Tipo de actividad:</label>
-            <input type="text" class="form-control" id="detailTypeActivity" readonly></input>
-          </div>
-          <div class="form-group">
-            <label>Descripción:</label>
-            <textarea class="form-control" id="detailDescription" rows="3" readonly></textarea>
-          </div>
-          <div id="invitadosContainer">
-            <h5>Invitados:</h5>
-            <ul id="invitadosList">
-                <!-- Los invitados se llenarán dinámicamente aquí -->
-            </ul>
-        </div>
-          <button type="button" class="btn btn-primary" onclick="mostrarFormulario()"> Añadir Recordatorio </button>
-          <button class="btn btn-danger" data-toggle="modal" data-target="#deleteModal{{ actividades.idactividad }}">Eliminar</button>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="detailModalLabel">Detalles del Actividad</h5>
+                <button type="button" data-dismiss="modal" class="btn text-secondary">
+                    <p style="width: 24px; height: 24px;">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                            <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM175 175c9.4-9.4 24.6-9.4 33.9 0l47 47 47-47c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-47 47 47 47c9.4 9.4 9.4 24.6 0 33.9s24.6 9.4 33.9 0l-47-47-47 47c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l47-47-47-47c-9.4-9.4-9.4-24.6 0-33.9z"/>
+                        </svg>
+                    </p>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Formulario Detalles del Actividad -->
+                <div class="form-group">
+                    <label>Nombre de actividad :</label>
+                    <input type="text" class="form-control" id="detailTitle" readonly>
+                </div>
+                <div class="form-group">
+                    <label>Fecha y hora de inicio:</label>
+                    <input type="datetime-local" class="form-control" id="detailStart" readonly>
+                </div>
+                <div class="form-group">
+                    <label>Fecha y hora de finalización:</label>
+                    <input type="datetime-local" class="form-control" id="detailEnd" readonly>
+                </div>
+                <div class="form-group">
+                    <label>Tipo de actividad:</label>
+                    <input type="text" class="form-control" id="detailTypeActivity" readonly></input>
+                </div>
+                <div class="form-group">
+                    <label>Descripción:</label>
+                    <textarea class="form-control" id="detailDescription" rows="3" readonly></textarea>
+                </div>
+                <div id="invitadosContainer">
+                    <h5>Invitados:</h5>
+                    <ul id="invitadosList">
+                        <!-- Los invitados se llenarán dinámicamente aquí -->
+                    </ul>
+                </div>
+                <button type="button" class="btn btn-primary" onclick="mostrarFormulario()"> Añadir Recordatorio </button>
+                <button class="btn btn-danger" data-toggle="modal" data-target="#deleteModal{{ actividades.idactividad }}">Eliminar</button>
 
-          <!-- Formulario Recordatorio -->
-        <div id="newRecordatorio" style="display: none;" onsubmit="ocultarFormulario()">
-          <form id="newRecordatorioForm">
-            <div class="form-group">
-              <label >Nombre de Recordatorio:</label>
-              <input type="text" class="form-control" id="recordatorioTitle" name="nombrerecordatorio" required>
-            </div>
-            <div class="form-group">
-              <label >Fecha y hora del Recordatorio:</label>
-              <input type="datetime-local" class="form-control" id="RecordatorioStart" name="fecharecordatorio" required>
-            </div>
-            <div class="form-group">
-              <label >Descripción:</label>
-              <textarea class="form-control" id="recordatorioDescription" name="descripcionrecordatorio" rows="3"></textarea>
-            </div>
-            
-            <div class="form-group">
-              <label>Actividad:</label>
-              <input type="hidden" id="idactividad" name="idactividad">
-            </div>
-            <button id="insertarRec" type="submit" class="btn btn-primary" data-url="{% url 'recordatorio_create' %}">
-              Crear Recordatorio
-            </button>
-          </form>
-        </div>
+                <!-- Formulario Recordatorio -->
+                <div id="newRecordatorio" style="display: none;" onsubmit="ocultarFormulario()">
+                    <form id="newRecordatorioForm">
+                        <div class="form-group">
+                            <label>Nombre de Recordatorio:</label>
+                            <input type="text" class="form-control" id="recordatorioTitle" name="nombrerecordatorio" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Fecha y hora del Recordatorio:</label>
+                            <input type="datetime-local" class="form-control" id="RecordatorioStart" name="fecharecordatorio" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Descripción:</label>
+                            <textarea class="form-control" id="recordatorioDescription" name="descripcionrecordatorio" rows="3"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Actividad:</label>
+                            <input readonly class="form-control" id="idactividad" name="idactividad">
+                        </div>
+                        <button id="insertarRec" type="submit" class="btn btn-primary" data-url="{% url 'recordatorio_create' %}">
+                            Crear Recordatorio
+                        </button>
+                    </form>
+                </div>
 
-          <!-- Delete Modal -->
-          <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="deleteModalLabel">Eliminar Actividad</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
+                <!-- Delete Modal -->
+                <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="deleteModalLabel">Eliminar Actividad</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                ¿Estás seguro de que deseas eliminar esta actividad?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                <button type="button" class="btn btn-danger" onclick="deleteActividad()">Eliminar</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="modal-body">
-                  ¿Estás seguro de que deseas eliminar esta actividad?
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                  <button type="button" class="btn btn-danger" onclick="deleteActividad()">Eliminar</button>
-                </div>
-              </div>
-          </div>
-      </div>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 
-
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');
     var calendar = new FullCalendar.Calendar(calendarEl, {
-      timeZone: 'UTC',
-      initialView: 'dayGridMonth',
-      aspectRatio: 1.5,
-      headerToolbar: {
-        left: 'prev,next',
-        center: 'title',
-        right: 'dayGridMonth,timeGridWeek,timeGridDay,multiMonthYear'
-      },
-      selectable: true,
-      editable: true,
-      dayMaxEvents: true,
-      events: '/actividades/list',
-      resourceAreaHeaderContent: 'Rooms',
+        timeZone: 'UTC',
+        initialView: 'dayGridMonth',
+        aspectRatio: 1.5,
+        headerToolbar: {
+            left: 'prev,next',
+            center: 'title',
+            right: 'dayGridMonth,timeGridWeek,timeGridDay,multiMonthYear'
+        },
+        selectable: true,
+        editable: true,
+        dayMaxEvents: true,
+        events: '/actividades/list',
+        resourceAreaHeaderContent: 'Rooms',
 
-      // Handler for event clicks
-      eventClick: function(info) {
-        // Prevent the default action
-        info.jsEvent.preventDefault();
-        // Populate the modal with the event details
-        document.getElementById('detailTitle').value = info.event.title;
-        document.getElementById('detailStart').value = new Date(info.event.start).toISOString().slice(0,16);
-        document.getElementById('detailEnd').value = new Date(info.event.end).toISOString().slice(0,16);
-        document.getElementById('detailDescription').value = info.event.extendedProps.description || '';
-        document.getElementById('detailTypeActivity').value = info.event.extendedProps.typeact || '';
-        document.getElementById('idactividad').value = info.event.extendedProps.idacti;
-        
-        // Cargar los invitados de la actividad
+        // Handler for event clicks
+        eventClick: function(info) {
+            // Prevent the default action
+            info.jsEvent.preventDefault();
+            // Populate the modal with the event details
+            document.getElementById('detailTitle').value = info.event.title;
+            document.getElementById('detailStart').value = new Date(info.event.start).toISOString().slice(0,16);
+            document.getElementById('detailEnd').value = new Date(info.event.end).toISOString().slice(0,16);
+            document.getElementById('detailDescription').value = info.event.extendedProps.description || '';
+            document.getElementById('detailTypeActivity').value = info.event.extendedProps.typeact || '';
+            document.getElementById('idactividad').value = info.event.extendedProps.idacti;
+
+            // Cargar los invitados de la actividad
             var invitadosListContainer = document.getElementById('invitadosList');
             invitadosListContainer.innerHTML = ''; // Limpiar la lista de invitados
 
             var invitados = info.event.extendedProps.invitados;  // Obtener los invitados del evento
             invitados.forEach(function(invitado) {
                 var invitadoItem = document.createElement('li');
-                invitadoItem.textContent = invitado.nombre + ' ' + invitado.apellido;
+                invitadoItem.textContent = invitado.nombre + " " + invitado.apellido;
                 invitadosListContainer.appendChild(invitadoItem);
             });
-        // Show the modal
-        $('#detailModal').modal('show');
-      }
+            // Show the modal
+            $('#detailModal').modal('show');
+        }
     });
 
     calendar.on('select', function(info) {
-      $('#createModal').modal('show');
+        // Pre-fill the start and end date fields
+        document.getElementById('actividadStart').value = formatDateTimeLocal(info.start);
+        document.getElementById('actividadEND').value = formatDateTimeLocal(info.end);
+
+        // Show the modal
+        $('#createModal').modal('show');
     });
+
+    // Function to format date to datetime-local format
+    function formatDateTimeLocal(date) {
+        const d = new Date(date);
+        const pad = (n) => (n < 10 ? '0' + n : n);
+        return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+    }
 
     calendar.render();
 
-    //ajax del formulario
-  $(document).on('submit', '#newActividad', function (event)  {
-    const button = $('#insertaract').data('url');
-    event.preventDefault();
-    var formData = $(this).serializeArray();
-    var invitados = $('#invitados').val(); // Obtener los valores seleccionados del select múltiple
-    
-    // Añadir los invitados al formData
-    invitados.forEach(function(invitado) {
-        formData.push({ name: 'invitadosactividad', value: invitado });
+    // AJAX submit for newActividad form
+    $(document).on('submit', '#newActividad', function(event) {
+        event.preventDefault();
+        var button = $('#insertaract').data('url');
+        var formData = $(this).serializeArray();
+
+        $.ajax({
+            url: button,
+            type: 'POST',
+            data: formData,
+            success: function(data) {
+                if (data.success) {
+                    $('#createModal').modal('hide');
+                    alert(data.message);
+                    location.reload();
+                } else {
+                    alert(data.errors);
+                }
+            },
+            error: function(xhr, status, error) {
+                alert('Error en la solicitud AJAX:');
+                console.error(xhr);
+                console.error(status);
+                console.error(error);
+            }
+        });
     });
 
-    console.log(button);
+    // AJAX submit for newRecordatorioForm form
+    $(document).on('submit', '#newRecordatorioForm', function(event) {
+        event.preventDefault();
+        var button = $('#insertarRec').data('url');
+        var formData = $(this).serialize();
 
-    $.ajax({
-      url: button,
-      type: 'POST',
-      data: formData,
-      success: function (data) {
-          if (data.success) {
-            $('#createModal').modal('hide');
-            alert(data.message);
-            location.reload();
-          } else {
-              alert(data.errors)
-          }
-      },
-      error: function (xhr, status, error) {
-          alert('Error en la solicitud AJAX:');
-          alert(xhr.toString());
-          alert(status);
-          alert(error);
-      }
-  })
-  });
+        $.ajax({
+            url: button,
+            type: 'POST',
+            data: formData,
+            success: function(data) {
+                if (data.success) {
+                    $('#insertarRec').modal('hide');
+                    alert(data.message);
+                    location.reload();
+                } else {
+                    alert(data.errors);
+                }
+            },
+            error: function(xhr, status, error) {
+                alert('Error en la solicitud AJAX:');
+                alert(xhr.toString());
+                alert(status);
+                alert(error);
+            }
+        });
+    });
 
-  //enviar Formulacio por AJAX
-    $(document).on('submit', '#newRecordatorioForm', function (event)  {
-    event.preventDefault();
-    var button = $('#insertarRec').data('url');
-    var formData = $(this).serialize();
-
-    $.ajax({
-      url: button,
-      type: 'POST',
-      data: formData,
-      success: function (data) {
-          if (data.success) {
-            $('#insertarRec').modal('hide');
-            alert(data.message);
-            location.reload();
-          } else {
-              alert(data.errors)
-          }
-      },
-      error: function (xhr, status, error) {
-          alert('Error en la solicitud AJAX:');
-          alert(xhr.toString());
-          alert(status);
-          alert(error);
-      }
-  })
-  });
-  
-});
-
-
-// JavaScript para recordatorio
-
-function mostrarFormulario(){
-  var form = document.getElementById('newRecordatorio');
-  form.style.display = 'block';
-
-}
-
-function ocultarFormulario(){
-  var form = document.getElementById('newRecordatorio');
-  form.style.display = 'none';
-}
-
-function deleteActividad() {
-  var idactividad = document.getElementById('idactividad').value;
-  $.post('/actividades/delete/' + idactividad + '/', function(data) {
-    if (data.success) {
-      $('#detailModal').modal('hide');
-      alert('Actividad eliminada correctamente');
-      location.reload();
-    } else {
-      alert('Error al eliminar la actividad');
+    // JavaScript para mostrar y ocultar el formulario de recordatorio
+    window.mostrarFormulario = function() {
+        var form = document.getElementById('newRecordatorio');
+        form.style.display = 'block';
     }
-  });
-}
 
+    window.ocultarFormulario = function() {
+        var form = document.getElementById('newRecordatorio');
+        form.style.display = 'none';
+    }
+
+    window.deleteActividad = function() {
+        var idactividad = document.getElementById('idactividad').value;
+        $.post('/actividades/delete/' + idactividad + '/', function(data) {
+            if (data.success) {
+                $('#detailModal').modal('hide');
+                alert('Actividad eliminada correctamente');
+                location.reload();
+            } else {
+                alert('Error al eliminar la actividad');
+            }
+        });
+    }
+
+    // Lista para mantener los usuarios seleccionados
+    var selectedUsers = [];
+
+    // Función para actualizar la lista de usuarios seleccionados
+    function updateSelectedUsers() {
+        $('#userList input[type="checkbox"]').each(function() {
+            var userId = $(this).val();
+            if ($(this).is(':checked')) {
+                if (!selectedUsers.includes(userId)) {
+                    selectedUsers.push(userId);
+                }
+            } else {
+                var index = selectedUsers.indexOf(userId);
+                if (index > -1) {
+                    selectedUsers.splice(index, 1);
+                }
+            }
+        });
+    }
+
+    // Función para actualizar la visualización de la lista de usuarios seleccionados
+    function renderSelectedUsers() {
+        $('#userList input[type="checkbox"]').each(function() {
+            var userId = $(this).val();
+            if (selectedUsers.includes(userId)) {
+                $(this).prop('checked', true);
+            }
+        });
+    }
+
+    // Función para buscar usuarios y actualizar la lista de usuarios
+    $('#searchUser').on('keyup', function() {
+        var searchTerm = $(this).val().trim();
+        var userList = $('#userList');
+
+        if (searchTerm === "") {
+            userList.html('');
+            return;
+        }
+
+        $.ajax({
+            url: '{% url "search_users" %}',
+            data: { 'q': searchTerm },
+            success: function(data) {
+                userList.html('');
+                data.forEach(function(user) {
+                    var userHtml = '<div class="checkbox"><label><input type="checkbox" name="invitadosactividad" value="' + user.id + '"> ' + user.nombre + ' ' + user.apellido + '</label></div>';
+                    userList.append(userHtml);
+                });
+                renderSelectedUsers(); // Asegurarse de que los usuarios seleccionados sigan seleccionados
+            }
+        });
+    });
+
+    // Actualizar la lista de usuarios seleccionados cuando se cambia el checkbox
+    $(document).on('change', '#userList input[type="checkbox"]', function() {
+        updateSelectedUsers();
+    });
+});
 </script>
 
 {% endblock %}

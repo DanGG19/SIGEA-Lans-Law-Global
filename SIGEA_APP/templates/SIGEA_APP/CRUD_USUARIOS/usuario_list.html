@@ -171,7 +171,6 @@
 </div>
 
 <script>
-    // Load form for create modal
     $(document).ready(function() {
         $('#createModal').on('shown.bs.modal', function () {
             $.get('{% url "usuario_create" %}', function(data) {
@@ -180,33 +179,46 @@
             });
         });
     });
-
-    // Load form for update modal
+    
     function loadUpdateForm(id) {
         $.get('/usuario/update/' + id + '/', function(data) {
             $('#updateForm' + id).html(data);
             setupDepartmentServiceDependency('#updateForm' + id);
+    
+            // Trigger change to load services and division
+            var departamentoSelect = $('#updateForm' + id + ' select[name="departamento"]');
+            var selectedDepartment = departamentoSelect.val();
+            if (selectedDepartment) {
+                departamentoSelect.change();
+            }
         });
     }
+    
 
     function setupDepartmentServiceDependency(formSelector) {
         $(formSelector + ' select[name="departamento"]').change(function() {
             var departamentoId = $(this).val();
-            $.get('{% url "usuario_create" %}', {departamento_id: departamentoId}, function(data) {
-                var servicioSelect = $(formSelector + ' select[name="idservicio"]');
-                servicioSelect.empty();
-                if (data.servicios.length > 0) {
-                    $.each(data.servicios, function(index, servicio) {
-                        servicioSelect.append(new Option(servicio.nombreservicio, servicio.idservicio));
-                    });
-                } else {
-                    servicioSelect.append(new Option('No hay servicios disponibles', ''));
-                }
-            });
+            if (departamentoId) {
+                $.get('{% url "usuario_create" %}', {departamento_id: departamentoId}, function(data) {
+                    var servicioSelect = $(formSelector + ' select[name="idservicio"]');
+                    servicioSelect.empty();
+                    if (data.servicios.length > 0) {
+                        $.each(data.servicios, function(index, servicio) {
+                            servicioSelect.append(new Option(servicio.nombreservicio, servicio.idservicio));
+                        });
+                    } else {
+                        servicioSelect.append(new Option('No hay servicios disponibles', ''));
+                    }
+    
+                    // esto le manda la información de division del partamento
+                    var divisionField = $(formSelector + ' input[name="divisiondepartamento"]');
+                    divisionField.val(data.division);
+                });
+            }
         });
     }
-
-    // Submit create form
+    
+    
     function submitCreateForm() {
         var form = $('#createForm')[0];
         var formData = new FormData(form);
@@ -229,8 +241,7 @@
             }
         });
     }
-
-    // Submit update form
+    
     function submitUpdateForm(idusuario) {
         var form = $('#updateForm' + idusuario)[0];
         var formData = new FormData(form);
@@ -253,8 +264,7 @@
             }
         });
     }
-
-    // Delete user
+    
     function deleteUsuario(id) {
         $.ajax({
             url: '/usuario/delete/' + id + '/',
@@ -274,6 +284,7 @@
             }
         });
     }
+    
 </script>
 
 {% endblock %}

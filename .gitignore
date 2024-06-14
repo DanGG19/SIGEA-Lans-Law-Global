@@ -69,3 +69,4 @@ SIGEA_APP/__pycache__/urls.cpython-312.pyc
 SIGEA_APP/__pycache__/views.cpython-312.pyc
 SIGEA_APP/migrations/0003_auto_20240612_1456.py
 SIGEA_APP/migrations/__pycache__/__init__.cpython-312.pyc
+*.pyc

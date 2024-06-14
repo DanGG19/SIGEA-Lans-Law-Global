@@ -12,11 +12,22 @@ class UsuarioForm(forms.ModelForm):
         label='Departamento',
         widget=forms.Select(attrs={'class': 'form-control'})
     )
+    divisiondepartamento = forms.CharField(
+        required=False,
+        widget=forms.HiddenInput()
+    )
+    tipousuario = forms.ModelChoiceField(
+        queryset=TipoUsuario.objects.all(),
+        empty_label="Seleccione el tipo de usuario",
+        required=True,
+        label='Tipo de Usuario',
+        widget=forms.Select(attrs={'class': 'form-control'})
+    )
 
     class Meta:
         model = Usuario
         fields = [
-            'departamento', 'idservicio', 'nombre', 'apellido', 'dui', 'telefono', 'salario', 'email', 'password', 'tipousuario', 'foto_perfil'
+            'departamento', 'idservicio', 'nombre', 'apellido', 'dui', 'telefono', 'salario', 'email', 'password', 'tipousuario', 'foto_perfil', 'divisiondepartamento'
         ]
         labels = {
             'departamento': 'Departamento: ',
@@ -29,7 +40,8 @@ class UsuarioForm(forms.ModelForm):
             'email': 'Email: ',
             'password': 'Contraseña: ',
             'tipousuario': 'Tipo de Usuario: ',
-            'foto_perfil': 'Foto de Perfil: '
+            'foto_perfil': 'Foto de Perfil: ',
+            'divisiondepartamento': ''
         }
         widgets = {
             'idservicio': forms.Select(attrs={'class': 'form-control'}),
@@ -42,7 +54,13 @@ class UsuarioForm(forms.ModelForm):
             'password': forms.PasswordInput(attrs={'class': 'form-control'}),
             'tipousuario': forms.Select(attrs={'class': 'form-control'}),
             'foto_perfil': forms.FileInput(attrs={'class': 'form-control'}),
+            'divisiondepartamento': forms.HiddenInput()
         }
+
+    def __init__(self, *args, **kwargs):
+        super(UsuarioForm, self).__init__(*args, **kwargs)
+        if self.instance and self.instance.idservicio:
+            self.fields['departamento'].initial = self.instance.idservicio.iddepartamento
 
     def save(self, commit=True):
         usuario = super().save(commit=False)
@@ -52,19 +70,28 @@ class UsuarioForm(forms.ModelForm):
             usuario.save()
         return usuario
 
+
+
+
+
 class DepartamentosForm(forms.ModelForm):
     class Meta:
         model = Departamentos
         fields = ['divisiondepartamento', 'responsabledepartamento']
         labels = {'divisiondepartamento':'División de Departamento: ', 
                   'responsabledepartamento':'Responsable de Departamento'}
+        widgets = {
+            'divisiondepartamento': forms.TextInput(attrs={'class': 'form-control'}),
+            'responsabledepartamento': forms.TextInput(attrs={'class': 'form-control'}),
+        }
         
 
 class ServiciosForm(forms.ModelForm):
     iddepartamento = forms.ModelChoiceField(
         queryset=Departamentos.objects.all(),
-        label='Departamento',
-        to_field_name='divisiondepartamento'
+        empty_label="Seleccione departamento",
+        widget=forms.Select(attrs={'class': 'form-control'}),
+        label='Departamento'
     )
 
     class Meta:
@@ -74,6 +101,11 @@ class ServiciosForm(forms.ModelForm):
             'iddepartamento': 'Departamento',
             'nombreservicio': 'Nombre del servicio',
             'descripcionservicio': 'Descripcion del servicio'
+        }
+        widgets = {
+            'iddepartamento': forms.Select(attrs={'class': 'form-control'}),
+            'nombreservicio': forms.TextInput(attrs={'class': 'form-control'}),
+            'descripcionservicio': forms.Textarea(attrs={'class': 'form-control'}),
         }
 
 class EditProfileForm(forms.ModelForm):

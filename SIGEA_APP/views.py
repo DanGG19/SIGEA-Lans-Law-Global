@@ -73,14 +73,14 @@ def usuario_list(request):
 @csrf_exempt
 def usuario_create(request):
     if request.method == 'POST':
-
+        
         # #ALLAN ESTUVO AQUI, CORREO DE CONFIRMACIÖN DE CREACIÖN DE USUARIO
         # subject = "¡Excelente! Se ha creado un usuario"
         # message ="Ahora formas parte de nuestra empresa, LANS LAW GLOBAL está feliz de tenerte, tus credenciales son:\nCorreo: "+request.POST["email"]+"\nContraseña: "+request.POST["password"]
         # email_from=settings.EMAIL_HOST_USER
         # recipient_list=[request.POST["email"]]
         # send_mail(subject, message, email_from, recipient_list, fail_silently=False)
-
+        
         form = UsuarioForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
@@ -90,9 +90,14 @@ def usuario_create(request):
     else:
         form = UsuarioForm()
         if 'departamento_id' in request.GET:
-            departamento_id = request.GET['departamento_id']
-            servicios = Servicios.objects.filter(iddepartamento=departamento_id)
-            return JsonResponse({'servicios': list(servicios.values('idservicio', 'nombreservicio'))})
+            departamento_id = request.GET.get('departamento_id')
+            if departamento_id:
+                servicios = Servicios.objects.filter(iddepartamento=departamento_id)
+                departamento = Departamentos.objects.get(pk=departamento_id)
+                return JsonResponse({
+                    'servicios': list(servicios.values('idservicio', 'nombreservicio')),
+                    'division': departamento.divisiondepartamento
+                })
     return render(request, 'SIGEA_APP/CRUD_USUARIOS/usuario_form.html', {'form': form})
 
 @csrf_exempt
@@ -107,7 +112,14 @@ def usuario_update(request, idusuario):
             return JsonResponse({'success': False, 'errors': form.errors})
     else:
         form = UsuarioForm(instance=usuario)
+        initial_data = {
+            'divisiondepartamento': usuario.idservicio.iddepartamento.divisiondepartamento if usuario.idservicio else ''
+        }
+        form.initial.update(initial_data)
     return render(request, 'SIGEA_APP/CRUD_USUARIOS/usuario_form.html', {'form': form})
+
+
+
 
 def usuario_detail(request, idusuario):
     usuario = get_object_or_404(Usuario, idusuario=idusuario)

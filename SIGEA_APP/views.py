@@ -134,16 +134,36 @@ def usuario_delete(request, idusuario):
     return JsonResponse({'success': False})
 
 #Views para departamentos
-@csrf_exempt # Decorador para deshabilitar la protección CSRF
-def departamento_list(request): #Vista para listar los usuarios
+def departamento_list(request): 
     user_type = request.user.tipousuario.idtipousuario
+    departamentos = Departamentos.objects.all()
+    departamentos_con_responsables = []
+
+    for depto in departamentos:
+        try:
+            responsable = Usuario.objects.get(email=depto.responsabledepartamento)
+            departamentos_con_responsables.append({
+                'iddepartamento': depto.iddepartamento,
+                'divisiondepartamento': depto.divisiondepartamento,
+                'responsable_nombre': responsable.nombre,
+                'responsable_apellido': responsable.apellido,
+                'responsable_email': responsable.email
+            })
+        except Usuario.DoesNotExist:
+            departamentos_con_responsables.append({
+                'iddepartamento': depto.iddepartamento,
+                'divisiondepartamento': depto.divisiondepartamento,
+                'responsable_nombre': None,
+                'responsable_apellido': None,
+                'responsable_email': depto.responsabledepartamento
+            })
+
     context = {
         'pruebita': user_type,
-        'departamento': Departamentos.objects.all() #Se obtienen todos los usuarios de la base de datos.
+        'departamentos': departamentos_con_responsables
     }
     
-    return render(request, 'SIGEA_APP/CRUD_DEPARTAMENTOS/departamento_list.html', context) #Se renderiza la plantilla usuario_list.html con los usuarios obtenidos.
-
+    return render(request, 'SIGEA_APP/CRUD_DEPARTAMENTOS/departamento_list.html', context)
 @csrf_exempt # Decorador para deshabilitar la protección CSRF
 def departamento_create(request): #Vista para crear un usuario
     if request.method == 'POST': #Si el método es POST, se crea un formulario con los datos del usuario.
@@ -157,23 +177,30 @@ def departamento_create(request): #Vista para crear un usuario
         form = DepartamentosForm()
     return render(request, 'SIGEA_APP/CRUD_DEPARTAMENTOS/departamento_form.html', {'form': form}) #Si el método no es POST, se muestra el formulario para crear un usuario.
 
+
 @csrf_exempt # Decorador para deshabilitar la protección CSRF
-def departamento_update(request, iddepartamento): # Usamos idusuario aquí #Vista para actualizar un usuario
-    departamento = get_object_or_404(Departamentos, iddepartamento=iddepartamento) # y aquí también #Se obtiene el usuario a actualizar.
-    if request.method == 'POST': #Si el método es POST, se crea un formulario con los datos del usuario.
-        form = DepartamentosForm(request.POST, instance=departamento) #Se crea un formulario con los datos del usuario.
-        if form.is_valid():#Si el formulario es válido, se actualiza el usuario en la base de datos.
-            form.save() #Se actualiza el usuario en la base de datos.
-            return JsonResponse({'success': True}) #Se retorna un JSON con el mensaje de éxito.
+def departamento_update(request, iddepartamento):
+    departamento = get_object_or_404(Departamentos, iddepartamento=iddepartamento)
+    if request.method == 'POST':
+        form = DepartamentosForm(request.POST, instance=departamento)
+        if form.is_valid():
+            form.save()
+            return JsonResponse({'success': True})
         else:
-            return JsonResponse({'success': False, 'errors': form.errors}) #Si el formulario no es válido, se retorna un JSON con el mensaje de error.
+            return JsonResponse({'success': False, 'errors': form.errors})
     else:
-        form = DepartamentosForm(instance=departamento) #Si el método no es POST, se muestra el formulario para actualizar un usuario.
-    return render(request, 'SIGEA_APP/CRUD_DEPARTAMENTOS/departamento_form.html', {'form': form}) #Se renderiza la plantilla usuario_form.html con el formulario para actualizar un usuario.
+        form = DepartamentosForm(instance=departamento)
+        initial_data = {
+            'responsabledepartamento': departamento.responsabledepartamento
+        }
+        form.initial.update(initial_data)
+    return render(request, 'SIGEA_APP/CRUD_DEPARTAMENTOS/departamento_form.html', {'form': form})
 
 def departameto_detail(request, iddepartamento):  # Usamos idusuario aquí #Vista para ver los detalles de un usuario
     departamento = get_object_or_404(Departamentos, iddepartamento=iddepartamento)  # y aquí también #Se obtiene el usuario a mostrar.
     return render(request, 'SIGEA_APP/CRUD_DEPARTAMENTOS/departamento_detail.html', {'departameto': departamento}) #Se renderiza la plantilla usuario_detail.html con los datos del usuario.
+
+
 
 @csrf_exempt # Decorador para deshabilitar la protección CSRF
 def departamento_delete(request, iddepartamento):  # Usamos idusuario aquí #Vista para eliminar un usuario

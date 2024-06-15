@@ -21,15 +21,17 @@
                     <th>ID</th>
                     <th>División</th>
                     <th>Responsable</th>
+                    <th>Correo</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>
-                {% for departamento in departamento %}
+                {% for departamento in departamentos %}
                 <tr>
                     <td>{{ departamento.iddepartamento }}</td>
                     <td>{{ departamento.divisiondepartamento }}</td>
-                    <td>{{ departamento.responsabledepartamento }}</td>
+                    <td>{{ departamento.responsable_nombre }} {{ departamento.responsable_apellido }}</td>
+                    <td>{{ departamento.responsable_email }}</td>
                     <td>
                         <button class="btn btn-info" data-toggle="modal" data-target="#detailModal{{ departamento.iddepartamento }}">Ver</button>
                         <button class="btn btn-warning" data-toggle="modal" data-target="#updateModal{{ departamento.iddepartamento }}" onclick="loadUpdateForm({{ departamento.iddepartamento }})">Editar</button>
@@ -50,7 +52,8 @@
                             <div class="modal-body">
                                 <p><strong>ID: </strong> {{ departamento.iddepartamento }}</p>
                                 <p><strong>División:</strong> {{ departamento.divisiondepartamento }}</p>
-                                <p><strong>Responsable:</strong> {{ departamento.responsabledepartamento }}</p>
+                                <p><strong>Responsable:</strong> {{ departamento.responsable_nombre }} {{ departamento.responsable_apellido }}</p>
+                                <p><strong>Correo:</strong> {{ departamento.responsable_email }}</p>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
@@ -145,8 +148,16 @@
     function loadUpdateForm(id) {
         $.get('/departamento/update/' + id + '/', function(data) {
             $('#updateForm' + id).html(data);
+    
+            // Trigger change event to ensure dependent fields load correctly
+            var responsableSelect = $('#updateForm' + id + ' select[name="responsabledepartamento"]');
+            var selectedResponsable = responsableSelect.val();
+            if (selectedResponsable) {
+                responsableSelect.change();
+            }
         });
     }
+    
 
     // Submit create form
     function submitCreateForm() {
@@ -173,14 +184,15 @@
     }
 
     // Delete departamento
-    function deleteDepartamento(iddepartamento) {
-        $.post('/departamento/delete/' + iddepartamento + '/', function(data) {
+    function deleteDepartamento(id) {
+        $.post('/departamento/delete/' + id + '/', function(data) {
             if (data.success) {
                 location.reload();
             } else {
-                alert('Error');
+                alert('Error: ' + JSON.stringify(data.errors));
             }
         });
     }
 </script>
+
 {% endblock %}

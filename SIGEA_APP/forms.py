@@ -75,15 +75,29 @@ class UsuarioForm(forms.ModelForm):
 
 
 class DepartamentosForm(forms.ModelForm):
+    responsabledepartamento = forms.ModelChoiceField(
+        queryset=Usuario.objects.all(),
+        empty_label="Seleccione un responsable",
+        widget=forms.Select(attrs={'class': 'form-control'}),
+        label="Responsable de Departamento"
+    )
+
     class Meta:
         model = Departamentos
         fields = ['divisiondepartamento', 'responsabledepartamento']
-        labels = {'divisiondepartamento':'División de Departamento: ', 
-                  'responsabledepartamento':'Responsable de Departamento'}
+        labels = {
+            'divisiondepartamento': 'División de Departamento: ',
+            'responsabledepartamento': 'Responsable de Departamento'
+        }
         widgets = {
             'divisiondepartamento': forms.TextInput(attrs={'class': 'form-control'}),
-            'responsabledepartamento': forms.TextInput(attrs={'class': 'form-control'}),
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if self.instance and self.instance.responsabledepartamento:
+            self.fields['responsabledepartamento'].initial = Usuario.objects.get(email=self.instance.responsabledepartamento)
+        self.fields['responsabledepartamento'].label_from_instance = lambda obj: f"{obj.nombre} {obj.apellido}"
         
 
 class ServiciosForm(forms.ModelForm):

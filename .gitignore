@@ -73,3 +73,4 @@ SIGEA_APP/migrations/__pycache__/__init__.cpython-312.pyc
 *.pyc
 *.pyc
 my_data.json
+*.pyc

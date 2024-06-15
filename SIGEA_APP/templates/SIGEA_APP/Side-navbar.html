@@ -20,13 +20,15 @@
     <!-- Nav Item - Reportes -->  
     <li class="nav-item">
 
-        <a class="nav-link" href="{% url 'usuario_list' %} " >Empleados </a>
+        <a class="nav-link" href="{% url 'usuario_list' %} " >Empleados</a>
         <hr class="sidebar-divider d-none d-md-block">
         <a class="nav-link" href="{% url 'departamento_list' %}">Departamentos</a>
         <hr class="sidebar-divider d-none d-md-block">
         <a class="nav-link" href="{% url 'servicio_list' %}">Servivicios</a>
         <hr class="sidebar-divider d-none d-md-block">
         <a class="nav-link" href="{% url 'actividades' %}">Actividades</a>
+        <hr class="sidebar-divider d-none d-md-block">
+        <a class="nav-link" href="{% url 'evaluacion_list' %}">Evaluaciones</a>
 
 
         <!-- Apartado de reportes, IMPLEMENTAR LUEGO-->
@@ -49,9 +51,23 @@
         </div> {% endcomment %}
     </li>
     {% elif pruebita == 2 %}
-      
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'usuario_list' %} " >Empleados</a>
+        <hr class="sidebar-divider d-none d-md-block">
+        <a class="nav-link" href="{% url 'actividades' %}">Actividades</a>
+      </li>
     {% elif pruebita == 3 %}
-   
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'actividades' %}">Actividades</a>
+            <hr class="sidebar-divider d-none d-md-block">
+            <a class="nav-link" href="{% url 'evaluacion_list' %}">Evaluaciones</a>
+            <hr class="sidebar-divider d-none d-md-block">
+            <a class="nav-link" href="{% url 'departamento_list' %}">Departamentos</a>
+        </li>
+    {% elif pruebita == 4 %}
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'actividades' %}">Actividades</a>
+        </li>
     {% endif %}
     <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">

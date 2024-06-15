@@ -9,8 +9,10 @@
             <thead class="table-dark">
                 <tr>
                     <th>ID</th>
+                    <th>Nombres</th>
                     <th>Tipo de Evaluación</th>
                     <th>Nota</th>
+                    <th>Plan de Desarrollo</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
@@ -18,13 +20,24 @@
                 {% for evaluacion in evaluaciones %}
                 <tr>
                     <td>{{ evaluacion.idevaluacion }}</td>
+                    <td>{{ evaluacion.idusuario.nombre }} {{ evaluacion.idusuario.apellido }}</td>
                     <td>{{ evaluacion.tipoevaluacion }}</td>
                     <td>{{ evaluacion.notaevaluacio }}</td>
+                    <td>
+                        {% if plandes %}
+                        {% for pd in plandes %}
+                        {% if evaluacion.idplandes.idplandes == pd.idplandes %}
+                            <a>{{ pd.nombreplandes }}</a>
+                        {% endif %}
+                        {% endfor %}
+                        {% else %}
+                        No hay plan asignado
+                        {% endif %}
                     <td>
                         <button class="btn btn-info" data-toggle="modal" data-target="#detailModal{{ evaluacion.idevaluacion }}">Ver</button>
                         <button class="btn btn-warning" data-toggle="modal" data-target="#updateModal{{ evaluacion.idevaluacion }}" onclick="loadUpdateForm({{ evaluacion.idevaluacion }})">Editar</button>
                         <button class="btn btn-danger" data-toggle="modal" data-target="#deleteModal{{ evaluacion.idevaluacion }}">Eliminar</button>
-                        <button class="btn btn-success" data-toggle="modal" data-target="#">Crear Plan</button>
+                        <a class="btn btn-success" href="{% url 'plandesarrollo_create' evaluacion.idevaluacion %}">Crear Plan</a>
                     </td>
                 </tr>
 
@@ -40,8 +53,17 @@
                             </div>
                             <div class="modal-body">
                                 <ul class="list-group list-group-flush">
-                                    <li class="list-group-item"><strong>Plan de Desarrollo:</strong> {{ evaluacion.idplandes }}</li>
+                                    {% if plandes %}
+                                    {% for pd in plandes %}
+                                    {% if evaluacion.idplandes.idplandes == pd.idplandes %}
+                                    <li class="list-group-item"><strong>Plan de Desarrollo:</strong> {{ pd.nombreplandes }}</li>       
+                                     {% endif %}
+                                    {% endfor %}
+                                    {% else %}
+                                    <li class="list-group-item"><strong>Plan de Desarrollo:</strong> No hay plan asignado</li>
+                                    {% endif %}                   
                                     <li class="list-group-item"><strong>Usuario:</strong> {{ evaluacion.idusuario }}</li>
+                                    <li class="list-group-item"><strong>Nombres:</strong> {{ evaluacion.idusuario.nombre }} {{ evaluacion.idusuario.apellido }}</li>
                                     <li class="list-group-item"><strong>Tipo de Evaluación:</strong> {{ evaluacion.tipoevaluacion }}</li>
                                     <li class="list-group-item"><strong>Nota:</strong> {{ evaluacion.notaevaluacio }}</li>
                                     <li class="list-group-item"><strong>Comentario:</strong> {{ evaluacion.comentarioevaluacio }}</li>

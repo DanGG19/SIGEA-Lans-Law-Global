@@ -352,8 +352,14 @@ def recordatorio_create(request):
 
 @csrf_exempt
 def evaluacion_list(request):
-    evaluaciones = Evaluacion.objects.all()
-    return render(request, 'SIGEA_APP/CRUD_EVALUACIONES/evaluacion_list.html', {'evaluaciones': evaluaciones})
+    user_type = request.user.tipousuario.idtipousuario
+    
+    context = {
+        'pruebita': user_type,
+        'evaluaciones': Evaluacion.objects.all(),
+        'plandes': Plandesarrollo.objects.all()
+        }
+    return render(request, 'SIGEA_APP/CRUD_EVALUACIONES/evaluacion_list.html', context)
 
 @csrf_exempt
 def evaluacion_create(request):
@@ -394,3 +400,27 @@ def evaluacion_delete(request, idevaluacion):
         return JsonResponse({'success': True})
     return JsonResponse({'success': False})
 
+@csrf_exempt
+def plandesarrollo_create(request, idevaluacion):
+    if request.method == 'POST':
+        eva = Evaluacion.objects.get(idevaluacion=idevaluacion)
+        data = request.POST.copy()
+        data['idevaluacion'] = eva
+        DF = PlanDesarolloForm(data)
+        if DF.is_valid():
+            d = DF.save()
+            eva.idplandes = d
+            eva.save()
+            
+            return redirect('evaluacion_list')
+        else:
+            return redirect('evaluacion_list')
+
+    else:
+        DesarolloForm = PlanDesarolloForm()
+        user_type = request.user.tipousuario.idtipousuario
+        context = {
+            'pruebita': user_type,
+            'DesarolloForm': DesarolloForm
+        }
+    return render(request, 'SIGEA_APP/PLANESDES/plandesarrollo_create.html', context)

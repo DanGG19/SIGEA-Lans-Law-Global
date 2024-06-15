@@ -33,7 +33,6 @@ class Evaluacion(models.Model):
 class Plandesarrollo(models.Model):
     idplandes = models.AutoField(db_column='IDPLANDES', primary_key=True)
     idevaluacion = models.ForeignKey(Evaluacion, models.DO_NOTHING, db_column='IDEVALUACION')
-    idusuario = models.ForeignKey('Usuario', models.DO_NOTHING, db_column='IDUSUARIO')
     nombreplandes = models.CharField(db_column='NOMBREPLANDES', max_length=255)
     objetivosplandes = models.CharField(db_column='OBJETIVOSPLANDES', max_length=255)
     alcancesplandes = models.CharField(db_column='ALCANCESPLANDES', max_length=255)
@@ -99,7 +98,6 @@ class UsuarioManager(BaseUserManager):
 class Usuario(AbstractBaseUser):
     idusuario = models.AutoField(db_column='IDUSUARIO', primary_key=True)
     idservicio = models.ForeignKey('Servicios', models.DO_NOTHING, db_column='IDSERVICIO', blank=True, null=True)
-    idplandes = models.ForeignKey('Plandesarrollo', models.DO_NOTHING, db_column='IDPLANDES', blank=True, null=True)
     tipousuario = models.ForeignKey(TipoUsuario, models.DO_NOTHING, db_column='IDTIPOUSUARIO')  # Actualizado
     nombre = models.CharField(db_column='NOMBRE', max_length=255)
     apellido = models.CharField(db_column='APELLIDO', max_length=255)

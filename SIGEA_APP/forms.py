@@ -149,7 +149,9 @@ class EvaluacionForm(forms.ModelForm):
         widgets = {
             'idusuario': forms.Select(attrs={'class': 'form-control'}),
             'tipoevaluacion': forms.TextInput(attrs={'class': 'form-control'}),
-            'notaevaluacio': forms.NumberInput(attrs={'class': 'form-control'}),
+            'notaevaluacio': forms.NumberInput(attrs={'class': 'form-control',
+                                                      'min': 1,
+                                                      'max': 10}),
             'comentarioevaluacio': forms.Textarea(attrs={'class': 'form-control'}),
             'fechaevaluacion': forms.DateTimeInput(
                 attrs={'class': 'form-control', 'type': 'datetime-local'},
@@ -161,4 +163,37 @@ class EvaluacionForm(forms.ModelForm):
         super(EvaluacionForm, self).__init__(*args, **kwargs)
         if self.instance and self.instance.pk:
             self.fields['fechaevaluacion'].initial = self.instance.fechaevaluacion.strftime('%Y-%m-%dT%H:%M')
+
+class PlanDesarolloForm(forms.ModelForm):
+    class Meta:
+        model = Plandesarrollo
+        fields = ['idevaluacion', 'nombreplandes', 'objetivosplandes', 'alcancesplandes', 
+        'descripcionplandes', 'instruccionesplandes', 'duracionmesesplandes',
+        'fortalezas', 'debilidades', 'oportunidades', 'amenazas']   
+        widgets = {
+            'idevaluacion': forms.HiddenInput(),
+            'nombreplandes': forms.TextInput(attrs={'class': 'form-control'}),
+            'objetivosplandes': forms.Textarea(attrs={'class': 'form-control',
+                                                      'rows': 7,
+                                                      'style': 'resize: none'}),
+            'alcancesplandes': forms.Textarea(attrs={'class': 'form-control',
+                                                      'rows': 7,
+                                                      'style': 'resize: none'}),
+            'descripcionplandes': forms.Textarea(attrs={'class': 'form-control',
+                                                      'rows': 7,
+                                                      'style': 'resize: none'}),
+            'instruccionesplandes': forms.Textarea(attrs={'class': 'form-control',
+                                                      'rows': 7,
+                                                      'style': 'resize: none'}),
+            'duracionmesesplandes': forms.NumberInput(attrs={'class': 'form-control',
+                                                             'min': 1}),
+            'fortalezas': forms.Textarea(attrs={'class': 'form-control',
+                                                 'style': 'resize: none'}),
+            'debilidades': forms.Textarea(attrs={'class': 'form-control',
+            'style': 'resize: none'}),
+            'oportunidades': forms.Textarea(attrs={'class': 'form-control',
+            'style': 'resize: none'}),
+            'amenazas': forms.Textarea(attrs={'class': 'form-control',
+            'style': 'resize: none'}),
+        }
             

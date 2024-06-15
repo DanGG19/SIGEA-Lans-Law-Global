@@ -101,7 +101,7 @@ class Usuario(AbstractBaseUser):
     tipousuario = models.ForeignKey(TipoUsuario, models.DO_NOTHING, db_column='IDTIPOUSUARIO')  # Actualizado
     nombre = models.CharField(db_column='NOMBRE', max_length=255)
     apellido = models.CharField(db_column='APELLIDO', max_length=255)
-    dui = models.CharField(db_column='DUI', max_length=9)
+    dui = models.CharField(db_column='DUI', max_length=9, unique=True)
     telefono = models.IntegerField(db_column='TELEFONO')
     salario = models.DecimalField(db_column='SALARIO', max_digits=10, decimal_places=0)
     email = models.EmailField(db_column='EMAIL', max_length=255, unique=True)

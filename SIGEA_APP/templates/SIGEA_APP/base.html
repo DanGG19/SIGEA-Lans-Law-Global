@@ -45,6 +45,7 @@
 
             <h1 class="display-5" href="{% url 'index' %}">SIGEA</h1>
 
+            <!--Aquí se está pasando el valor de pruebita a la plantilla base.html este valor corresponde al tipo de usuario-->
             <input type="hidden" id="pruebita" value="{{ request.user.tipousuario }}" />
 
             <!-- Topbar Navbar -->
@@ -135,7 +136,7 @@
           <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
           <div class="modal-footer">
             <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-            <a class="btn btn-primary" href="{% url 'login' %}">Logout</a>
+            <a class="btn btn-primary" href="{% url 'exit' %}">Logout</a>
           </div>
         </div>
       </div>

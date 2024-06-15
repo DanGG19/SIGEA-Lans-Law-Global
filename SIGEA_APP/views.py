@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import *
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from .forms import *
@@ -9,6 +9,32 @@ from django.utils import timezone
 from datetime import datetime
 from django.core.mail import send_mail
 from django.conf import settings
+
+
+def admin_or_secretaria_required(view_func):
+    def _wrapped_view_func(request, *args, **kwargs):
+        user_type = request.user.tipousuario.idtipousuario
+        if user_type == 1 or user_type == 2:
+            return view_func(request, *args, **kwargs)
+        else:
+            return redirect('404')
+    return _wrapped_view_func
+
+
+def admin_or_secretaria_or_jefe_required(view_func):
+    def _wrapped_view_func(request, *args, **kwargs):
+        user_type = request.user.tipousuario.idtipousuario
+        if user_type == 1 or user_type == 2 or user_type == 3:
+            return view_func(request, *args, **kwargs)
+        else:
+            return redirect('404')
+    return _wrapped_view_func
+
+
+
+@login_required
+def vista404(request):
+    return render(request, 'SIGEA_APP/404.html')
 
 @login_required
 def index(request):
@@ -24,8 +50,7 @@ def index(request):
         return render(request, 'SIGEA_APP/abogado/index.html', context)
     else:
         return redirect('login')
-    
-    
+ 
 def login_V(request):
     if request.method == 'POST':
         email = request.POST['email']
@@ -38,7 +63,9 @@ def login_V(request):
             return render(request, 'registration/login.html', {'error_message': 'Datos Incorrectos'})
     return render(request, 'registration/login.html')
 
-
+def exit(request):
+    logout(request)
+    return redirect('login')
 
 #Perfil de usuario
 @login_required
@@ -61,6 +88,7 @@ def edit_profile(request):
 
 @login_required
 @csrf_exempt # Decorador para deshabilitar la protección CSRF
+@admin_or_secretaria_required
 def usuario_list(request):
     user_type = request.user.tipousuario.idtipousuario
     context = {
@@ -69,7 +97,7 @@ def usuario_list(request):
     }
     return render(request, 'SIGEA_APP/CRUD_USUARIOS/usuario_list.html', context)
 
-
+@login_required
 @csrf_exempt
 def usuario_create(request):
     if request.method == 'POST':
@@ -100,6 +128,7 @@ def usuario_create(request):
                 })
     return render(request, 'SIGEA_APP/CRUD_USUARIOS/usuario_form.html', {'form': form})
 
+@login_required
 @csrf_exempt
 def usuario_update(request, idusuario):
     usuario = get_object_or_404(Usuario, idusuario=idusuario)
@@ -118,13 +147,12 @@ def usuario_update(request, idusuario):
         form.initial.update(initial_data)
     return render(request, 'SIGEA_APP/CRUD_USUARIOS/usuario_form.html', {'form': form})
 
-
-
-
+@login_required
 def usuario_detail(request, idusuario):
     usuario = get_object_or_404(Usuario, idusuario=idusuario)
     return render(request, 'SIGEA_APP/CRUD_USUARIOS/usuario_detail.html', {'usuario': usuario})
 
+@login_required
 @csrf_exempt
 def usuario_delete(request, idusuario):
     usuario = get_object_or_404(Usuario, idusuario=idusuario)
@@ -134,6 +162,8 @@ def usuario_delete(request, idusuario):
     return JsonResponse({'success': False})
 
 #Views para departamentos
+@login_required
+@admin_or_secretaria_or_jefe_required
 def departamento_list(request): 
     user_type = request.user.tipousuario.idtipousuario
     departamentos = Departamentos.objects.all()
@@ -164,6 +194,8 @@ def departamento_list(request):
     }
     
     return render(request, 'SIGEA_APP/CRUD_DEPARTAMENTOS/departamento_list.html', context)
+
+@login_required
 @csrf_exempt # Decorador para deshabilitar la protección CSRF
 def departamento_create(request): #Vista para crear un usuario
     if request.method == 'POST': #Si el método es POST, se crea un formulario con los datos del usuario.
@@ -177,7 +209,7 @@ def departamento_create(request): #Vista para crear un usuario
         form = DepartamentosForm()
     return render(request, 'SIGEA_APP/CRUD_DEPARTAMENTOS/departamento_form.html', {'form': form}) #Si el método no es POST, se muestra el formulario para crear un usuario.
 
-
+@login_required
 @csrf_exempt # Decorador para deshabilitar la protección CSRF
 def departamento_update(request, iddepartamento):
     departamento = get_object_or_404(Departamentos, iddepartamento=iddepartamento)
@@ -201,7 +233,7 @@ def departameto_detail(request, iddepartamento):  # Usamos idusuario aquí #Vist
     return render(request, 'SIGEA_APP/CRUD_DEPARTAMENTOS/departamento_detail.html', {'departameto': departamento}) #Se renderiza la plantilla usuario_detail.html con los datos del usuario.
 
 
-
+@login_required
 @csrf_exempt # Decorador para deshabilitar la protección CSRF
 def departamento_delete(request, iddepartamento):  # Usamos idusuario aquí #Vista para eliminar un usuario
     departamento = get_object_or_404(Departamentos	, iddepartamento=iddepartamento)  # y aquí también #Se obtiene el usuario a eliminar.
@@ -211,6 +243,8 @@ def departamento_delete(request, iddepartamento):  # Usamos idusuario aquí #Vis
     return JsonResponse({'success': False}) #Si el método no es POST, se retorna un JSON con el mensaje de error.
 
 #Views para servicios
+@login_required
+@admin_or_secretaria_required
 @csrf_exempt # Decorador para deshabilitar la protección CSRF
 def servicio_list(request): #Vista para listar los usuarios
     user_type = request.user.tipousuario.idtipousuario
@@ -220,6 +254,7 @@ def servicio_list(request): #Vista para listar los usuarios
     }
     return render(request, 'SIGEA_APP/CRUD_SERVICIO/servicio_list.html', context) #Se renderiza la plantilla usuario_list.html con los usuarios obtenidos.
 
+@login_required
 @csrf_exempt # Decorador para deshabilitar la protección CSRF
 def servicio_create(request): #Vista para crear un usuario
     if request.method == 'POST': #Si el método es POST, se crea un formulario con los datos del usuario.
@@ -233,6 +268,7 @@ def servicio_create(request): #Vista para crear un usuario
         form = ServiciosForm()
     return render(request, 'SIGEA_APP/CRUD_SERVICIO/servicio_form.html', {'form': form}) #Si el método no es POST, se muestra el formulario para crear un usuario.
 
+@login_required
 @csrf_exempt
 def servicio_update(request, idservicio):
     servicio = get_object_or_404(Servicios, idservicio=idservicio)
@@ -247,10 +283,12 @@ def servicio_update(request, idservicio):
         form = ServiciosForm(instance=servicio)
     return render(request, 'SIGEA_APP/CRUD_SERVICIO/servicio_form.html', {'form': form})
 
+@login_required
 def servicio_detail(request, idservicio):  # Usamos idusuario aquí #Vista para ver los detalles de un usuario
     servicios = get_object_or_404(Servicios, idservicio=idservicio)  # y aquí también #Se obtiene el usuario a mostrar.
     return render(request, 'SIGEA_APP/CRUD_SERVICIO/servicio_detail.html', {'servicios': servicios}) #Se renderiza la plantilla usuario_detail.html con los datos del usuario.
 
+@login_required
 @csrf_exempt # Decorador para deshabilitar la protección CSRF
 def servicio_delete(request, idservicio):  # Usamos idusuario aquí #Vista para eliminar un usuario
     servicios = get_object_or_404(Servicios	, idservicio=idservicio)  # y aquí también #Se obtiene el usuario a eliminar.
@@ -275,6 +313,7 @@ def actividades(request):
     
     return render(request, 'SIGEA_APP/CRUD_EVENT/event.html', context)
 
+@login_required
 @csrf_exempt
 def actividades_create(request):
     if request.method == 'POST':
@@ -311,13 +350,14 @@ def actividades_create(request):
         # Si la solicitud no es de tipo POST, devuelve un error
         return JsonResponse({'success': False, 'message': 'La solicitud debe ser de tipo POST'})
 
+@login_required
 def search_users(request):
     query = request.GET.get('q')
     usuarios = Usuario.objects.filter(nombre__icontains=query) | Usuario.objects.filter(apellido__icontains=query)
     results = [{'id': usuario.idusuario, 'nombre': usuario.nombre, 'apellido': usuario.apellido} for usuario in usuarios]
     return JsonResponse(results, safe=False)
 
-
+@login_required
 def actividades_list(request):
     actividades = Actividades.objects.all()
     actividades_json = []
@@ -344,6 +384,7 @@ def actividades_list(request):
     print(actividades_json)
     return JsonResponse(actividades_json, safe=False)
 
+@login_required
 @csrf_exempt # Decorador para deshabilitar la protección CSRF
 def actividad_delete(request, idactividad):  # Usamos idusuario aquí #Vista para eliminar un usuario
     actividad = get_object_or_404(Actividades, idactividad=idactividad)  # y aquí también #Se obtiene el usuario a eliminar.
@@ -352,6 +393,7 @@ def actividad_delete(request, idactividad):  # Usamos idusuario aquí #Vista par
         return JsonResponse({'success': True}) #Se retorna un JSON con el mensaje de éxito.
     return JsonResponse({'success': False}) #Si el método no es POST, se retorna un JSON con el mensaje de error.
 
+@login_required
 @csrf_exempt
 def recordatorio_create(request):
     if request.method == 'POST':
@@ -375,8 +417,8 @@ def recordatorio_create(request):
         # Si la solicitud no es de tipo POST, devuelve un error
         return JsonResponse({'success': False, 'message': 'La solicitud debe ser de tipo POST'})
 
-
-
+@login_required
+@admin_or_secretaria_or_jefe_required
 @csrf_exempt
 def evaluacion_list(request):
     user_type = request.user.tipousuario.idtipousuario
@@ -388,6 +430,7 @@ def evaluacion_list(request):
         }
     return render(request, 'SIGEA_APP/CRUD_EVALUACIONES/evaluacion_list.html', context)
 
+@login_required
 @csrf_exempt
 def evaluacion_create(request):
     if request.method == 'POST':
@@ -401,6 +444,7 @@ def evaluacion_create(request):
         form = EvaluacionForm()
     return render(request, 'SIGEA_APP/CRUD_EVALUACIONES/evaluacion_form.html', {'form': form})
 
+@login_required
 @csrf_exempt
 def evaluacion_update(request, idevaluacion):
     evaluacion = get_object_or_404(Evaluacion, idevaluacion=idevaluacion)
@@ -415,10 +459,12 @@ def evaluacion_update(request, idevaluacion):
         form = EvaluacionForm(instance=evaluacion)
     return render(request, 'SIGEA_APP/CRUD_EVALUACIONES/evaluacion_form.html', {'form': form})
 
+@login_required
 def evaluacion_detail(request, idevaluacion):
     evaluacion = get_object_or_404(Evaluacion, idevaluacion=idevaluacion)
     return render(request, 'SIGEA_APP/CRUD_EVALUACIONES/evaluacion_detail.html', {'evaluacion': evaluacion})
 
+@login_required
 @csrf_exempt
 def evaluacion_delete(request, idevaluacion):
     evaluacion = get_object_or_404(Evaluacion, idevaluacion=idevaluacion)
@@ -427,7 +473,9 @@ def evaluacion_delete(request, idevaluacion):
         return JsonResponse({'success': True})
     return JsonResponse({'success': False})
 
+@login_required
 @csrf_exempt
+@admin_or_secretaria_or_jefe_required
 def plandesarrollo_create(request, idevaluacion):
     if request.method == 'POST':
         eva = Evaluacion.objects.get(idevaluacion=idevaluacion)

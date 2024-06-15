@@ -29,6 +29,12 @@ urlpatterns = [
     path('search_users/', views.search_users, name='search_users'),
     path('actividades/delete/<int:idactividad>/', views.actividad_delete, name='actividad_delete'),
     path('recordatorio/create', views.recordatorio_create, name='recordatorio_create'),
+    path('evaluaciones/', views.evaluacion_list, name='evaluacion_list'),
+    path('evaluaciones/new/', views.evaluacion_create, name='evaluacion_create'),
+    path('evaluaciones/<int:idevaluacion>/edit/', views.evaluacion_update, name='evaluacion_update'),
+    path('evaluaciones/<int:idevaluacion>/', views.evaluacion_detail, name='evaluacion_detail'),
+    path('evaluaciones/<int:idevaluacion>/delete/', views.evaluacion_delete, name='evaluacion_delete'),
+    
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

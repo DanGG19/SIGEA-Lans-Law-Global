@@ -121,3 +121,44 @@ class EditProfileForm(forms.ModelForm):
             'email': forms.EmailInput(attrs={'class': 'form-control'}),
             'foto_perfil': forms.FileInput(attrs={'class': 'form-control'}),
         }
+        
+
+class UsuarioChoiceField(forms.ModelChoiceField):
+    def label_from_instance(self, obj):
+        return f"{obj.nombre} {obj.apellido}"
+    
+
+class EvaluacionForm(forms.ModelForm):
+    idusuario = UsuarioChoiceField(
+        queryset=Usuario.objects.all(),
+        empty_label="Seleccione usuario",
+        widget=forms.Select(attrs={'class': 'form-control'}),
+        label='Usuario'
+    )
+
+    class Meta:
+        model = Evaluacion
+        fields = ['idusuario', 'tipoevaluacion', 'notaevaluacio', 'comentarioevaluacio', 'fechaevaluacion']
+        labels = {
+            'idusuario': 'Usuario: ',
+            'tipoevaluacion': 'Tipo de Evaluación: ',
+            'notaevaluacio': 'Nota de Evaluación: ',
+            'comentarioevaluacio': 'Comentario: ',
+            'fechaevaluacion': 'Fecha de Evaluación: '
+        }
+        widgets = {
+            'idusuario': forms.Select(attrs={'class': 'form-control'}),
+            'tipoevaluacion': forms.TextInput(attrs={'class': 'form-control'}),
+            'notaevaluacio': forms.NumberInput(attrs={'class': 'form-control'}),
+            'comentarioevaluacio': forms.Textarea(attrs={'class': 'form-control'}),
+            'fechaevaluacion': forms.DateTimeInput(
+                attrs={'class': 'form-control', 'type': 'datetime-local'},
+                format='%Y-%m-%dT%H:%M'  # Ajusta el formato según tu necesidad
+            ),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super(EvaluacionForm, self).__init__(*args, **kwargs)
+        if self.instance and self.instance.pk:
+            self.fields['fechaevaluacion'].initial = self.instance.fechaevaluacion.strftime('%Y-%m-%dT%H:%M')
+            

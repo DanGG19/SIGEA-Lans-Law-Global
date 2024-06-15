@@ -59,7 +59,7 @@ def edit_profile(request):
     
     return render(request, 'SIGEA_APP/CRUD_USUARIOS/edit_profile.html', context)
 
-
+@login_required
 @csrf_exempt # Decorador para deshabilitar la protección CSRF
 def usuario_list(request):
     user_type = request.user.tipousuario.idtipousuario
@@ -347,4 +347,50 @@ def recordatorio_create(request):
     else:
         # Si la solicitud no es de tipo POST, devuelve un error
         return JsonResponse({'success': False, 'message': 'La solicitud debe ser de tipo POST'})
+
+
+
+@csrf_exempt
+def evaluacion_list(request):
+    evaluaciones = Evaluacion.objects.all()
+    return render(request, 'SIGEA_APP/CRUD_EVALUACIONES/evaluacion_list.html', {'evaluaciones': evaluaciones})
+
+@csrf_exempt
+def evaluacion_create(request):
+    if request.method == 'POST':
+        form = EvaluacionForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return JsonResponse({'success': True})
+        else:
+            return JsonResponse({'success': False, 'errors': form.errors})
+    else:
+        form = EvaluacionForm()
+    return render(request, 'SIGEA_APP/CRUD_EVALUACIONES/evaluacion_form.html', {'form': form})
+
+@csrf_exempt
+def evaluacion_update(request, idevaluacion):
+    evaluacion = get_object_or_404(Evaluacion, idevaluacion=idevaluacion)
+    if request.method == 'POST':
+        form = EvaluacionForm(request.POST, instance=evaluacion)
+        if form.is_valid():
+            form.save()
+            return JsonResponse({'success': True})
+        else:
+            return JsonResponse({'success': False, 'errors': form.errors})
+    else:
+        form = EvaluacionForm(instance=evaluacion)
+    return render(request, 'SIGEA_APP/CRUD_EVALUACIONES/evaluacion_form.html', {'form': form})
+
+def evaluacion_detail(request, idevaluacion):
+    evaluacion = get_object_or_404(Evaluacion, idevaluacion=idevaluacion)
+    return render(request, 'SIGEA_APP/CRUD_EVALUACIONES/evaluacion_detail.html', {'evaluacion': evaluacion})
+
+@csrf_exempt
+def evaluacion_delete(request, idevaluacion):
+    evaluacion = get_object_or_404(Evaluacion, idevaluacion=idevaluacion)
+    if request.method == 'POST':
+        evaluacion.delete()
+        return JsonResponse({'success': True})
+    return JsonResponse({'success': False})
 

@@ -31,15 +31,19 @@ class Evaluacion(models.Model):
 
 
 class Plandesarrollo(models.Model):
-    idplandes = models.AutoField(db_column='IDPLANDES', primary_key=True)  # Field name made lowercase.
-    idevaluacion = models.ForeignKey(Evaluacion, models.DO_NOTHING, db_column='IDEVALUACION')  # Field name made lowercase.
-    idusuario = models.ForeignKey('Usuario', models.DO_NOTHING, db_column='IDUSUARIO')  # Field name made lowercase.
-    nombreplandes = models.CharField(db_column='NOMBREPLANDES', max_length=255)  # Field name made lowercase.
-    objetivosplandes = models.CharField(db_column='OBJETIVOSPLANDES', max_length=255)  # Field name made lowercase.
-    alcancesplandes = models.CharField(db_column='ALCANCESPLANDES', max_length=255)  # Field name made lowercase.
-    descripcionplandes = models.CharField(db_column='DESCRIPCIONPLANDES', max_length=2000)  # Field name made lowercase.
-    instruccionesplandes = models.CharField(db_column='INSTRUCCIONESPLANDES', max_length=2000)  # Field name made lowercase.
-    duracionmesesplandes = models.IntegerField(db_column='DURACIONMESESPLANDES')  # Field name made lowercase.
+    idplandes = models.AutoField(db_column='IDPLANDES', primary_key=True)
+    idevaluacion = models.ForeignKey(Evaluacion, models.DO_NOTHING, db_column='IDEVALUACION')
+    idusuario = models.ForeignKey('Usuario', models.DO_NOTHING, db_column='IDUSUARIO')
+    nombreplandes = models.CharField(db_column='NOMBREPLANDES', max_length=255)
+    objetivosplandes = models.CharField(db_column='OBJETIVOSPLANDES', max_length=255)
+    alcancesplandes = models.CharField(db_column='ALCANCESPLANDES', max_length=255)
+    descripcionplandes = models.CharField(db_column='DESCRIPCIONPLANDES', max_length=2000)
+    instruccionesplandes = models.CharField(db_column='INSTRUCCIONESPLANDES', max_length=2000)
+    duracionmesesplandes = models.IntegerField(db_column='DURACIONMESESPLANDES')
+    fortalezas = models.TextField(db_column='FORTALEZAS', blank=True, null=True)
+    debilidades = models.TextField(db_column='DEBILIDADES', blank=True, null=True)
+    oportunidades = models.TextField(db_column='OPORTUNIDADES', blank=True, null=True)
+    amenazas = models.TextField(db_column='AMENAZAS', blank=True, null=True)
 
     class Meta:
         managed = True

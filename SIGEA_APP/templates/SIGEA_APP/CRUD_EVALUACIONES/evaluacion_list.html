@@ -1,0 +1,213 @@
+{% extends 'SIGEA_APP/admin/index.html' %}
+{% block title %}Evaluaciones{% endblock %}
+{% block content %}
+<div class="scrollable-content mt-5">
+    <h1>Evaluaciones</h1>
+    <button class="btn btn-primary" data-toggle="modal" data-target="#createModal">Crear Evaluación</button>
+    <div class="table-responsive">
+        <table class="table table-striped table-hover table-borderless table-primary align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Tipo de Evaluación</th>
+                    <th>Nota</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for evaluacion in evaluaciones %}
+                <tr>
+                    <td>{{ evaluacion.idevaluacion }}</td>
+                    <td>{{ evaluacion.tipoevaluacion }}</td>
+                    <td>{{ evaluacion.notaevaluacio }}</td>
+                    <td>
+                        <button class="btn btn-info" data-toggle="modal" data-target="#detailModal{{ evaluacion.idevaluacion }}">Ver</button>
+                        <button class="btn btn-warning" data-toggle="modal" data-target="#updateModal{{ evaluacion.idevaluacion }}" onclick="loadUpdateForm({{ evaluacion.idevaluacion }})">Editar</button>
+                        <button class="btn btn-danger" data-toggle="modal" data-target="#deleteModal{{ evaluacion.idevaluacion }}">Eliminar</button>
+                        <button class="btn btn-success" data-toggle="modal" data-target="#">Crear Plan</button>
+                    </td>
+                </tr>
+
+                <!-- Detail Modal -->
+                <div class="modal fade" id="detailModal{{ evaluacion.idevaluacion }}" tabindex="-1" role="dialog" aria-labelledby="detailModalLabel{{ evaluacion.idevaluacion }}" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="detailModalLabel{{ evaluacion.idevaluacion }}">Detalles de la Evaluación</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item"><strong>Plan de Desarrollo:</strong> {{ evaluacion.idplandes }}</li>
+                                    <li class="list-group-item"><strong>Usuario:</strong> {{ evaluacion.idusuario }}</li>
+                                    <li class="list-group-item"><strong>Tipo de Evaluación:</strong> {{ evaluacion.tipoevaluacion }}</li>
+                                    <li class="list-group-item"><strong>Nota:</strong> {{ evaluacion.notaevaluacio }}</li>
+                                    <li class="list-group-item"><strong>Comentario:</strong> {{ evaluacion.comentarioevaluacio }}</li>
+                                    <li class="list-group-item"><strong>Fecha:</strong> {{ evaluacion.fechaevaluacion }}</li>
+                                </ul>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Update Modal -->
+                <div class="modal fade" id="updateModal{{ evaluacion.idevaluacion }}" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel{{ evaluacion.idevaluacion }}" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="updateModalLabel{{ evaluacion.idevaluacion }}">Editar Evaluación</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="updateForm{{ evaluacion.idevaluacion }}" method="post" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    <!-- form fields will be loaded here -->
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                <button type="button" class="btn btn-primary" onclick="submitUpdateForm({{ evaluacion.idevaluacion }})">Guardar Cambios</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Delete Modal -->
+                <div class="modal fade" id="deleteModal{{ evaluacion.idevaluacion }}" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel{{ evaluacion.idevaluacion }}" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="deleteModalLabel{{ evaluacion.idevaluacion }}">Eliminar Evaluación</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                ¿Estás seguro de que deseas eliminar esta evaluación?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                <button type="button" class="btn btn-danger" onclick="deleteEvaluacion({{ evaluacion.idevaluacion }})">Eliminar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Create Modal -->
+<div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="createModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createModalLabel">Crear Evaluación</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="createForm" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <!-- form fields will be loaded here -->
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" onclick="submitCreateForm()">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        $('#createModal').on('shown.bs.modal', function () {
+            $.get('{% url "evaluacion_create" %}', function(data) {
+                $('#createForm').html(data);
+            });
+        });
+    });
+
+    function loadUpdateForm(id) {
+        $.get('/evaluaciones/' + id + '/edit/', function(data) {
+            $('#updateForm' + id).html(data);
+        });
+    }
+
+    function submitCreateForm() {
+        var form = $('#createForm')[0];
+        var formData = new FormData(form);
+
+        $.ajax({
+            url: '{% url "evaluacion_create" %}',
+            type: 'POST',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function(data) {
+                if (data.success) {
+                    location.reload();
+                } else {
+                    alert('Error: ' + JSON.stringify(data.errors));
+                }
+            },
+            error: function(xhr, status, error) {
+                alert('Error: ' + xhr.responseText);
+            }
+        });
+    }
+
+    function submitUpdateForm(id) {
+        var form = $('#updateForm' + id)[0];
+        var formData = new FormData(form);
+
+        $.ajax({
+            url: '/evaluaciones/' + id + '/edit/',
+            type: 'POST',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function(data) {
+                if (data.success) {
+                    location.reload();
+                } else {
+                    alert('Error: ' + JSON.stringify(data.errors));
+                }
+            },
+            error: function(xhr, status, error) {
+                alert('Error: ' + xhr.responseText);
+            }
+        });
+    }
+
+    function deleteEvaluacion(id) {
+        $.ajax({
+            url: '/evaluaciones/' + id + '/delete/',
+            type: 'POST',
+            data: {
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            success: function(data) {
+                if (data.success) {
+                    location.reload();
+                } else {
+                    alert('Error al eliminar la evaluación');
+                }
+            },
+            error: function(xhr, status, error) {
+                alert('Error: ' + xhr.responseText);
+            }
+        });
+    }
+</script>
+{% endblock %}

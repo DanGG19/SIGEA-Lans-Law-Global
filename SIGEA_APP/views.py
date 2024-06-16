@@ -103,6 +103,7 @@ def edit_profile(request):
 
 
 @require_POST
+@admin_or_secretaria_required
 def usuario_delete(request, pk):
     usuario = get_object_or_404(Usuario, pk=pk)
     usuario.delete()
@@ -139,6 +140,7 @@ def usuario_list(request):
 
 @login_required
 @csrf_exempt
+@admin_or_secretaria_required
 def usuario_create(request):
     if request.method == 'POST':
         
@@ -170,6 +172,7 @@ def usuario_create(request):
 
 @login_required
 @csrf_exempt
+@admin_or_secretaria_required
 def usuario_update(request, idusuario):
     usuario = get_object_or_404(Usuario, idusuario=idusuario)
     if request.method == 'POST':
@@ -193,6 +196,7 @@ def usuario_detail(request, idusuario):
 
 @login_required
 @csrf_exempt
+@admin_or_secretaria_required
 def usuario_delete(request, idusuario):
     usuario = get_object_or_404(Usuario, idusuario=idusuario)
     if request.method == 'POST':
@@ -223,6 +227,7 @@ def departamento_list(request):
 
 @login_required
 @csrf_exempt # Decorador para deshabilitar la protección CSRF
+@admin_jefe_required
 def departamento_create(request): #Vista para crear un usuario
     if request.method == 'POST': #Si el método es POST, se crea un formulario con los datos del usuario.
         form = DepartamentosForm(request.POST) #Se crea un formulario con los datos del usuario.
@@ -237,6 +242,7 @@ def departamento_create(request): #Vista para crear un usuario
 
 @login_required
 @csrf_exempt # Decorador para deshabilitar la protección CSRF
+@admin_jefe_required
 def departamento_update(request, iddepartamento):
     departamento = get_object_or_404(Departamentos, iddepartamento=iddepartamento)
     if request.method == 'POST':
@@ -250,7 +256,7 @@ def departamento_update(request, iddepartamento):
         form = DepartamentosForm(instance=departamento)
     return render(request, 'SIGEA_APP/CRUD_DEPARTAMENTOS/departamento_form.html', {'form': form})
 
-
+@admin_jefe_required
 def departameto_detail(request, iddepartamento):
     departamento = get_object_or_404(Departamentos, iddepartamento=iddepartamento)
     responsable = departamento.responsabledepartamento
@@ -265,6 +271,7 @@ def departameto_detail(request, iddepartamento):
 
 @login_required
 @csrf_exempt # Decorador para deshabilitar la protección CSRF
+@admin_jefe_required
 def departamento_delete(request, iddepartamento):
     departamento = get_object_or_404(Departamentos, iddepartamento=iddepartamento)
     if request.method == 'POST':
@@ -275,7 +282,7 @@ def departamento_delete(request, iddepartamento):
 
 #Views para servicios
 @login_required
-@admin_or_secretaria_required
+@admin_jefe_required
 @csrf_exempt # Decorador para deshabilitar la protección CSRF
 def servicio_list(request):
     user_type = request.user.tipousuario.idtipousuario
@@ -302,6 +309,7 @@ def servicio_list(request):
 
 @login_required
 @csrf_exempt # Decorador para deshabilitar la protección CSRF
+@admin_jefe_required
 def servicio_create(request): #Vista para crear un usuario
     if request.method == 'POST': #Si el método es POST, se crea un formulario con los datos del usuario.
         form = ServiciosForm(request.POST) #Se crea un formulario con los datos del usuario.
@@ -316,6 +324,7 @@ def servicio_create(request): #Vista para crear un usuario
 
 @login_required
 @csrf_exempt
+@admin_jefe_required
 def servicio_update(request, idservicio):
     servicio = get_object_or_404(Servicios, idservicio=idservicio)
     if request.method == 'POST':
@@ -330,12 +339,14 @@ def servicio_update(request, idservicio):
     return render(request, 'SIGEA_APP/CRUD_SERVICIO/servicio_form.html', {'form': form})
 
 @login_required
+@admin_jefe_required
 def servicio_detail(request, idservicio):  # Usamos idusuario aquí #Vista para ver los detalles de un usuario
     servicios = get_object_or_404(Servicios, idservicio=idservicio)  # y aquí también #Se obtiene el usuario a mostrar.
     return render(request, 'SIGEA_APP/CRUD_SERVICIO/servicio_detail.html', {'servicios': servicios}) #Se renderiza la plantilla usuario_detail.html con los datos del usuario.
 
 @login_required
 @csrf_exempt # Decorador para deshabilitar la protección CSRF
+@admin_jefe_required
 def servicio_delete(request, idservicio):  # Usamos idusuario aquí #Vista para eliminar un usuario
     servicios = get_object_or_404(Servicios	, idservicio=idservicio)  # y aquí también #Se obtiene el usuario a eliminar.
     if request.method == 'POST': #Si el método es POST, se elimina el usuario de la base de datos.
@@ -391,7 +402,8 @@ def actividades_create(request):
         return JsonResponse({'success': True, 'message': 'Has creado un evento exitosamente'})
     else:
         return JsonResponse({'success': False, 'message': 'La solicitud debe ser de tipo POST'})
-
+    
+@admin_or_secretaria_or_jefe_required
 def search_users(request):
     query = request.GET.get('q')
     usuarios = Usuario.objects.filter(nombre__icontains=query) | Usuario.objects.filter(apellido__icontains=query)
@@ -426,6 +438,7 @@ def actividades_list(request):
     return JsonResponse(actividades_json, safe=False)
 
 @csrf_exempt # Decorador para deshabilitar la protección CSRF
+@admin_or_secretaria_or_jefe_required
 def actividad_delete(request, idactividad):  # Usamos idusuario aquí #Vista para eliminar un usuario
     actividad = get_object_or_404(Actividades, idactividad=idactividad)  # y aquí también #Se obtiene el usuario a eliminar.
     if request.method == 'POST': #Si el método es POST, se elimina el usuario de la base de datos.
@@ -438,6 +451,7 @@ def actividad_delete(request, idactividad):  # Usamos idusuario aquí #Vista par
 
 
 @csrf_exempt
+@admin_or_secretaria_or_jefe_required
 def actividades_update(request, idactividad):
     actividad = get_object_or_404(Actividades, idactividad=idactividad)
 
@@ -493,7 +507,7 @@ def recordatorio_create(request):
         return JsonResponse({'success': False, 'message': 'La solicitud debe ser de tipo POST'})
 
 @login_required
-@admin_or_secretaria_or_jefe_required
+@admin_jefe_required
 @csrf_exempt
 def evaluacion_list(request):
     user_type = request.user.tipousuario.idtipousuario
@@ -507,6 +521,7 @@ def evaluacion_list(request):
 
 @login_required
 @csrf_exempt
+@admin_jefe_required
 def evaluacion_create(request):
     if request.method == 'POST':
         form = EvaluacionForm(request.POST)
@@ -521,6 +536,7 @@ def evaluacion_create(request):
 
 @login_required
 @csrf_exempt
+@admin_jefe_required
 def evaluacion_update(request, idevaluacion):
     evaluacion = get_object_or_404(Evaluacion, idevaluacion=idevaluacion)
     if request.method == 'POST':
@@ -535,12 +551,14 @@ def evaluacion_update(request, idevaluacion):
     return render(request, 'SIGEA_APP/CRUD_EVALUACIONES/evaluacion_form.html', {'form': form})
 
 @login_required
+@admin_jefe_required
 def evaluacion_detail(request, idevaluacion):
     evaluacion = get_object_or_404(Evaluacion, idevaluacion=idevaluacion)
     return render(request, 'SIGEA_APP/CRUD_EVALUACIONES/evaluacion_detail.html', {'evaluacion': evaluacion})
 
 @login_required
 @csrf_exempt
+@admin_jefe_required
 def evaluacion_delete(request, idevaluacion):
     evaluacion = get_object_or_404(Evaluacion, idevaluacion=idevaluacion)
     if request.method == 'POST':
@@ -550,7 +568,7 @@ def evaluacion_delete(request, idevaluacion):
 
 @login_required
 @csrf_exempt
-@admin_or_secretaria_or_jefe_required
+@admin_jefe_required
 def plandesarrollo_create(request, idevaluacion):
     if request.method == 'POST':
         eva = Evaluacion.objects.get(idevaluacion=idevaluacion)

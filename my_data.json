@@ -291,144 +291,216 @@
   "model": "auth.permission",
   "pk": 33,
   "fields": {
-    "name": "Can add plandesarrollo",
+    "name": "Can add tipo usuario",
     "content_type": 9,
-    "codename": "add_plandesarrollo"
+    "codename": "add_tipousuario"
   }
 },
 {
   "model": "auth.permission",
   "pk": 34,
   "fields": {
-    "name": "Can change plandesarrollo",
+    "name": "Can change tipo usuario",
     "content_type": 9,
-    "codename": "change_plandesarrollo"
+    "codename": "change_tipousuario"
   }
 },
 {
   "model": "auth.permission",
   "pk": 35,
   "fields": {
-    "name": "Can delete plandesarrollo",
+    "name": "Can delete tipo usuario",
     "content_type": 9,
-    "codename": "delete_plandesarrollo"
+    "codename": "delete_tipousuario"
   }
 },
 {
   "model": "auth.permission",
   "pk": 36,
   "fields": {
-    "name": "Can view plandesarrollo",
+    "name": "Can view tipo usuario",
     "content_type": 9,
-    "codename": "view_plandesarrollo"
+    "codename": "view_tipousuario"
   }
 },
 {
   "model": "auth.permission",
   "pk": 37,
   "fields": {
-    "name": "Can add recordatorio",
+    "name": "Can add plandesarrollo",
     "content_type": 10,
-    "codename": "add_recordatorio"
+    "codename": "add_plandesarrollo"
   }
 },
 {
   "model": "auth.permission",
   "pk": 38,
   "fields": {
-    "name": "Can change recordatorio",
+    "name": "Can change plandesarrollo",
     "content_type": 10,
-    "codename": "change_recordatorio"
+    "codename": "change_plandesarrollo"
   }
 },
 {
   "model": "auth.permission",
   "pk": 39,
   "fields": {
-    "name": "Can delete recordatorio",
+    "name": "Can delete plandesarrollo",
     "content_type": 10,
-    "codename": "delete_recordatorio"
+    "codename": "delete_plandesarrollo"
   }
 },
 {
   "model": "auth.permission",
   "pk": 40,
   "fields": {
-    "name": "Can view recordatorio",
+    "name": "Can view plandesarrollo",
     "content_type": 10,
-    "codename": "view_recordatorio"
+    "codename": "view_plandesarrollo"
   }
 },
 {
   "model": "auth.permission",
   "pk": 41,
   "fields": {
-    "name": "Can add servicios",
+    "name": "Can add recordatorio",
     "content_type": 11,
-    "codename": "add_servicios"
+    "codename": "add_recordatorio"
   }
 },
 {
   "model": "auth.permission",
   "pk": 42,
   "fields": {
-    "name": "Can change servicios",
+    "name": "Can change recordatorio",
     "content_type": 11,
-    "codename": "change_servicios"
+    "codename": "change_recordatorio"
   }
 },
 {
   "model": "auth.permission",
   "pk": 43,
   "fields": {
-    "name": "Can delete servicios",
+    "name": "Can delete recordatorio",
     "content_type": 11,
-    "codename": "delete_servicios"
+    "codename": "delete_recordatorio"
   }
 },
 {
   "model": "auth.permission",
   "pk": 44,
   "fields": {
-    "name": "Can view servicios",
+    "name": "Can view recordatorio",
     "content_type": 11,
-    "codename": "view_servicios"
+    "codename": "view_recordatorio"
   }
 },
 {
   "model": "auth.permission",
   "pk": 45,
   "fields": {
-    "name": "Can add usuario",
+    "name": "Can add servicios",
     "content_type": 12,
-    "codename": "add_usuario"
+    "codename": "add_servicios"
   }
 },
 {
   "model": "auth.permission",
   "pk": 46,
   "fields": {
-    "name": "Can change usuario",
+    "name": "Can change servicios",
     "content_type": 12,
-    "codename": "change_usuario"
+    "codename": "change_servicios"
   }
 },
 {
   "model": "auth.permission",
   "pk": 47,
   "fields": {
-    "name": "Can delete usuario",
+    "name": "Can delete servicios",
     "content_type": 12,
-    "codename": "delete_usuario"
+    "codename": "delete_servicios"
   }
 },
 {
   "model": "auth.permission",
   "pk": 48,
   "fields": {
-    "name": "Can view usuario",
+    "name": "Can view servicios",
     "content_type": 12,
+    "codename": "view_servicios"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 49,
+  "fields": {
+    "name": "Can add usuario",
+    "content_type": 13,
+    "codename": "add_usuario"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 50,
+  "fields": {
+    "name": "Can change usuario",
+    "content_type": 13,
+    "codename": "change_usuario"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 51,
+  "fields": {
+    "name": "Can delete usuario",
+    "content_type": 13,
+    "codename": "delete_usuario"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 52,
+  "fields": {
+    "name": "Can view usuario",
+    "content_type": 13,
     "codename": "view_usuario"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 53,
+  "fields": {
+    "name": "Can add invitados_actividad",
+    "content_type": 14,
+    "codename": "add_invitados_actividad"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 54,
+  "fields": {
+    "name": "Can change invitados_actividad",
+    "content_type": 14,
+    "codename": "change_invitados_actividad"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 55,
+  "fields": {
+    "name": "Can delete invitados_actividad",
+    "content_type": 14,
+    "codename": "delete_invitados_actividad"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 56,
+  "fields": {
+    "name": "Can view invitados_actividad",
+    "content_type": 14,
+    "codename": "view_invitados_actividad"
   }
 },
 {
@@ -500,7 +572,7 @@
   "pk": 9,
   "fields": {
     "app_label": "SIGEA_APP",
-    "model": "plandesarrollo"
+    "model": "tipousuario"
   }
 },
 {
@@ -508,7 +580,7 @@
   "pk": 10,
   "fields": {
     "app_label": "SIGEA_APP",
-    "model": "recordatorio"
+    "model": "plandesarrollo"
   }
 },
 {
@@ -516,7 +588,7 @@
   "pk": 11,
   "fields": {
     "app_label": "SIGEA_APP",
-    "model": "servicios"
+    "model": "recordatorio"
   }
 },
 {
@@ -524,74 +596,403 @@
   "pk": 12,
   "fields": {
     "app_label": "SIGEA_APP",
+    "model": "servicios"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 13,
+  "fields": {
+    "app_label": "SIGEA_APP",
     "model": "usuario"
   }
 },
 {
-  "model": "sessions.session",
-  "pk": "6onlaq9s999vlpuhn557wo3nl50hq0b2",
+  "model": "contenttypes.contenttype",
+  "pk": 14,
   "fields": {
-    "session_data": ".eJxVjDEOwjAMRe-SGUUKdRKHkZ0zRHZi0wJqpaadKu4OlTrA-t97fzOZ1qXPa5M5D9VcjDOn342pPGXcQX3QeJ9smcZlHtjuij1os7epyut6uH8HPbX-W0eBAAUUtXNIIJJAubCIDxiYlF3tHCsWT0mlJn9OCWMERPUYCpj3BwrJOJs:1sAfhp:UShgjXrnDzT022Y6OzjWHPfCP0aPM_wm6v4G48RrgT8",
-    "expire_date": "2024-06-08T00:56:17.853Z"
+    "app_label": "SIGEA_APP",
+    "model": "invitados_actividad"
   }
 },
 {
-  "model": "sessions.session",
-  "pk": "92e5bjid139fslvh4hp7hv2uu2lqgju8",
+  "model": "SIGEA_APP.departamentos",
+  "pk": 1,
   "fields": {
-    "session_data": ".eJxVjDsOwjAQBe_iGlkmXuQ1JT1nsPZjcADZUpxUiLuTSCmgfTPz3ibRMpe09DylUc3ZDObwuzHJM9cN6IPqvVlpdZ5Gtptid9rttWl-XXb376BQL2t9YlQ4EhOgw4DsVQQHcBIhYHbOKyJzRGF3C8LReQQQiZwV1lDM5wvl_Dg3:1sB00L:VP9oCWqoGPQyA5Ma5qxh2Q5QUKtRlTb0mKyTEfdXKz0",
-    "expire_date": "2024-06-08T22:36:45.787Z"
+    "divisiondepartamento": "División Legal",
+    "responsabledepartamento": 2
+  }
+},
+{
+  "model": "SIGEA_APP.departamentos",
+  "pk": 2,
+  "fields": {
+    "divisiondepartamento": "División de Litigios",
+    "responsabledepartamento": 3
+  }
+},
+{
+  "model": "SIGEA_APP.departamentos",
+  "pk": 3,
+  "fields": {
+    "divisiondepartamento": "División Internacional",
+    "responsabledepartamento": 4
+  }
+},
+{
+  "model": "SIGEA_APP.departamentos",
+  "pk": 4,
+  "fields": {
+    "divisiondepartamento": "Asesoría y Outsourcing",
+    "responsabledepartamento": 5
+  }
+},
+{
+  "model": "SIGEA_APP.servicios",
+  "pk": 1,
+  "fields": {
+    "iddepartamento": 1,
+    "nombreservicio": "Derecho Corporativo",
+    "descripcionservicio": "Ofrecemos servicios integrales de Derecho Corporativo, incluyendo la constitución y organización de sociedades en toda la República y Centroamérica. Nos especializamos en la elaboración de estatutos, representación legal, transacciones financieras, fusiones, manejo de libros corporativos, contratos de franquicia y distribución, asesoría laboral y planeación fiscal. Además, garantizamos el cumplimiento de normativas comerciales y la supervisión legal, asegurando la vigencia de permisos y licencias necesarios para su operación."
+  }
+},
+{
+  "model": "SIGEA_APP.servicios",
+  "pk": 2,
+  "fields": {
+    "iddepartamento": 1,
+    "nombreservicio": "Propiedad Intelectual",
+    "descripcionservicio": "Ofrecemos servicios especializados en Propiedad Intelectual, protegiendo marcas, nombres comerciales, patentes, diseños industriales y derechos de autor. Gestionamos registros sanitarios y farmacéuticos, y manejamos oposiciones y litigios de propiedad intelectual. Nuestro personal, altamente calificado y en constante capacitación, asegura una protección efectiva de sus derechos en un entorno de constante vulneración."
+  }
+},
+{
+  "model": "SIGEA_APP.servicios",
+  "pk": 3,
+  "fields": {
+    "iddepartamento": 1,
+    "nombreservicio": "Derecho Bancario y Financiero",
+    "descripcionservicio": "Ofrecemos asesoramiento y consultoría en Derecho Bancario y Financiero, abarcando dirección económico-financiera, gestión de tesorería y capacitación legal. Nuestro equipo, con experiencia en el sector financiero público y privado, asesora tanto a individuos como a instituciones sobre políticas bancarias vigentes. También monitoreamos el cumplimiento de permisos y licencias, asegurando el desempeño comercial conforme a las normas de competencia y protección al consumidor."
+  }
+},
+{
+  "model": "SIGEA_APP.servicios",
+  "pk": 4,
+  "fields": {
+    "iddepartamento": 1,
+    "nombreservicio": "Derecho Mercantil",
+    "descripcionservicio": "Ofrecemos servicios especializados en Derecho Mercantil, abarcando contratos mercantiles, fideicomisos, diligencias no contenciosas, y procesos judiciales. Gestionamos inscripciones de prenda, hipotecas, aumentos de capital, cambios de denominación social, y disolución y liquidación de sociedades. También nos encargamos de la constitución de sociedades y todos los trámites relacionados, como inscripciones en registros y obtención de permisos. Además, asesoramos en fusiones y adquisiciones, brindando apoyo integral a la empresa en todas sus fases."
+  }
+},
+{
+  "model": "SIGEA_APP.servicios",
+  "pk": 5,
+  "fields": {
+    "iddepartamento": 1,
+    "nombreservicio": "Derecho Inmobiliario",
+    "descripcionservicio": "Ofrecemos servicios especializados en Derecho Inmobiliario, garantizando asesoría de máxima calidad y celeridad. Mantenemos a nuestros clientes informados y disponibles para resolver dudas y problemas urgentes. Nuestros servicios incluyen constitución y sometimiento al régimen de condominios, desarrollos inmobiliarios, contratos de compraventa, obra y permuta de inmuebles, arrendamientos, leasing inmobiliario, y constitución de Asociaciones de Desarrollo Comunal (ADESCOS), con la debida inscripción en los registros públicos correspondientes."
+  }
+},
+{
+  "model": "SIGEA_APP.servicios",
+  "pk": 6,
+  "fields": {
+    "iddepartamento": 1,
+    "nombreservicio": "Derecho Notarial",
+    "descripcionservicio": "Ofrecemos un amplio portafolio de servicios en Derecho Notarial, garantizando celeridad y eficiencia. Nuestros servicios incluyen legalización de firmas, certificaciones y actas notariales, testamentos, escrituras públicas, compraventa de inmuebles y créditos, poderes judiciales y administrativos, jurisdicción voluntaria, aceptación de herencia, juicios de identidad, corrección de errores en el Registro Civil, deslinde y remediciones de inmuebles, títulos supletorios, notificación de revocación de poderes, traducciones, compulsas y calificación de edad. Nos especializamos en brindar soluciones notariales con la máxima diligencia para nuestros clientes."
+  }
+},
+{
+  "model": "SIGEA_APP.servicios",
+  "pk": 7,
+  "fields": {
+    "iddepartamento": 1,
+    "nombreservicio": "Derecho Administrativo y Municipal",
+    "descripcionservicio": "Ofrecemos servicios en Derecho Administrativo y Municipal, especializados en trámites con instituciones gubernamentales y alcaldías. Gestionamos licencias de funcionamiento, permisos de rótulos, licencias para comercialización de bebidas alcohólicas y música en vivo, apelaciones por sanciones económicas, tributación municipal, apertura y cierre de empresas, y participación en licitaciones públicas y privadas. Además, asesoramos en áreas reguladas como forestal, hidrocarburos, eléctrica, telecomunicaciones y servicios públicos, y en la creación de fundaciones y asociaciones sin fines de lucro."
+  }
+},
+{
+  "model": "SIGEA_APP.servicios",
+  "pk": 8,
+  "fields": {
+    "iddepartamento": 1,
+    "nombreservicio": "Derecho Constitucional y Contencioso Administrativo",
+    "descripcionservicio": "Ofrecemos servicios especializados en Derecho Constitucional y Contencioso Administrativo. Nuestra firma de abogados ha participado exitosamente en procesos constitucionales y contenciosos de diversa naturaleza. Contamos con profesionales capacitados para presentar sus pretensiones de manera favorable ante la Corte Suprema de Justicia en casos de amparos, habeas corpus, recursos de inconstitucionalidad y procesos contra la administración pública que deba conocer la sala de lo civil de la Corte Suprema de Justicia."
+  }
+},
+{
+  "model": "SIGEA_APP.servicios",
+  "pk": 9,
+  "fields": {
+    "iddepartamento": 1,
+    "nombreservicio": "Área Institucional",
+    "descripcionservicio": "Ofrecemos una atención inmediata y especializada a instituciones públicas y privadas a través de nuestra Área Institucional. Nuestra firma de abogados proporciona servicios a entidades del Gobierno Central, autónomas y municipios, así como a empresas privadas, habiendo sido elegidos como proveedores mediante contratación directa, licitación, licitación pública por invitación u otros medios. Hemos desarrollado una vía de comunicación sólida entre nuestro despacho y los clientes institucionales, garantizando la eficiencia en los servicios prestados."
+  }
+},
+{
+  "model": "SIGEA_APP.servicios",
+  "pk": 10,
+  "fields": {
+    "iddepartamento": 1,
+    "nombreservicio": "Permisos Migratorios",
+    "descripcionservicio": "Ofrecemos asesoría y orientación legal en la obtención de permisos migratorios en El Salvador para clientes corporativos y personas físicas. En LANS, S.A. de C.V., ayudamos a obtener visas de visitantes no inmigrantes, permisos de trabajo y residencias permanentes, asegurando la legal estancia y actividad lucrativa de empleados extranjeros y sus familias. Brindamos asesoría general, asistencia en la creación de documentación, representación ante Migración y Extranjería, gestiones ante el Ministerio de Trabajo, y tramitación de autorizaciones para trabajar, invertir, estudiar o vivir en El Salvador. También impugnamos resoluciones migratorias y preparamos documentación para permisos de trabajo en el extranjero."
+  }
+},
+{
+  "model": "SIGEA_APP.servicios",
+  "pk": 11,
+  "fields": {
+    "iddepartamento": 2,
+    "nombreservicio": "Litigios en General",
+    "descripcionservicio": "Ofrecemos servicios completos en litigios generales, abarcando casos en tribunales civiles, mercantiles, de familia y penales. Nuestro departamento de Litigios, con amplia experiencia, se especializa en conflictos, negociaciones y consultas procesales. Representamos a nuestros clientes en asuntos administrativos, laborales, penales, civiles, mercantiles y en áreas especializadas como derecho del consumidor y telecomunicaciones. Además, proporcionamos apoyo en investigaciones registrales y monitoreo diario de demandas, garantizando una atención eficiente y recuperaciones financieras efectivas, así como asesoramiento privado."
+  }
+},
+{
+  "model": "SIGEA_APP.servicios",
+  "pk": 12,
+  "fields": {
+    "iddepartamento": 2,
+    "nombreservicio": "Derecho Laboral",
+    "descripcionservicio": "Ofrecemos una amplia gama de servicios en Derecho Laboral para clientes corporativos e individuales, tanto nacionales como extranjeros. En LANS, S.A. de C.V., nos especializamos en la representación patronal en audiencias del Ministerio de Trabajo, interpretación de leyes laborales, elaboración de reglamentos internos, análisis y formalización de contratos laborales, negociaciones con sindicatos y asesoría en seguridad industrial y ocupacional. Nuestros abogados tienen la experiencia necesaria para asistir a empresas e individuos en litigios laborales, asegurando un manejo efectivo de la relación patrono-trabajador."
+  }
+},
+{
+  "model": "SIGEA_APP.servicios",
+  "pk": 13,
+  "fields": {
+    "iddepartamento": 2,
+    "nombreservicio": "Derecho Penal",
+    "descripcionservicio": "Ofrecemos servicios especializados en Derecho Penal con abogados experimentados en tribunales. Nos encargamos de defensas, denuncias y acusaciones penales, desde la investigación hasta la sentencia. Representamos a personas en casos de accidentes de tránsito, gestionamos devoluciones de vehículos decomisados y realizamos seguimientos por hurtos y robos en empresas. Proporcionamos una defensa eficaz y profesional en cada caso."
+  }
+},
+{
+  "model": "SIGEA_APP.servicios",
+  "pk": 14,
+  "fields": {
+    "iddepartamento": 2,
+    "nombreservicio": "Derecho de Familia",
+    "descripcionservicio": "Ofrecemos abogados especialistas en Derecho de Familia, brindando asesoría y representación en matrimonios, divorcios, adopciones, filiaciones, pérdida de autoridad parental, medidas cautelares, y uniones no matrimoniales. Contacte a nuestros expertos para soluciones rápidas y eficientes en sus procesos o disputas familiares."
+  }
+},
+{
+  "model": "SIGEA_APP.servicios",
+  "pk": 15,
+  "fields": {
+    "iddepartamento": 2,
+    "nombreservicio": "Recuperación Administrativa de Carteras en Mora",
+    "descripcionservicio": "Ofrecemos servicios especializados en recuperación de carteras en mora, tanto por vía amistosa como judicial, en LANS, S.A. DE C.V. Nuestras gestiones incluyen contacto telefónico y escrito, visitas presenciales, localización del deudor y fiadores, y presentación de demandas judiciales. Adaptamos nuestras estrategias según la naturaleza de la deuda, utilizando un amplio Call-Center con personal capacitado y tecnología avanzada. Nuestro Call-Center opera de lunes a sábado de 08:00 a 18:00 horas, con posibilidad de ajuste según las necesidades del cliente."
+  }
+},
+{
+  "model": "SIGEA_APP.servicios",
+  "pk": 16,
+  "fields": {
+    "iddepartamento": 2,
+    "nombreservicio": "Recuperación Judicial de Carteras en Mora",
+    "descripcionservicio": "Ofrecemos servicios especializados en recuperación judicial de carteras en mora en LANS, S.A. DE C.V. Iniciamos acciones judiciales rápidas y efectivas para inmovilizar bienes del deudor, como embargos sobre inmuebles, vehículos, salarios, y cuentas bancarias. Contamos con un equipo de profesionales y un departamento jurídico que estudia la viabilidad y costo de cada caso, realizando un seguimiento detallado del expediente. Además, disponemos de una red de colaboradores y abogados en todo el país para proporcionar la cobertura jurídica necesaria."
+  }
+},
+{
+  "model": "SIGEA_APP.servicios",
+  "pk": 17,
+  "fields": {
+    "iddepartamento": 3,
+    "nombreservicio": "Creación de Sociedades o Estructuras Corporativas en Cualquier Parte del Mundo",
+    "descripcionservicio": "Ofrecemos asesoría legal integral en la creación de sociedades y estructuras corporativas internacionales en LANS, S.A. de C.V. Nuestros servicios incluyen la constitución y organización de empresas en cualquier país del mundo, elaboración de estatutos, representación judicial y administrativa, apertura de cuentas bancarias, fusiones y disoluciones, negociación de acuerdos entre accionistas, y manejo de libros corporativos. También brindamos concesiones, administración de sociedades, y supervisión legal, contable e impositiva de compañías a nivel regional e internacional."
+  }
+},
+{
+  "model": "SIGEA_APP.servicios",
+  "pk": 18,
+  "fields": {
+    "iddepartamento": 3,
+    "nombreservicio": "Fundaciones de Interés Privado",
+    "descripcionservicio": "Ofrecemos asesoría integral sobre fundaciones de interés privado en LANS, S.A. de C.V. Asistimos en la constitución y registro de estas fundaciones, así como en su gestión continua. Los beneficios incluyen exención de impuestos en Panamá, exceptuando una tasa anual de US$300.00, sin necesidad de pagar impuesto sobre la renta, patrimonio, inmuebles, herencias, ni transferencias. No se requiere revelar los nombres de los fundadores, beneficiarios o protectores, ni registrar declaraciones anuales de rentas o estados financieros."
+  }
+},
+{
+  "model": "SIGEA_APP.servicios",
+  "pk": 19,
+  "fields": {
+    "iddepartamento": 3,
+    "nombreservicio": "Estudios de Precio de Transferencia",
+    "descripcionservicio": "Ofrecemos estudios de precios de transferencia en LANS, S.A. de C.V., evaluando operaciones con sujetos relacionados según las leyes tributarias. Analizamos bienes y servicios, funciones de las partes, condiciones contractuales, circunstancias del mercado y estrategias de negocios. Nuestro estudio determina ajustes necesarios en el pago del IVA y el Impuesto Sobre la Renta, realizando análisis económico-financieros y verificando la contabilidad y efectos fiscales de estas operaciones."
+  }
+},
+{
+  "model": "SIGEA_APP.servicios",
+  "pk": 20,
+  "fields": {
+    "iddepartamento": 3,
+    "nombreservicio": "Otorgamiento de Domicilios Fiscales Legales Tanto Físicos o Virtuales",
+    "descripcionservicio": "Ofrecemos el servicio de otorgamiento de domicilios fiscales legales, tanto físicos como virtuales, a través de Lans. Ponemos a su disposición nuestros espacios en oficinas corporativas o virtuales para que su empresa o negocio pueda recibir notificaciones, citaciones o emplazamientos de naturaleza tributaria, municipal, de proveedores o de cualquier institución gubernamental o no gubernamental. Este servicio es un requisito legal esencial que toda empresa debe cumplir en cada país, garantizando así su cumplimiento normativo y operatividad."
+  }
+},
+{
+  "model": "SIGEA_APP.servicios",
+  "pk": 21,
+  "fields": {
+    "iddepartamento": 3,
+    "nombreservicio": "Auditoría y Contabilidad Internacional",
+    "descripcionservicio": "Ofrecemos servicios de auditoría y contabilidad internacional a través de una red confiable de firmas con amplia experiencia. Proporcionamos soluciones personalizadas y profesionales, incluyendo procesamiento mensual de información contable, conciliaciones bancarias, emisión de estados financieros, declaraciones fiscales, revisión de nóminas, verificación de aguinaldos y vacaciones, y elaboración de liquidaciones laborales, entre otros."
+  }
+},
+{
+  "model": "SIGEA_APP.servicios",
+  "pk": 22,
+  "fields": {
+    "iddepartamento": 3,
+    "nombreservicio": "Inversión Extranjera en Diferentes Rubros",
+    "descripcionservicio": "Ofrecemos asesoría integral para inversiones extranjeras en diversos rubros a través de Lans. Le capacitamos sobre marcos regulatorios, tratados de libre comercio, convenios especiales e incentivos fiscales del país en el que desea invertir, optimizando la rentabilidad de su inversión. Analizamos aspectos jurídicos, económicos, técnicos y comerciales de las propuestas, participando en negociaciones cuando es necesario. Identificamos factores de riesgo y proponemos soluciones o salvaguardas adecuadas para cada caso particular de inversión."
+  }
+},
+{
+  "model": "SIGEA_APP.servicios",
+  "pk": 23,
+  "fields": {
+    "iddepartamento": 3,
+    "nombreservicio": "Estudios de Mercado Previo a la Implementación de un Negocio",
+    "descripcionservicio": "Ofrecemos estudios de mercado previos a la implementación de un negocio a través de un proceso sistemático de recolección y análisis de datos. Este servicio es especialmente útil para empresas de nueva creación, nuevas líneas de negocio o proyectos. Proveemos análisis de mercado, sector, competencia y consumidores, estudios de campañas publicitarias, medición de impacto económico y publicitario, estudios de satisfacción, evaluación web y más."
+  }
+},
+{
+  "model": "SIGEA_APP.servicios",
+  "pk": 24,
+  "fields": {
+    "iddepartamento": 3,
+    "nombreservicio": "Cobranza Internacional",
+    "descripcionservicio": "Ofrecemos servicios de cobranza internacional en LANS, S.A. DE C.V., con un Call-Center especializado y tecnología de punta. Realizamos contacto telefónico y escrito con deudores, presentación de demandas judiciales, visitas presenciales y localización de deudores y fiadores. Analizamos cada deuda para aplicar las herramientas más adecuadas, asegurando una gestión ética y eficiente."
+  }
+},
+{
+  "model": "SIGEA_APP.servicios",
+  "pk": 25,
+  "fields": {
+    "iddepartamento": 3,
+    "nombreservicio": "Inscripción de Marcas o Distintivos Comerciales Multinacionales",
+    "descripcionservicio": "Ofrecemos un servicio integral de inscripción de marcas y distintivos comerciales multinacionales. En LANS, S.A. de C.V., nuestra División Internacional protege la propiedad intelectual de nuestros clientes con un equipo calificado y experimentado. Servicios: búsqueda e inscripción de marcas, nombres comerciales, expresiones publicitarias, emblemas, patentes, modelos de utilidad, diseños industriales, derechos de autor, registros sanitarios y farmacéuticos, homologación de permisos sanitarios y oposiciones administrativas y litigios de propiedad intelectual."
+  }
+},
+{
+  "model": "SIGEA_APP.servicios",
+  "pk": 26,
+  "fields": {
+    "iddepartamento": 4,
+    "nombreservicio": "División de outsourcing en diferentes áreas del que hacer empresarial",
+    "descripcionservicio": "Ofrecemos servicios de outsourcing para optimizar los recursos de su empresa. Nuestra firma de abogados se especializa en la externalización de procesos legales, permitiendo a las empresas centrarse en su core-business y reducir costos. Servicios: gestión extrajudicial, análisis de riesgo e informes comerciales, asesoría legal y coordinación con despachos colaboradores en Centroamérica. Nuestro equipo calificado asegura eficiencia operativa, control de calidad y competitividad."
+  }
+},
+{
+  "model": "SIGEA_APP.servicios",
+  "pk": 27,
+  "fields": {
+    "iddepartamento": 4,
+    "nombreservicio": "Asesoría en inversiones",
+    "descripcionservicio": "Ofrecemos asesoría en inversiones (Due Diligence) en LANS S.A. DE C.V., con expertos en inversiones inmobiliarias, prendarias y garantías personales. Ayudamos a nuestros clientes a encontrar las mejores oportunidades de inversión en El Salvador, evaluando y verificando la idoneidad de las garantías. Nuestro equipo analiza aspectos jurídicos, económicos, técnicos y comerciales, identificando factores de riesgo y proponiendo soluciones adecuadas para cada caso particular."
+  }
+},
+{
+  "model": "SIGEA_APP.servicios",
+  "pk": 28,
+  "fields": {
+    "iddepartamento": 4,
+    "nombreservicio": "Asesoría y capacitación sobre prevención de lavado de dinero y activos y financiamiento al terrorismo",
+    "descripcionservicio": "Ofrecemos asesoría y capacitación en prevención de lavado de dinero y financiamiento al terrorismo en El Salvador. Nuestro equipo de abogados especializados ayuda a empresas a aplicar regulaciones, entender riesgos legales y estructurar procesos de prevención. Brindamos apoyo en la elaboración de manuales internos y cumplimiento de normativas exigidas por la UIF y otros organismos de control, asegurando políticas y controles eficaces para mitigar riesgos legales, administrativos y reputacionales"
+  }
+},
+{
+  "model": "SIGEA_APP.tipousuario",
+  "pk": 1,
+  "fields": {
+    "descripcion": "Administrador"
+  }
+},
+{
+  "model": "SIGEA_APP.tipousuario",
+  "pk": 2,
+  "fields": {
+    "descripcion": "Secretaria"
+  }
+},
+{
+  "model": "SIGEA_APP.tipousuario",
+  "pk": 3,
+  "fields": {
+    "descripcion": "Jefe de Departamento"
+  }
+},
+{
+  "model": "SIGEA_APP.tipousuario",
+  "pk": 4,
+  "fields": {
+    "descripcion": "Abogado"
   }
 },
 {
   "model": "SIGEA_APP.usuario",
   "pk": 1,
   "fields": {
-    "last_login": "2024-05-25T00:56:17.850Z",
+    "last_login": "2024-06-16T21:50:33.623Z",
     "idservicio": null,
-    "idplandes": null,
     "tipousuario": 1,
-    "nombre": "django",
-    "apellido": "django",
-    "dui": "123456789",
-    "telefono": 12345678,
-    "salario": "54",
-    "email": "django@gmail.com",
-    "password": "pbkdf2_sha256$720000$uPEn5RXRJNM4vntQozr8eL$2g7T/SxLFG4YdQVSZjQzrJqureri5mfVykAWoBcAE2s="
+    "nombre": "Allan Augusto",
+    "apellido": "Anduray Portillo",
+    "dui": "364025904",
+    "telefono": 74313705,
+    "salario": "1200",
+    "email": "ap20025@ues.edu.sv",
+    "password": "pbkdf2_sha256$720000$06LS2E5u1w4yMFSYzl8kkv$foNawpVPI8FLWm42FuTOydAYEy/gwD58gCocO3Urt0Q=",
+    "foto_perfil": ""
   }
 },
 {
   "model": "SIGEA_APP.usuario",
   "pk": 2,
   "fields": {
-    "last_login": "2024-05-25T22:36:45.782Z",
-    "idservicio": null,
-    "idplandes": null,
-    "tipousuario": 1,
-    "nombre": "Dainel Alexis",
-    "apellido": "García Gómez",
-    "dui": "0861333-3",
-    "telefono": 70075259,
+    "last_login": "2024-06-16T21:32:51.296Z",
+    "idservicio": 1,
+    "tipousuario": 3,
+    "nombre": "Jefe",
+    "apellido": "Departamento 1",
+    "dui": "904583102",
+    "telefono": 77352145,
     "salario": "1200",
-    "email": "alexgg1737@gmail.com",
-    "password": "pbkdf2_sha256$720000$6NDvXPYyDIwzFmHv9DXRhI$gGQi8EUW9mp28s3oaKx8cCcHPwgrKRDIdhFZPwC36b4="
+    "email": "correo1@correo.com",
+    "password": "pbkdf2_sha256$720000$7aJNKj6ax8TIpC9pPZelIP$XiWn2zq2WWTx61hWx/AGepQRuNA4UitoVMbopWZge9o=",
+    "foto_perfil": ""
+  }
+},
+{
+  "model": "SIGEA_APP.usuario",
+  "pk": 3,
+  "fields": {
+    "last_login": null,
+    "idservicio": 11,
+    "tipousuario": 3,
+    "nombre": "Jefe",
+    "apellido": "Departamento 2",
+    "dui": "904583103",
+    "telefono": 77352146,
+    "salario": "1200",
+    "email": "correo2@correo.com",
+    "password": "pbkdf2_sha256$720000$1GFcu3lMkHfbGFtxEzDe0C$u3s6E/AVTrInhPo2SiY6zA2TPJakvefwQezgYhu9FnY=",
+    "foto_perfil": ""
   }
 },
 {
   "model": "SIGEA_APP.usuario",
   "pk": 4,
   "fields": {
-    "last_login": "2024-05-25T22:18:15.809Z",
-    "idservicio": null,
-    "idplandes": null,
+    "last_login": null,
+    "idservicio": 17,
     "tipousuario": 3,
-    "nombre": "Anutillo",
-    "apellido": "Anuteitor",
-    "dui": "123654787",
-    "telefono": 78787878,
-    "salario": "800000",
-    "email": "Anuto@anuto.com",
-    "password": "pbkdf2_sha256$720000$9J5Jm7LTrnrq6Lpa17Drl4$v/FEz0JvPOTY8M0Hx2BbkHXBoNd1UV41Akl8I5DjG9U="
+    "nombre": "Jefe",
+    "apellido": "Departamento 3",
+    "dui": "904583104",
+    "telefono": 77352147,
+    "salario": "1200",
+    "email": "correo3@correo.com",
+    "password": "pbkdf2_sha256$720000$N8AIiQghBFyWJpP51DQalG$rbIn9d6umX+eHlSjahpZcDS4QtqE/CXU+OLqz6pwEeY=",
+    "foto_perfil": ""
   }
 },
 {
@@ -599,16 +1000,64 @@
   "pk": 5,
   "fields": {
     "last_login": null,
-    "idservicio": null,
-    "idplandes": null,
-    "tipousuario": 1,
-    "nombre": "Abnercito",
-    "apellido": "Godoty",
-    "dui": "4165754",
-    "telefono": 70075251,
-    "salario": "70000",
-    "email": "abner@abner.com",
-    "password": "abner"
+    "idservicio": 26,
+    "tipousuario": 3,
+    "nombre": "Jefe",
+    "apellido": "Departamento 4",
+    "dui": "904583105",
+    "telefono": 77352148,
+    "salario": "1200",
+    "email": "correo4@correo.com",
+    "password": "pbkdf2_sha256$720000$swONmhsrZ505Wadpy7BI3D$zW/lOezgX7rYgyS4yM27rEnpIw/l6i5p5KgnqMYihEI=",
+    "foto_perfil": ""
+  }
+},
+{
+  "model": "SIGEA_APP.usuario",
+  "pk": 9,
+  "fields": {
+    "last_login": "2024-06-16T22:07:14.819Z",
+    "idservicio": 2,
+    "tipousuario": 2,
+    "nombre": "s",
+    "apellido": "1",
+    "dui": "987654321",
+    "telefono": 25896347,
+    "salario": "100",
+    "email": "s1@s1.com",
+    "password": "pbkdf2_sha256$720000$QmGSGvFh4OKdiUSmUOfVHk$eDVPNFJaL/KzW3KaLMTvSGcSk/xYL+OztVtF4HM4CvI=",
+    "foto_perfil": ""
+  }
+},
+{
+  "model": "SIGEA_APP.usuario",
+  "pk": 10,
+  "fields": {
+    "last_login": "2024-06-16T22:06:28.966Z",
+    "idservicio": 9,
+    "tipousuario": 4,
+    "nombre": "a",
+    "apellido": "1",
+    "dui": "98765431",
+    "telefono": 77777777,
+    "salario": "100",
+    "email": "a1@a1.com",
+    "password": "pbkdf2_sha256$720000$yLREXhzjNixFayllMQsVuG$hS5XtRlgExfkaJoY2dOLVaWZgeOmknWBbWWSzH62yKk=",
+    "foto_perfil": ""
+  }
+},
+{
+  "model": "SIGEA_APP.actividades",
+  "pk": 2,
+  "fields": {
+    "idusuario": 10,
+    "idrecordatorio": null,
+    "tipoactividad": "aaa",
+    "nombreactividad": "Abogado",
+    "fechaactividad": "2024-06-10T18:00:00Z",
+    "fechafin": "2024-06-13T18:00:00Z",
+    "descripcionactividad": "",
+    "docanexoactividad": ""
   }
 }
 ]

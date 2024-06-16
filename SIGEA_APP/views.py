@@ -313,7 +313,6 @@ def actividades(request):
     
     return render(request, 'SIGEA_APP/CRUD_EVENT/event.html', context)
 
-@login_required
 @csrf_exempt
 def actividades_create(request):
     if request.method == 'POST':
@@ -323,7 +322,6 @@ def actividades_create(request):
         fechaactividad = request.POST.get('fechaactividad')
         fechafin = request.POST.get('fechafin')
         invitados_ids = request.POST.getlist('invitadosactividad')
-
         usuario = get_object_or_404(Usuario, email=request.user.email)
 
         # Manejo del archivo
@@ -339,10 +337,10 @@ def actividades_create(request):
             docanexoactividad=archivoactividad  # Asegúrate de que este campo esté en el modelo
         )
         nuevo_evento.save()
-        
+
         for invitado_id in invitados_ids:
-            invitado = get_object_or_404(Usuario, idusuario=invitado_id)
-            nuevo_evento.invitadosactividad.add(invitado)
+            invitado = invitados_actividad(idactividad=nuevo_evento, idusuario_id=invitado_id)
+            invitado.save()
 
         return JsonResponse({'success': True, 'message': 'Has creado un evento exitosamente'})
     else:
@@ -354,18 +352,18 @@ def search_users(request):
     results = [{'id': usuario.idusuario, 'nombre': usuario.nombre, 'apellido': usuario.apellido} for usuario in usuarios]
     return JsonResponse(results, safe=False)
 
-@login_required
 def actividades_list(request):
     actividades = Actividades.objects.all()
     actividades_json = []
     
     for acti in actividades:
-        invitados = acti.invitadosactividad.all()  # Obtener todos los invitados de la actividad
+        invitados = invitados_actividad.objects.all()  # Obtener todos los invitados de la actividad
         invitados_list = []
         for invitado in invitados:
-            invitados_list.append({
-                'nombre': invitado.nombre,
-                'apellido': invitado.apellido,
+            if acti == invitado.idactividad:
+                invitados_list.append({
+                'nombre': invitado.idusuario.nombre,
+                'apellido': invitado.idusuario.apellido,
             })
         
         actividades_json.append({
@@ -379,24 +377,44 @@ def actividades_list(request):
             'archivoactividad': acti.docanexoactividad.url if acti.docanexoactividad else None,  # Añadir URL del archivo
         })
     
-    print(actividades_json)
     return JsonResponse(actividades_json, safe=False)
 
 @csrf_exempt # Decorador para deshabilitar la protección CSRF
 def actividad_delete(request, idactividad):  # Usamos idusuario aquí #Vista para eliminar un usuario
     actividad = get_object_or_404(Actividades, idactividad=idactividad)  # y aquí también #Se obtiene el usuario a eliminar.
     if request.method == 'POST': #Si el método es POST, se elimina el usuario de la base de datos.
+        invitados = invitados_actividad.objects.filter(idactividad_id=idactividad)
+        for inv in invitados:
+            inv.delete()
         actividad.delete() #Se elimina el usuario de la base de datos.
         return JsonResponse({'success': True}) #Se retorna un JSON con el mensaje de éxito.
     return JsonResponse({'success': False}) #Si el método no es POST, se retorna un JSON con el mensaje de error.
 
-@login_required
+
 @csrf_exempt
 def actividades_update(request, idactividad):
     actividad = get_object_or_404(Actividades, idactividad=idactividad)
+
     if request.method == 'POST':
-        form = ActividadesForm(request.POST, instance=actividad)
+        data = request.POST.copy()
+        invs = None
+        if data.getlist('invitadosactividad'):
+            invs = data.pop('invitadosactividad')
+        form = ActividadesForm(data, instance=actividad)
         if form.is_valid():
+            invitados = invitados_actividad.objects.filter(idactividad=actividad)
+            for invitado in invitados:
+                if not invs:
+                    invitado.delete()
+                elif str(invitado.idusuario.idusuario) not in invs:
+                    invitado.delete()
+            if invs:
+                for i in invs:
+                    i = int(i)
+                    if not invitados_actividad.objects.filter(idactividad=actividad, idusuario_id=i).exists():
+                        user_ex = Usuario.objects.get(idusuario=i)
+                        nuevo_inv = invitados_actividad(idactividad=actividad, idusuario=user_ex)
+                        nuevo_inv.save()
             form.save()
             return JsonResponse({'success': True})
         else:

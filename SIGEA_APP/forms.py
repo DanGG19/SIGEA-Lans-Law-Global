@@ -142,16 +142,22 @@ class UsuarioChoiceField(forms.ModelChoiceField):
     
     
 class ActividadesForm(forms.ModelForm):
+
+    invitadosactividad = forms.ModelMultipleChoiceField(
+        queryset=Usuario.objects.all(),
+        widget=forms.CheckboxSelectMultiple,
+        required=False,
+
+    )
     class Meta:
         model = Actividades
-        fields = ['idactividad', 'nombreactividad', 'fechaactividad', 'fechafin', 'tipoactividad', 'descripcionactividad', 'invitadosactividad', 'docanexoactividad']
+        fields = ['idactividad', 'nombreactividad', 'fechaactividad', 'fechafin', 'tipoactividad', 'descripcionactividad', 'docanexoactividad']
         labels = {
             'nombreactividad': 'Nombre de la actividad',
             'fechaactividad':'Fecha de inicio',
             'fechafin': 'Fecha de finalizacion', 
             'tipoactividad': 'Tipo de actividad', 
             'descripcionactividad': 'descripcion de la actividad', 
-            'invitadosactividad': 'invitados a la actividad', 
             'docanexoactividad':'Documentos agregados'
         }
         widgets = {
@@ -168,8 +174,26 @@ class ActividadesForm(forms.ModelForm):
             ),
             'tipoactividad': forms.TextInput(attrs={'class': 'form-control'}),
             'descripcionactividad': forms.Textarea(attrs={'class': 'form-control'}),
-            
+            'tipoactividad': forms.TextInput(attrs={'class': 'form-control'}),
+            'descripcionactividad': forms.Textarea(attrs={'class': 'form-control'}),
+            'docanexoactividad': forms.FileInput(attrs={'class': 'form-control'}),
         }
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        all_usuarios = Usuario.objects.all()
+        self.fields['invitadosactividad'].queryset = all_usuarios
+        self.fields['invitadosactividad'].label_from_instance = lambda obj: f"{obj.nombre} {obj.apellido}"
+
+        if self.instance:
+            invitados = invitados_actividad.objects.filter(idactividad=self.instance).values_list('idusuario', flat=True)
+            self.initial['invitadosactividad'] = invitados
+
+    def save(self, commit=True):
+        actividad = super().save(commit=False)
+        if commit:
+            actividad.save()
+            self.save_m2m()  # Guardar relaciones many-to-many, como los invitados
 
 class EvaluacionForm(forms.ModelForm):
     idusuario = UsuarioChoiceField(

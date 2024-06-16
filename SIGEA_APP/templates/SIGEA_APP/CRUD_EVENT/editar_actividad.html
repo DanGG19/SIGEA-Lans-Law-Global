@@ -15,25 +15,45 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form method="POST" >
+                <form method="POST" id="editActividadForm">
                     {% csrf_token %}
                     {{form.as_p}}
-                    <div class="form-group sticky">
-                        <label for="searchUser">Buscar Invitados:</label>
-                        <input type="text" id="searchUser" class="form-control" placeholder="Buscar usuario por nombre">
-                        <div id="containerUserList" class="container d-none" style="position:relative;margin-top: 1.2rem;overflow:auto; height: 100px">
-                            <div id="userList" >
-                                <!-- Los usuarios se cargarán dinámicamente aquí -->
-                            </div>
-                        </div>
-                    </div>
-                </form>
-                <button type="button" class="btn btn-primary" onclick="editActividad()"> Guardar cambios </button>
+                <button type="submit" class="btn btn-primary"> Guardar cambios </button>
+            </form>
             </div>
         </div>
     </div>
 
 <script>
+    $(document).on('submit', '#editActividadForm', function(event) {
+    event.preventDefault();
+    var idactividad = document.getElementById('idactividad').value;
+    var formData = $(this).serialize();
+
+        $.ajax({
+            url: '/actividades/update/' + idactividad + '/',
+            type: 'POST',
+            data: formData,
+            success: function(data) {
+                if (data.success) {
+                    $('#detailModal').modal('hide');
+                    alert('Actividad editada correctamente');
+                location.reload();
+                } else {
+                    alert('Error al editar la actividad');
+                    console.log(data.errors);
+                }
+            },
+            error: function(xhr, status, error) {
+                alert('Error en la solicitud AJAX:');
+                alert(xhr.toString());
+                alert(status);
+                alert(error);
+            }
+        });
+    });
+
+
     window.editActividad = function() {
         var idactividad = document.getElementById('idactividad').value;
         $.post('/actividades/update/' + idactividad + '/', function(data) {

@@ -74,6 +74,16 @@ class TipoUsuario(models.Model):
     def __str__(self):
         return self.descripcion
 
+class invitados_actividad(models.Model):
+    idusuario = models.ForeignKey('Usuario', models.DO_NOTHING, db_column='IDUSUARIO')
+    idactividad = models.ForeignKey('Actividades', models.DO_NOTHING, db_column='IDACTIVIDAD')
+
+    class Meta:
+        managed = True
+        db_table = 'invitados_actividad'
+        unique_together = (('idactividad', 'idusuario'), ('idactividad', 'idusuario'),)
+
+
 class UsuarioManager(BaseUserManager):
     def create_user(self, email, password=None, tipousuario=None, **extra_fields):
         if not email:
@@ -128,7 +138,6 @@ class Actividades(models.Model):
     fechaactividad = models.DateTimeField(db_column='FECHAACTIVIDAD')
     fechafin = models.DateTimeField(db_column='FECHAFIN')
     descripcionactividad = models.CharField(db_column='DESCRIPCIONACTIVIDAD', max_length=2000, blank=True, null=True)
-    invitadosactividad = models.ManyToManyField(Usuario, related_name='actividades_invitado')
     docanexoactividad = models.FileField(db_column='DOCANEXOACTIVIDAD', upload_to='archivoreunion/', blank=True, null=True)
 
     class Meta:

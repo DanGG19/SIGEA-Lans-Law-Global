@@ -11,6 +11,13 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+.scrollable-user-list {
+    max-height: 150px; /* Ajusta esta altura según tus necesidades */
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+
 .datagrid th, .datagrid td {
     padding: 12px 15px;
 }

@@ -9,6 +9,7 @@ from django.utils import timezone
 from datetime import datetime
 from django.core.mail import send_mail
 from django.conf import settings
+from django.core.files.storage import FileSystemStorage
 
 @login_required
 def index(request):
@@ -117,9 +118,6 @@ def usuario_update(request, idusuario):
         }
         form.initial.update(initial_data)
     return render(request, 'SIGEA_APP/CRUD_USUARIOS/usuario_form.html', {'form': form})
-
-
-
 
 def usuario_detail(request, idusuario):
     usuario = get_object_or_404(Usuario, idusuario=idusuario)
@@ -251,38 +249,37 @@ def actividades(request):
 @csrf_exempt
 def actividades_create(request):
     if request.method == 'POST':
-
         nombreactividad = request.POST.get('nombreactividad')
         tipoactividad = request.POST.get('tipoactividad')
         descripcionactividad = request.POST.get('descripcionactividad')
         fechaactividad = request.POST.get('fechaactividad')
         fechafin = request.POST.get('fechafin')
         invitados_ids = request.POST.getlist('invitadosactividad')
-        
+
         usuario = get_object_or_404(Usuario, email=request.user.email)
 
-
-        print(f'nombre de actividad: {nombreactividad}, tipo: {tipoactividad}, descripcion: {descripcionactividad}, fecha: {fechaactividad}')
+        # Manejo del archivo
+        archivoactividad = request.FILES.get('docanexoactividad')
         
-        # Crea un nuevo evento en la base de datos
-        nuevo_evento = Actividades(nombreactividad=nombreactividad, descripcionactividad=descripcionactividad, fechaactividad=fechaactividad, tipoactividad=tipoactividad, idusuario=usuario, fechafin=fechafin)
+        nuevo_evento = Actividades(
+            nombreactividad=nombreactividad, 
+            descripcionactividad=descripcionactividad, 
+            fechaactividad=fechaactividad, 
+            tipoactividad=tipoactividad, 
+            idusuario=usuario, 
+            fechafin=fechafin,
+            docanexoactividad=archivoactividad  # Asegúrate de que este campo esté en el modelo
+        )
         nuevo_evento.save()
         
         for invitado_id in invitados_ids:
-                invitado = get_object_or_404(Usuario, idusuario=invitado_id)
-                nuevo_evento.invitadosactividad.add(invitado)
-                #ALLAN ESTUVO AQUI, CORREO DE CONFIRMACIÖN DE CREACIÖN DE USUARIO
-                # subject = "Se te ha invitado a una Actividad"
-                # message = "Se le informa que ha sido invitado a participar en la actividad "+request.POST['nombreactividad']+", la actividad se llevará acabo desde: \nInicio: "+request.POST['fechaactividad']+"\nFin: "+request.POST['fechafin']+"\n¡TE ESPERAMOS!"
-                # email_from=settings.EMAIL_HOST_USER
-                # recipient_list=[invitado.email]
-                # send_mail(subject, message, email_from, recipient_list, fail_silently=False)
+            invitado = get_object_or_404(Usuario, idusuario=invitado_id)
+            nuevo_evento.invitadosactividad.add(invitado)
 
-        # Devuelve una respuesta JSON indicando que la creación del evento fue exitosa
-        return JsonResponse({'success': True, 'message':'Has creado un evento exitosamente'})
+        return JsonResponse({'success': True, 'message': 'Has creado un evento exitosamente'})
     else:
-        # Si la solicitud no es de tipo POST, devuelve un error
         return JsonResponse({'success': False, 'message': 'La solicitud debe ser de tipo POST'})
+
 
 def search_users(request):
     query = request.GET.get('q')
@@ -308,14 +305,16 @@ def actividades_list(request):
             'title': acti.nombreactividad,
             'start': acti.fechaactividad.isoformat(),
             'end': acti.fechafin.isoformat(),
-            'description': acti.descripcionactividad.format(),
+            'description': acti.descripcionactividad,
             'typeact': acti.tipoactividad,
             'idacti': acti.idactividad,
             'invitados': invitados_list,
+            'archivoactividad': acti.docanexoactividad.url if acti.docanexoactividad else None,  # Añadir URL del archivo
         })
     
     print(actividades_json)
     return JsonResponse(actividades_json, safe=False)
+
 
 @csrf_exempt # Decorador para deshabilitar la protección CSRF
 def actividad_delete(request, idactividad):  # Usamos idusuario aquí #Vista para eliminar un usuario
@@ -324,6 +323,20 @@ def actividad_delete(request, idactividad):  # Usamos idusuario aquí #Vista par
         actividad.delete() #Se elimina el usuario de la base de datos.
         return JsonResponse({'success': True}) #Se retorna un JSON con el mensaje de éxito.
     return JsonResponse({'success': False}) #Si el método no es POST, se retorna un JSON con el mensaje de error.
+
+@csrf_exempt
+def actividades_update(request, idactividad):
+    actividad = get_object_or_404(Actividades, idactividad=idactividad)
+    if request.method == 'POST':
+        form = ActividadesForm(request.POST, instance=actividad)
+        if form.is_valid():
+            form.save()
+            return JsonResponse({'success': True})
+        else:
+            return JsonResponse({'success': False, 'errors': form.errors})
+    else:
+        form = ActividadesForm(instance=actividad)
+    return render(request, 'SIGEA_APP/CRUD_EVENT/editar_actividad.html', {'form': form})
 
 @csrf_exempt
 def recordatorio_create(request):

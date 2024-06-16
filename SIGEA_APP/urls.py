@@ -28,6 +28,7 @@ urlpatterns = [
     path('actividades/list', views.actividades_list, name='actividades_list'),
     path('search_users/', views.search_users, name='search_users'),
     path('actividades/delete/<int:idactividad>/', views.actividad_delete, name='actividad_delete'),
+    path('actividades/update/<int:idactividad>/', views.actividades_update, name='actividad_update'),
     path('recordatorio/create', views.recordatorio_create, name='recordatorio_create'),
     path('evaluaciones/', views.evaluacion_list, name='evaluacion_list'),
     path('evaluaciones/new/', views.evaluacion_create, name='evaluacion_create'),

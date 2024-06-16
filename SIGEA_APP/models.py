@@ -131,7 +131,7 @@ class Actividades(models.Model):
     fechafin = models.DateTimeField(db_column='FECHAFIN')
     descripcionactividad = models.CharField(db_column='DESCRIPCIONACTIVIDAD', max_length=2000, blank=True, null=True)
     invitadosactividad = models.ManyToManyField(Usuario, related_name='actividades_invitado')
-    docanexoactividad = models.CharField(db_column='DOCANEXOACTIVIDAD', max_length=255, blank=True, null=True)
+    docanexoactividad = models.FileField(db_column='DOCANEXOACTIVIDAD', upload_to='archivoreunion/', blank=True, null=True)
 
     class Meta:
         managed = True

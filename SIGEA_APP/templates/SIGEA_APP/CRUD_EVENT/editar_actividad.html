@@ -1,0 +1,108 @@
+<!-- Modal Editar del Actividad -->
+ <div style="position:absolute; width: 100vw; height: 100vh; z-index: -300; background-color: rgb(0,0,0, 0.3)"></div>
+    <div class="modal-dialog scrollable-content" id="modalActividad"
+    style="max-height: 90vh; overflow-y:auto; z-index: 300; position: relative">
+        
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Editar Actividad</h5>
+                <button type="button" onclick="closeEditActividad()" class="btn text-secondary">
+                    <p style="width: 24px; height: 24px;">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                            <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM175 175c9.4-9.4 24.6-9.4 33.9 0l47 47 47-47c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-47 47 47 47c9.4 9.4 9.4 24.6 0 33.9s24.6 9.4 33.9 0l-47-47-47 47c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l47-47-47-47c-9.4-9.4-9.4-24.6 0-33.9z"/>
+                        </svg>
+                    </p>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" >
+                    {% csrf_token %}
+                    {{form.as_p}}
+                    <div class="form-group sticky">
+                        <label for="searchUser">Buscar Invitados:</label>
+                        <input type="text" id="searchUser" class="form-control" placeholder="Buscar usuario por nombre">
+                        <div id="containerUserList" class="container d-none" style="position:relative;margin-top: 1.2rem;overflow:auto; height: 100px">
+                            <div id="userList" >
+                                <!-- Los usuarios se cargarán dinámicamente aquí -->
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <button type="button" class="btn btn-primary" onclick="editActividad()"> Guardar cambios </button>
+            </div>
+        </div>
+    </div>
+
+<script>
+    window.editActividad = function() {
+        var idactividad = document.getElementById('idactividad').value;
+        $.post('/actividades/update/' + idactividad + '/', function(data) {
+            if (data.success) {
+                $('#detailModal').modal('hide');
+                alert('Actividad editada correctamente');
+                location.reload();
+            } else {
+                alert('Error al editar la actividad');
+            }
+        });
+    }
+
+    // Lista para mantener los usuarios seleccionados para el modal de edición
+    var selectedEditUsers = [];
+
+    // Función para actualizar la lista de usuarios seleccionados en el modal de edición
+    function updateSelectedEditUsers() {
+        $('#editUserList input[type="checkbox"]').each(function() {
+            var userId = $(this).val();
+            if ($(this).is(':checked')) {
+                if (!selectedEditUsers.includes(userId)) {
+                    selectedEditUsers.push(userId);
+                }
+            } else {
+                var index = selectedEditUsers.indexOf(userId);
+                if (index > -1) {
+                    selectedEditUsers.splice(index, 1);
+                }
+            }
+        });
+    }
+
+    // Función para actualizar la visualización de la lista de usuarios seleccionados en el modal de edición
+    function renderSelectedEditUsers() {
+        $('#UserList input[type="checkbox"]').each(function() {
+            var userId = $(this).val();
+            if (selectedEditUsers.includes(userId)) {
+                $(this).prop('checked', true);
+            }
+        });
+    }
+
+    // Función para buscar usuarios y actualizar la lista de usuarios en el modal de edición
+    $('#SearchUser').on('keyup', function() {
+        var searchTerm = $(this).val().trim();
+        var userList = $('#UserList');
+
+        if (searchTerm === "") {
+            userList.html('');
+            return;
+        }
+
+        $.ajax({
+            url: '{% url "search_users" %}',
+            data: { 'q': searchTerm },
+            success: function(data) {
+                userList.html('');
+                data.forEach(function(user) {
+                    var userHtml = '<div class="checkbox"><label><input type="checkbox" name="invitadosactividad" value="' + user.id + '"> ' + user.nombre + ' ' + user.apellido + '</label></div>';
+                    userList.append(userHtml);
+                });
+                renderSelectedEditUsers(); // Asegurarse de que los usuarios seleccionados sigan seleccionados
+            }
+        });
+    });
+
+    // Actualizar la lista de usuarios seleccionados cuando se cambia el checkbox en el modal de edición
+    $(document).on('change', '#editUserList input[type="checkbox"]', function() {
+        updateSelectedEditUsers();
+    });
+</script>

@@ -127,6 +127,36 @@ class UsuarioChoiceField(forms.ModelChoiceField):
     def label_from_instance(self, obj):
         return f"{obj.nombre} {obj.apellido}"
     
+    
+class ActividadesForm(forms.ModelForm):
+    class Meta:
+        model = Actividades
+        fields = ['idactividad', 'nombreactividad', 'fechaactividad', 'fechafin', 'tipoactividad', 'descripcionactividad', 'invitadosactividad', 'docanexoactividad']
+        labels = {
+            'nombreactividad': 'Nombre de la actividad',
+            'fechaactividad':'Fecha de inicio',
+            'fechafin': 'Fecha de finalizacion', 
+            'tipoactividad': 'Tipo de actividad', 
+            'descripcionactividad': 'descripcion de la actividad', 
+            'invitadosactividad': 'invitados a la actividad', 
+            'docanexoactividad':'Documentos agregados'
+        }
+        widgets = {
+            'idactividad': forms.HiddenInput(),
+            'nombreactividad': forms.TextInput(attrs={'class': 'form-control',
+                                                      'disabled': False}),
+            'fechaactividad': forms.DateTimeInput(
+                attrs={'class': 'form-control', 'type': 'datetime-local'},
+                format='%Y-%m-%dT%H:%M'  
+            ),
+              'fechafin': forms.DateTimeInput(
+                attrs={'class': 'form-control', 'type': 'datetime-local'},
+                format='%Y-%m-%dT%H:%M'  
+            ),
+            'tipoactividad': forms.TextInput(attrs={'class': 'form-control'}),
+            'descripcionactividad': forms.Textarea(attrs={'class': 'form-control'}),
+            
+        }
 
 class EvaluacionForm(forms.ModelForm):
     idusuario = UsuarioChoiceField(

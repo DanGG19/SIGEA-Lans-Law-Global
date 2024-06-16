@@ -1,0 +1,75 @@
+{% extends 'SIGEA_APP/admin/index.html' %}
+{% load static %}
+
+{% block title %}
+  Evaluaciones - Crear plan de desarollo
+{% endblock %}
+{% block content %}
+  <div class="row">
+    <div class="col-12">
+      <h1>Nuevo plan de desarrollo.</h1>
+    </div>
+  </div>
+  
+  <div class="row pb-2">
+    <form class="col-12" method="POST">
+      {% csrf_token %}
+      {{ DesarolloForm.idevaluacion }}
+      <div class="row justify-content-between">
+        <div class="col-4">
+          <label>Nombre del plan:</label>
+          {{ DesarolloForm.nombreplandes }}
+        </div>
+        <div class="col-2 mr-3">
+          <label>Duracion del plan:</label>
+          {{ DesarolloForm.duracionmesesplandes }}
+        </div>
+      </div>
+      <div class="row mt-4 justify-content-between">
+        <div class="col-6">
+          <label>Objetivos:</label>
+          {{ DesarolloForm.objetivosplandes }}
+        </div>
+        <div class="col-6">
+            <label>Alcances:</label>
+            {{ DesarolloForm.alcancesplandes }}
+          </div>
+      </div>
+      <div class="row mt-4">
+        <div class="col-12">
+            <label>Descripcion del plan:</label>
+            {{ DesarolloForm.descripcionplandes }}
+        </div>
+      </div>
+      <div class="row mt-4">
+        <div class="col-12">
+            <label>Instrucciones:</label>
+            {{ DesarolloForm.instruccionesplandes }}
+        </div>
+      </div>
+      <div class="row mt-4  text-center align-items-center">
+        <div class="col-3">
+          <label class="p-2 border">Fortalezas</label>
+          {{ DesarolloForm.fortalezas }}
+        </div>
+        <div class="col-3">
+          <label class="p-2 border">Debilidades</label>
+          {{ DesarolloForm.debilidades }}
+        </div>
+        <div class="col-3">
+          <label class="p-2 border">Oportunidades</label>
+          {{ DesarolloForm.oportunidades }}
+        </div>
+        <div class="col-3">
+          <label class="p-2 border">Amenazas</label>
+          {{ DesarolloForm.amenazas }}
+        </div>
+      </div>
+      <div class="row mt-4 justify-content-center">
+        <div class="col-2">
+          <button type="submit" class="btn btn-primary">Crear plan</button>
+        </div>
+      </div>
+    </form>
+  </div>
+{% endblock %}

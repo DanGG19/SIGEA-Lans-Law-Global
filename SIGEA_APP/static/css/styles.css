@@ -62,3 +62,8 @@
 .btn:hover {
     background-color: #2980b9;
 }
+
+.scrollable-content {
+    max-height: 70vh; /* Ajusta esta altura según tus necesidades */
+    overflow-y: auto;
+}

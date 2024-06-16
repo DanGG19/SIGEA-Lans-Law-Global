@@ -125,13 +125,12 @@ class ServiciosForm(forms.ModelForm):
 class EditProfileForm(forms.ModelForm):
     class Meta:
         model = Usuario
-        fields = ['nombre', 'apellido', 'dui', 'telefono', 'salario', 'email', 'foto_perfil']
+        fields = ['nombre', 'apellido', 'dui', 'telefono', 'email', 'foto_perfil']
         widgets = {
             'nombre': forms.TextInput(attrs={'class': 'form-control'}),
             'apellido': forms.TextInput(attrs={'class': 'form-control'}),
             'dui': forms.TextInput(attrs={'class': 'form-control'}),
             'telefono': forms.TextInput(attrs={'class': 'form-control'}),
-            'salario': forms.NumberInput(attrs={'class': 'form-control'}),
             'email': forms.EmailInput(attrs={'class': 'form-control'}),
             'foto_perfil': forms.FileInput(attrs={'class': 'form-control'}),
         }

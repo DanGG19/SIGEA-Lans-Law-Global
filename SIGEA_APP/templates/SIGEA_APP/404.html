@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Acceso Denegado</title>
+    {% load static %}
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -27,16 +28,16 @@
         }
         .stars {
             z-index: 0;
-            background: #000 url('https://i.imgur.com/YKY28eT.png') repeat top center;
+            background: #000 url("{% static 'img/fondo.png' %}") repeat top center;
         }
         .twinkling {
             z-index: 1;
-            background: transparent url('https://i.imgur.com/XYMF4ca.png') repeat top center;
+            background: transparent url("{% static 'img/negro.png' %}") repeat top center;
             animation: move-twink-back 200s linear infinite;
         }
         .clouds {
             z-index: 2;
-            background: transparent url('https://i.imgur.com/mHbScrQ.png') repeat top center;
+            background: transparent url("{% static 'img/nubes.png' %}") repeat top center;
             animation: move-clouds-back 200s linear infinite;
         }
         @keyframes move-twink-back {
@@ -89,6 +90,7 @@
     </style>
 </head>
 <body>
+    
     <!-- Contenedor de las estrellas -->
     <div class="stars"></div>
     <!-- Contenedor del parpadeo de estrellas -->

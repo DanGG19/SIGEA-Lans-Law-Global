@@ -1,10 +1,13 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import *
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_POST
 from django.contrib.auth import authenticate, login, logout
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from .forms import *
+from django.db.models import Q
+from django.template.loader import render_to_string
 from django.utils import timezone
 from datetime import datetime
 from django.core.mail import send_mail
@@ -20,6 +23,16 @@ def admin_or_secretaria_required(view_func):
         else:
             return redirect('404')
     return _wrapped_view_func
+
+def admin_jefe_required(view_func):
+    def _wrapped_view_func(request, *args, **kwargs):
+        user_type = request.user.tipousuario.idtipousuario
+        if user_type == 1 or user_type == 3:
+            return view_func(request, *args, **kwargs)
+        else:
+            return redirect('404')
+    return _wrapped_view_func
+
 
 
 def admin_or_secretaria_or_jefe_required(view_func):
@@ -87,14 +100,40 @@ def edit_profile(request):
     
     return render(request, 'SIGEA_APP/CRUD_USUARIOS/edit_profile.html', context)
 
+
+
+@require_POST
+def usuario_delete(request, pk):
+    usuario = get_object_or_404(Usuario, pk=pk)
+    usuario.delete()
+    return JsonResponse({'success': True})
+
+
+
 @login_required
 @csrf_exempt # Decorador para deshabilitar la protección CSRF
-@admin_or_secretaria_required
+@admin_or_secretaria_required # Decorador para permitir solo a los administradores y secretarias acceder a la vista
 def usuario_list(request):
-    user_type = request.user.tipousuario.idtipousuario
+    user_type = request.user.tipousuario.idtipousuario  # Obtener el tipo de usuario
+    query = request.GET.get('q', '')  # Obtener el valor del parámetro 'q' de la URL
+    departamento_id = request.GET.get('departamento', None)  # Obtener el valor del parámetro 'departamento' de la URL
+
+    usuarios = Usuario.objects.all().select_related('idservicio__iddepartamento')
+
+    if query:
+        usuarios = usuarios.filter(Q(nombre__icontains=query) | Q(apellido__icontains=query))
+
+    if departamento_id:
+        usuarios = usuarios.filter(idservicio__iddepartamento__iddepartamento=departamento_id)
+
+    departamentos = Departamentos.objects.all()  # Obtener todos los departamentos para el filtro
+
     context = {
         'pruebita': user_type,
-        'usuarios': Usuario.objects.all()
+        'usuarios': usuarios,
+        'query': query,
+        'departamentos': departamentos,
+        'selected_departamento': int(departamento_id) if departamento_id else None,
     }
     return render(request, 'SIGEA_APP/CRUD_USUARIOS/usuario_list.html', context)
 
@@ -163,37 +202,24 @@ def usuario_delete(request, idusuario):
 
 #Views para departamentos
 @login_required
-@admin_or_secretaria_or_jefe_required
-def departamento_list(request): 
-    user_type = request.user.tipousuario.idtipousuario
+@admin_jefe_required
+def departamento_list(request):
     departamentos = Departamentos.objects.all()
-    departamentos_con_responsables = []
-
-    for depto in departamentos:
-        try:
-            responsable = Usuario.objects.get(email=depto.responsabledepartamento)
-            departamentos_con_responsables.append({
-                'iddepartamento': depto.iddepartamento,
-                'divisiondepartamento': depto.divisiondepartamento,
-                'responsable_nombre': responsable.nombre,
-                'responsable_apellido': responsable.apellido,
-                'responsable_email': responsable.email
-            })
-        except Usuario.DoesNotExist:
-            departamentos_con_responsables.append({
-                'iddepartamento': depto.iddepartamento,
-                'divisiondepartamento': depto.divisiondepartamento,
-                'responsable_nombre': None,
-                'responsable_apellido': None,
-                'responsable_email': depto.responsabledepartamento
-            })
-
-    context = {
-        'pruebita': user_type,
-        'departamentos': departamentos_con_responsables
-    }
+    user_type = request.user.tipousuario.idtipousuario
+    # Si estás renderizando los datos de los departamentos
     
-    return render(request, 'SIGEA_APP/CRUD_DEPARTAMENTOS/departamento_list.html', context)
+    context = []
+    for depto in departamentos:
+        responsable = depto.responsabledepartamento  # Ya es un objeto Usuario
+        context.append({
+            'iddepartamento': depto.iddepartamento,
+            'divisiondepartamento': depto.divisiondepartamento,
+            'responsable_nombre': responsable.nombre if responsable else 'Sin responsable',
+            'responsable_apellido': responsable.apellido if responsable else '',
+            'responsable_email': responsable.email if responsable else 'N/A'
+        })
+
+    return render(request, 'SIGEA_APP/CRUD_DEPARTAMENTOS/departamento_list.html', {'departamentos': context, 'pruebita': user_type})
 
 @login_required
 @csrf_exempt # Decorador para deshabilitar la protección CSRF
@@ -222,37 +248,57 @@ def departamento_update(request, iddepartamento):
             return JsonResponse({'success': False, 'errors': form.errors})
     else:
         form = DepartamentosForm(instance=departamento)
-        initial_data = {
-            'responsabledepartamento': departamento.responsabledepartamento
-        }
-        form.initial.update(initial_data)
     return render(request, 'SIGEA_APP/CRUD_DEPARTAMENTOS/departamento_form.html', {'form': form})
 
-def departameto_detail(request, iddepartamento):  # Usamos idusuario aquí #Vista para ver los detalles de un usuario
-    departamento = get_object_or_404(Departamentos, iddepartamento=iddepartamento)  # y aquí también #Se obtiene el usuario a mostrar.
-    return render(request, 'SIGEA_APP/CRUD_DEPARTAMENTOS/departamento_detail.html', {'departameto': departamento}) #Se renderiza la plantilla usuario_detail.html con los datos del usuario.
+
+def departameto_detail(request, iddepartamento):
+    departamento = get_object_or_404(Departamentos, iddepartamento=iddepartamento)
+    responsable = departamento.responsabledepartamento
+    context = {
+        'departamento': departamento,
+        'responsable_nombre': responsable.nombre if responsable else 'Sin responsable',
+        'responsable_apellido': responsable.apellido if responsable else '',
+        'responsable_email': responsable.email if responsable else 'N/A'
+    }
+    return render(request, 'SIGEA_APP/CRUD_DEPARTAMENTOS/departamento_detail.html', context)
 
 
 @login_required
 @csrf_exempt # Decorador para deshabilitar la protección CSRF
-def departamento_delete(request, iddepartamento):  # Usamos idusuario aquí #Vista para eliminar un usuario
-    departamento = get_object_or_404(Departamentos	, iddepartamento=iddepartamento)  # y aquí también #Se obtiene el usuario a eliminar.
-    if request.method == 'POST': #Si el método es POST, se elimina el usuario de la base de datos.
-        departamento.delete() #Se elimina el usuario de la base de datos.
-        return JsonResponse({'success': True}) #Se retorna un JSON con el mensaje de éxito.
-    return JsonResponse({'success': False}) #Si el método no es POST, se retorna un JSON con el mensaje de error.
+def departamento_delete(request, iddepartamento):
+    departamento = get_object_or_404(Departamentos, iddepartamento=iddepartamento)
+    if request.method == 'POST':
+        departamento.delete()
+        return JsonResponse({'success': True})
+    return JsonResponse({'success': False})
+
 
 #Views para servicios
 @login_required
 @admin_or_secretaria_required
 @csrf_exempt # Decorador para deshabilitar la protección CSRF
-def servicio_list(request): #Vista para listar los usuarios
+def servicio_list(request):
     user_type = request.user.tipousuario.idtipousuario
+    
+    # Obtener el departamento desde la URL o un formulario
+    departamento_id = request.GET.get('departamento_id')
+    
+    if departamento_id:
+        servicios = Servicios.objects.filter(iddepartamento=departamento_id)
+    else:
+        servicios = Servicios.objects.all()
+    
+    departamentos = Departamentos.objects.all()  # Obtener todos los departamentos para el filtro
+    
     context = {
         'pruebita': user_type,
-        'servicio': Servicios.objects.all() #NOTA: La variable es "servicio" no "servicios"
+        'servicio': servicios,
+        'departamentos': departamentos,  # Pasar departamentos al contexto
+        'selected_departamento_id': departamento_id,  # Pasar el departamento seleccionado al contexto
     }
-    return render(request, 'SIGEA_APP/CRUD_SERVICIO/servicio_list.html', context) #Se renderiza la plantilla usuario_list.html con los usuarios obtenidos.
+    
+    return render(request, 'SIGEA_APP/CRUD_SERVICIO/servicio_list.html', context)
+
 
 @login_required
 @csrf_exempt # Decorador para deshabilitar la protección CSRF

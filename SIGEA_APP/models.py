@@ -1,12 +1,14 @@
 from django.db import models
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser # Se importan las clases BaseUserManager y AbstractBaseUser de django para manejar la creación de usuarios
+from django.db.models.signals import pre_delete
+from django.dispatch import receiver
 
 # Create your models here.
 
 class Departamentos(models.Model):
     iddepartamento = models.AutoField(db_column='IDDEPARTAMENTO', primary_key=True)  # Field name made lowercase.
     divisiondepartamento = models.CharField(db_column='DIVISIONDEPARTAMENTO', max_length=255)  # Field name made lowercase.
-    responsabledepartamento = models.CharField(db_column='RESPONSABLEDEPARTAMENTO', max_length=255)  # Field name made lowercase.
+    responsabledepartamento = models.ForeignKey('Usuario', models.SET_NULL, db_column='RESPONSABLEDEPARTAMENTO', null=True, blank=True)
 
     class Meta:
         managed = True
@@ -14,12 +16,15 @@ class Departamentos(models.Model):
         
     def __str__(self):
         return self.divisiondepartamento
+    
+def update_responsable_departamento(sender, instance, **kwargs):
+    Departamentos.objects.filter(responsabledepartamento=instance).update(responsabledepartamento=None)
 
 
 class Evaluacion(models.Model):
     idevaluacion = models.AutoField(db_column='IDEVALUACION', primary_key=True)  # Field name made lowercase.
-    idplandes = models.ForeignKey('Plandesarrollo', models.DO_NOTHING, db_column='IDPLANDES', blank=True, null=True)  # Field name made lowercase.
-    idusuario = models.ForeignKey('Usuario', models.DO_NOTHING, db_column='IDUSUARIO')  # Field name made lowercase.
+    idplandes = models.ForeignKey('Plandesarrollo', on_delete=models.CASCADE, db_column='IDPLANDES', blank=True, null=True)  # Field name made lowercase.
+    idusuario = models.ForeignKey('Usuario', on_delete=models.CASCADE, db_column='IDUSUARIO')  # Field name made lowercase.
     tipoevaluacion = models.CharField(db_column='TIPOEVALUACION', max_length=255)  # Field name made lowercase.
     notaevaluacio = models.DecimalField(db_column='NOTAEVALUACIO', max_digits=10, decimal_places=0)  # Field name made lowercase.
     comentarioevaluacio = models.CharField(db_column='COMENTARIOEVALUACIO', max_length=2000)  # Field name made lowercase.
@@ -32,7 +37,7 @@ class Evaluacion(models.Model):
 
 class Plandesarrollo(models.Model):
     idplandes = models.AutoField(db_column='IDPLANDES', primary_key=True)
-    idevaluacion = models.ForeignKey(Evaluacion, models.DO_NOTHING, db_column='IDEVALUACION')
+    idevaluacion = models.ForeignKey(Evaluacion, on_delete=models.CASCADE, db_column='IDEVALUACION')
     nombreplandes = models.CharField(db_column='NOMBREPLANDES', max_length=255)
     objetivosplandes = models.CharField(db_column='OBJETIVOSPLANDES', max_length=255)
     alcancesplandes = models.CharField(db_column='ALCANCESPLANDES', max_length=255)

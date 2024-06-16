@@ -15,8 +15,8 @@
         Nombre de algo.xd
     </div>
 
-    {% if pruebita == 1 or pruebita == 2 %}
-    <!-- Mostrar para pruebita == 1 o pruebita == 2 -->
+    {% if pruebita == 1 %}
+    <!-- Mostrar para pruebita == 1 -->
     <!-- Usuarios -->
     <li class="nav-item">
         <a class="nav-link" href="{% url 'usuario_list' %}">
@@ -56,6 +56,24 @@
             <span>Evaluaciones</span>
         </a>
     </li>
+    {% elif pruebita == 2 %}
+    <!-- Mostrar para pruebita == 2 -->
+        <!-- Usuarios -->
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'usuario_list' %}">
+                <i class="fas fa-users"></i>
+                <span>Usuarios</span>
+            </a>
+        </li>
+    <!-- Actividades -->
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'actividades' %}">
+            <i class="fas fa-tasks"></i>
+            <span>Actividades</span>
+        </a>
+    </li>
+
+
     {% elif pruebita == 3 %}
     <!-- Mostrar para pruebita == 3 -->
     <!-- Actividades -->
@@ -64,6 +82,7 @@
             <i class="fas fa-tasks"></i>
             <span>Actividades</span>
         </a>
+    </li>
     <!-- Departamentos -->
     <li class="nav-item">
         <a class="nav-link" href="{% url 'departamento_list' %}">
@@ -79,6 +98,15 @@
             <span>Evaluaciones</span>
         </a>
     </li>
+
+    <!-- Servicios -->
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'servicio_list' %}">
+            <i class="fas fa-concierge-bell"></i>
+            <span>Servicios</span>
+        </a>
+    </li>
+
 
     {% elif pruebita %}
     <!-- Mostrar para pruebita == 4 -->

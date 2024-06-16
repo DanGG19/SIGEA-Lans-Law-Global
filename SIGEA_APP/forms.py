@@ -8,7 +8,7 @@ class UsuarioForm(forms.ModelForm):
     departamento = forms.ModelChoiceField(
         queryset=Departamentos.objects.all(),
         empty_label="Selecciona un Departamento",
-        required=True,
+        required=False,  # Cambiado a False
         label='Departamento',
         widget=forms.Select(attrs={'class': 'form-control'})
     )
@@ -71,15 +71,13 @@ class UsuarioForm(forms.ModelForm):
         return usuario
 
 
-
-
-
 class DepartamentosForm(forms.ModelForm):
     responsabledepartamento = forms.ModelChoiceField(
         queryset=Usuario.objects.all(),
         empty_label="Seleccione un responsable",
         widget=forms.Select(attrs={'class': 'form-control'}),
-        label="Responsable de Departamento"
+        label="Responsable de Departamento",
+        required=False
     )
 
     class Meta:
@@ -95,9 +93,8 @@ class DepartamentosForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        if self.instance and self.instance.responsabledepartamento:
-            self.fields['responsabledepartamento'].initial = Usuario.objects.get(email=self.instance.responsabledepartamento)
         self.fields['responsabledepartamento'].label_from_instance = lambda obj: f"{obj.nombre} {obj.apellido}"
+
         
 
 class ServiciosForm(forms.ModelForm):

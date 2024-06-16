@@ -2,8 +2,6 @@
 {% block title %}Usuario{% endblock %}
 {% block content %}
 
-<!-- Eliminar contraseña y correo de la edición de datos -->
-
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
 
@@ -23,126 +21,25 @@
 
 <div class="scrollable-content mt-5">
     <h1>Usuarios</h1>
+    <form method="get" action="">
+        <div class="form-group">
+            <input type="text" name="q" class="form-control" placeholder="Buscar por nombre" value="{{ request.GET.q }}">
+        </div>
+        <div class="form-group">
+            <select name="departamento" class="form-control">
+                <option value="">Filtrar por departamento</option>
+                {% for departamento in departamentos %}
+                    <option value="{{ departamento.iddepartamento }}" {% if selected_departamento == departamento.iddepartamento %}selected{% endif %}>
+                        {{ departamento.divisiondepartamento }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Buscar</button>
+    </form>
     <button class="btn btn-primary" data-toggle="modal" data-target="#createModal">Crear Usuario</button>
     <div class="table-responsive">
-        <table class="table table-striped table-hover table-borderless table-primary align-middle">
-            <thead class="table-dark">
-                <tr>
-                    <th>ID</th>
-                    <th>Nombre</th>
-                    <th>Apellido</th>
-                    <th>Email</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for usuario in usuarios %}
-                <tr>
-                    <td>{{ usuario.idusuario }}</td>
-                    <td>{{ usuario.nombre }}</td>
-                    <td>{{ usuario.apellido }}</td>
-                    <td>{{ usuario.email }}</td>
-                    <td>
-                        <button class="btn btn-info" data-toggle="modal" data-target="#detailModal{{ usuario.idusuario }}">Ver</button>
-                        <button class="btn btn-warning" data-toggle="modal" data-target="#updateModal{{ usuario.idusuario }}" onclick="loadUpdateForm({{ usuario.idusuario }})">Editar</button>
-                        <button class="btn btn-danger" data-toggle="modal" data-target="#deleteModal{{ usuario.idusuario }}">Eliminar</button>
-                    </td>
-                </tr>
-
-                <!-- Detail Modal -->
-                <div class="modal fade" id="detailModal{{ usuario.idusuario }}" tabindex="-1" role="dialog" aria-labelledby="detailModalLabel{{ usuario.idusuario }}" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="detailModalLabel{{ usuario.idusuario }}">Detalles del Usuario</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="card mb-3">
-                                    {% if usuario.foto_perfil %}
-                                        <img src="{{ usuario.foto_perfil.url }}" class="card-img-top profile-img" alt="Foto de perfil">
-                                    {% else %}
-                                        <img src="url_a_imagen_por_defecto" class="card-img-top profile-img" alt="Foto de perfil">
-                                    {% endif %}
-                                    <div class="card-body">
-                                        <h5 class="card-title">{{ usuario.nombre }} {{ usuario.apellido }}</h5>
-                                        <ul class="list-group list-group-flush">
-                                            <li class="list-group-item"><strong>Email:</strong> {{ usuario.email }}</li>
-                                            <li class="list-group-item"><strong>DUI:</strong> {{ usuario.dui }}</li>
-                                            <li class="list-group-item"><strong>Teléfono:</strong> {{ usuario.telefono }}</li>
-                                            <li class="list-group-item"><strong>Salario:</strong> {{ usuario.salario }}</li>
-                                            <li class="list-group-item"><strong>Tipo Usuario:</strong> {{ usuario.tipousuario }}</li>
-                                            <li class="list-group-item"><strong>ID Servicio:</strong> {{ usuario.idservicio }}</li>
-                                        </ul>
-                                        <p class="card-text">
-                                            <small class="text-muted">
-                                                Último inicio de sesión: 
-                                                {% if usuario.last_login %}
-                                                    {{ usuario.last_login }}
-                                                {% else %}
-                                                    No hay registro
-                                                {% endif %}
-                                            </small>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Update Modal -->
-                <div class="modal fade" id="updateModal{{ usuario.idusuario }}" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel{{ usuario.idusuario }}" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="updateModalLabel{{ usuario.idusuario }}">Editar Usuario</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <form id="updateForm{{ usuario.idusuario }}" method="post" enctype="multipart/form-data">
-                                    {% csrf_token %}
-                                    <!-- form fields will be loaded here -->
-                                </form>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                                <button type="button" class="btn btn-primary" onclick="submitUpdateForm({{ usuario.idusuario }})">Guardar Cambios</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Delete Modal -->
-                <div class="modal fade" id="deleteModal{{ usuario.idusuario }}" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel{{ usuario.idusuario }}" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="deleteModalLabel{{ usuario.idusuario }}">Eliminar Usuario</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                ¿Estás seguro de que deseas eliminar este usuario?
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                                <button type="button" class="btn btn-danger" onclick="deleteUsuario({{ usuario.idusuario }})">Eliminar</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                {% endfor %}
-            </tbody>
-        </table>
+        {% include 'SIGEA_APP/CRUD_USUARIOS/usuarios_table.html' %}
     </div>
 </div>
 
@@ -171,6 +68,20 @@
 </div>
 
 <script>
+    //Para recargar automaticamente el Dgv
+    $(document).ready(function() {
+        $('#search-input').on('keyup', function() {
+            var query = $(this).val();
+            $.ajax({
+                url: '{% url "usuario_list" %}',
+                data: {'q': query},
+                success: function(data) {
+                    $('#usuarios-tbody').html($(data.html).find('#usuarios-tbody').html());
+                }
+            });
+        });
+    });
+
     $(document).ready(function() {
         $('#createModal').on('shown.bs.modal', function () {
             $.get('{% url "usuario_create" %}', function(data) {
@@ -193,7 +104,6 @@
             }
         });
     }
-    
 
     function setupDepartmentServiceDependency(formSelector) {
         $(formSelector + ' select[name="departamento"]').change(function() {
@@ -209,7 +119,7 @@
                     } else {
                         servicioSelect.append(new Option('No hay servicios disponibles', ''));
                     }
-    
+
                     // esto le manda la información de division del partamento
                     var divisionField = $(formSelector + ' input[name="divisiondepartamento"]');
                     divisionField.val(data.division);
@@ -217,8 +127,7 @@
             }
         });
     }
-    
-    
+
     function submitCreateForm() {
         var form = $('#createForm')[0];
         var formData = new FormData(form);
@@ -241,7 +150,7 @@
             }
         });
     }
-    
+
     function submitUpdateForm(idusuario) {
         var form = $('#updateForm' + idusuario)[0];
         var formData = new FormData(form);
@@ -264,7 +173,7 @@
             }
         });
     }
-    
+
     function deleteUsuario(id) {
         $.ajax({
             url: '/usuario/delete/' + id + '/',
@@ -284,7 +193,6 @@
             }
         });
     }
-    
 </script>
 
 {% endblock %}

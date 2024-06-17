@@ -1,28 +1,36 @@
 <!-- Modal Editar del Actividad -->
  <div style="position:absolute; width: 100vw; height: 100vh; z-index: -300; background-color: rgb(0,0,0, 0.3)"></div>
-    <div class="modal-dialog scrollable-content" id="modalActividad"
-    style="max-height: 90vh; overflow-y:auto; z-index: 300; position: relative">
-        
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editModalLabel">Editar Actividad</h5>
-                <button type="button" onclick="closeEditActividad()" class="btn text-secondary">
-                    <p style="width: 24px; height: 24px;">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                            <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM175 175c9.4-9.4 24.6-9.4 33.9 0l47 47 47-47c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-47 47 47 47c9.4 9.4 9.4 24.6 0 33.9s24.6 9.4 33.9 0l-47-47-47 47c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l47-47-47-47c-9.4-9.4-9.4-24.6 0-33.9z"/>
-                        </svg>
-                    </p>
+ <div class="modal-dialog scrollable-content" id="modalActividad" style="max-height: 90vh; overflow-y:auto; z-index: 300; position: relative">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="editModalLabel">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="24" height="24" fill="currentColor" class="bi bi-pencil-square">
+                    <path d="M192 32h-64a32 32 0 0 0-32 32v384a32 32 0 0 0 32 32h256a32 32 0 0 0 32-32V224L352 128 192 32zm64 416H128V96h128zm160-296l-30 30-46-46 30-30a16 16 0 0 1 22.6 0l23 23a16 16 0 0 1 0 22.6z"/>
+                </svg>
+                Editar Actividad
+            </h5>
+            <button type="button" onclick="closeEditActividad()" class="btn btn-sm btn-link text-secondary">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="24" height="24" fill="currentColor" class="bi bi-x">
+                    <path fill-rule="evenodd" d="M300.561 256l84.721-84.72c7.81-7.81 7.81-20.474 0-28.284-7.81-7.81-20.474-7.81-28.284 0L272 227.716 187.279 143.004c-7.81-7.81-20.474-7.81-28.284 0-7.81 7.81-7.81 20.474 0 28.284l84.72 84.72-84.72 84.721c-7.81 7.81-7.81 20.474 0 28.284 7.81 7.81 20.474 7.81 28.284 0L256 284.284l84.721 84.72c7.81 7.81 20.474 7.81 28.284 0 7.81-7.81 7.81-20.474 0-28.284L300.561 256z"/>
+                </svg>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form method="POST" id="editActividadForm">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="16" height="16" fill="currentColor" class="bi bi-check-circle">
+                        <path fill-rule="evenodd" d="M256 0C114.616 0 0 114.616 0 256s114.616 256 256 256s256-114.616 256-256S397.384 0 256 0zm128.485 168.485l-17.678-17.678-85.807 85.807-43.132-43.132-17.678 17.678 60.81 60.81z"/>
+                    </svg>
+                    Guardar cambios
                 </button>
-            </div>
-            <div class="modal-body">
-                <form method="POST" id="editActividadForm">
-                    {% csrf_token %}
-                    {{form.as_p}}
-                <button type="submit" class="btn btn-primary"> Guardar cambios </button>
             </form>
-            </div>
         </div>
     </div>
+</div>
+
+
 
 <script>
     $(document).on('submit', '#editActividadForm', function(event) {

@@ -144,12 +144,12 @@ def usuario_list(request):
 def usuario_create(request):
     if request.method == 'POST':
         
-        # #ALLAN ESTUVO AQUI, CORREO DE CONFIRMACIÖN DE CREACIÖN DE USUARIO
-        # subject = "¡Excelente! Se ha creado un usuario"
-        # message ="Ahora formas parte de nuestra empresa, LANS LAW GLOBAL está feliz de tenerte, tus credenciales son:\nCorreo: "+request.POST["email"]+"\nContraseña: "+request.POST["password"]
-        # email_from=settings.EMAIL_HOST_USER
-        # recipient_list=[request.POST["email"]]
-        # send_mail(subject, message, email_from, recipient_list, fail_silently=False)
+        #ALLAN ESTUVO AQUI, CORREO DE CONFIRMACIÖN DE CREACIÖN DE USUARIO
+        subject = "¡Excelente! Se ha creado un usuario"
+        message ="Ahora formas parte de nuestra empresa, LANS LAW GLOBAL está feliz de tenerte, tus credenciales son:\nCorreo: "+request.POST["email"]+"\nContraseña: "+request.POST["password"]
+        email_from=settings.EMAIL_HOST_USER
+        recipient_list=[request.POST["email"]]
+        send_mail(subject, message, email_from, recipient_list, fail_silently=False)
         
         form = UsuarioForm(request.POST, request.FILES)
         if form.is_valid():
@@ -398,6 +398,12 @@ def actividades_create(request):
         for invitado_id in invitados_ids:
             invitado = invitados_actividad(idactividad=nuevo_evento, idusuario_id=invitado_id)
             invitado.save()
+            #ALLAN ESTUVO AQUI, CORREO DE CONFIRMACIÖN DE CREACIÖN DE USUARIO
+            subject = "Se te ha invitado a una Actividad"
+            message = "Se le informa que ha sido invitado a participar en la actividad "+request.POST['nombreactividad']+", la actividad se llevará acabo desde: \nInicio: "+request.POST['fechaactividad']+"\nFin: "+request.POST['fechafin']+"\n¡TE ESPERAMOS!"
+            email_from=settings.EMAIL_HOST_USER
+            recipient_list=[invitado.email]
+            send_mail(subject, message, email_from, recipient_list, fail_silently=False)
 
         return JsonResponse({'success': True, 'message': 'Has creado un evento exitosamente'})
     else:

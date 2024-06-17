@@ -59,16 +59,25 @@ class UsuarioForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(UsuarioForm, self).__init__(*args, **kwargs)
+        if self.instance and self.instance.pk:
+            # Si se está editando un usuario existente, hacer que el campo de contraseña no sea obligatorio
+            self.fields['password'].required = False
+            self.fields['password'].widget.attrs['placeholder'] = 'Deja en blanco para mantener la contraseña actual'
         if self.instance and self.instance.idservicio:
             self.fields['departamento'].initial = self.instance.idservicio.iddepartamento
 
     def save(self, commit=True):
         usuario = super().save(commit=False)
+        # Solo actualizar la contraseña si se proporciona una nueva
         if self.cleaned_data['password']:
             usuario.password = make_password(self.cleaned_data['password'])
+        else:
+            # No cambiar la contraseña existente
+            usuario.password = Usuario.objects.get(pk=self.instance.pk).password
         if commit:
             usuario.save()
         return usuario
+
 
 
 class DepartamentosForm(forms.ModelForm):

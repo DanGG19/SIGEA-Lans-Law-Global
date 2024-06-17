@@ -35,6 +35,9 @@
     <div class="form-group">
         {{ form.password.label_tag }}
         {{ form.password }}
+        {% if form.instance.pk %}
+            <small class="form-text text-muted">Deja este campo en blanco para mantener la contraseña actual.</small>
+        {% endif %}
     </div>
     <div class="form-group">
         {{ form.tipousuario.label_tag }}

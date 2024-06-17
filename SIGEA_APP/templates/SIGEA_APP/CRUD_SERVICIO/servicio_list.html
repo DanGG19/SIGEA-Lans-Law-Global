@@ -25,11 +25,15 @@
                 </option>
             {% endfor %}
         </select>
-        <button type="submit" class="btn btn-primary">Filtrar</button>
-    </form>
+        <button type="submit" class="btn btn-primary mr-2">
+            <i class="fas fa-filter"></i> Filtrar
+        </button>        
+    </form>    
     
-    <button class="btn btn-primary" data-toggle="modal" data-target="#createModal">Crear Servicio</button>
-    <div class="table-responsive">
+    <button class="btn btn-primary" data-toggle="modal" data-target="#createModal">
+        <i class="fas fa-plus"></i> Crear Servicio
+    </button>
+    <div class="table-responsive mt-3">
         {% include 'SIGEA_APP/CRUD_SERVICIO/servicios_table.html' %}
     </div>
 </div>

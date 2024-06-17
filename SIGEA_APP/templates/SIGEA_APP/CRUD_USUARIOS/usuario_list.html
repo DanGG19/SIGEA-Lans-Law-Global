@@ -23,22 +23,42 @@
     <h1>Usuarios</h1>
     <form method="get" action="">
         <div class="form-group">
-            <input type="text" name="q" class="form-control" placeholder="Buscar por nombre" value="{{ request.GET.q }}">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-search"></i></span>
+                </div>
+                <input type="text" name="q" class="form-control" placeholder="Buscar por nombre" value="{{ request.GET.q }}">
+            </div>
         </div>
         <div class="form-group">
-            <select name="departamento" class="form-control">
-                <option value="">Filtrar por departamento</option>
-                {% for departamento in departamentos %}
-                    <option value="{{ departamento.iddepartamento }}" {% if selected_departamento == departamento.iddepartamento %}selected{% endif %}>
-                        {{ departamento.divisiondepartamento }}
-                    </option>
-                {% endfor %}
-            </select>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-filter"></i></span>
+                </div>
+                <select name="departamento" class="form-control">
+                    <option value="">Filtrar por departamento</option>
+                    {% for departamento in departamentos %}
+                        <option value="{{ departamento.iddepartamento }}" {% if selected_departamento == departamento.iddepartamento %}selected{% endif %}>
+                            {{ departamento.divisiondepartamento }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
         </div>
-        <button type="submit" class="btn btn-primary">Buscar</button>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-search"></i> Buscar
+            </button>
+        </div>
     </form>
-    <button class="btn btn-primary" data-toggle="modal" data-target="#createModal">Crear Usuario</button>
-    <div class="table-responsive">
+    
+    <div class="mt-3"> <!-- Espacio entre el formulario y el botón -->
+        <button class="btn btn-primary" data-toggle="modal" data-target="#createModal">
+            <i class="fas fa-user-plus"></i> Crear Usuario
+        </button>
+    </div>
+    
+    <div class="table-responsive mt-3">
         {% include 'SIGEA_APP/CRUD_USUARIOS/usuarios_table.html' %}
     </div>
 </div>
@@ -68,7 +88,7 @@
 </div>
 
 <script>
-    //Para recargar automaticamente el Dgv
+    // Para recargar automáticamente el Dgv
     $(document).ready(function() {
         $('#search-input').on('keyup', function() {
             var query = $(this).val();
@@ -77,6 +97,9 @@
                 data: {'q': query},
                 success: function(data) {
                     $('#usuarios-tbody').html($(data.html).find('#usuarios-tbody').html());
+                },
+                error: function(xhr, status, error) {
+                    alert('Error al cargar la lista de usuarios');
                 }
             });
         });
@@ -87,6 +110,8 @@
             $.get('{% url "usuario_create" %}', function(data) {
                 $('#createForm').html(data);
                 setupDepartmentServiceDependency('#createForm');
+            }).fail(function(xhr, status, error) {
+                alert('Error al cargar el formulario de creación de usuario');
             });
         });
     });
@@ -102,6 +127,8 @@
             if (selectedDepartment) {
                 departamentoSelect.change();
             }
+        }).fail(function(xhr, status, error) {
+            alert('Error al cargar el formulario de actualización de usuario');
         });
     }
 
@@ -120,9 +147,11 @@
                         servicioSelect.append(new Option('No hay servicios disponibles', ''));
                     }
 
-                    // esto le manda la información de division del partamento
+                    // Esto envía la información de división del departamento
                     var divisionField = $(formSelector + ' input[name="divisiondepartamento"]');
                     divisionField.val(data.division);
+                }).fail(function(xhr, status, error) {
+                    alert('Error al cargar los servicios del departamento');
                 });
             }
         });
@@ -141,6 +170,7 @@
             success: function(data) {
                 if (data.success) {
                     location.reload();
+                    alert('Usuario creado correctamente');
                 } else {
                     alert('Error: ' + JSON.stringify(data.errors));
                 }
@@ -164,6 +194,7 @@
             success: function(data) {
                 if (data.success) {
                     location.reload();
+                    alert('Usuario actualizado correctamente');
                 } else {
                     alert('Error: ' + JSON.stringify(data.errors));
                 }
@@ -184,6 +215,7 @@
             success: function(data) {
                 if (data.success) {
                     location.reload();
+                    alert('Usuario eliminado correctamente');
                 } else {
                     alert('Error al eliminar el usuario');
                 }
@@ -194,5 +226,6 @@
         });
     }
 </script>
+
 
 {% endblock %}

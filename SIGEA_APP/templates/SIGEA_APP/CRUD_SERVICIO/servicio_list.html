@@ -67,6 +67,8 @@
         $('#createModal').on('shown.bs.modal', function () {
             $.get('{% url "servicio_create" %}', function(data) {
                 $('#createForm').html(data);
+            }).fail(function(xhr, status, error) {
+                alert('Error al cargar el formulario de creación de servicio');
             });
         });
     });
@@ -75,6 +77,8 @@
     function loadUpdateForm(id) {
         $.get('/servicio/update/' + id + '/', function(data) {
             $('#updateForm' + id).html(data);
+        }).fail(function(xhr, status, error) {
+            alert('Error al cargar el formulario de actualización de servicio');
         });
     }
 
@@ -84,9 +88,12 @@
         $.post('{% url "servicio_create" %}', form.serialize(), function(data) {
             if (data.success) {
                 location.reload();
+                alert('Servicio creado correctamente');
             } else {
                 alert('Error: ' + JSON.stringify(data.errors));
             }
+        }).fail(function(xhr, status, error) {
+            alert('Error al procesar la creación del servicio');
         });
     }
 
@@ -96,9 +103,12 @@
         $.post('/servicio/update/' + idservicio + '/', form.serialize(), function(data) {
             if (data.success) {
                 location.reload();
+                alert('Servicio actualizado correctamente');
             } else {
                 alert('Error: ' + JSON.stringify(data.errors));
             }
+        }).fail(function(xhr, status, error) {
+            alert('Error al procesar la actualización del servicio');
         });
     }
 
@@ -107,10 +117,14 @@
         $.post('/servicio/delete/' + idservicio + '/', function(data) {
             if (data.success) {
                 location.reload();
+                alert('Servicio eliminado correctamente');
             } else {
-                alert('Error');
+                alert('Error al eliminar el servicio');
             }
+        }).fail(function(xhr, status, error) {
+            alert('Error al procesar la eliminación del servicio');
         });
     }
 </script>
+
 {% endblock %}

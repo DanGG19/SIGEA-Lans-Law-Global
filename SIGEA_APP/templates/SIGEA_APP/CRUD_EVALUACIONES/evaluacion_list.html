@@ -166,6 +166,8 @@
         $('#createModal').on('shown.bs.modal', function () {
             $.get('{% url "evaluacion_create" %}', function(data) {
                 $('#createForm').html(data);
+            }).fail(function(xhr, status, error) {
+                alert('Error al cargar el formulario de creación de evaluación');
             });
         });
     });
@@ -173,6 +175,8 @@
     function loadUpdateForm(id) {
         $.get('/evaluaciones/' + id + '/edit/', function(data) {
             $('#updateForm' + id).html(data);
+        }).fail(function(xhr, status, error) {
+            alert('Error al cargar el formulario de actualización de evaluación');
         });
     }
 
@@ -189,6 +193,7 @@
             success: function(data) {
                 if (data.success) {
                     location.reload();
+                    alert('Evaluación creada correctamente');
                 } else {
                     alert('Error: ' + JSON.stringify(data.errors));
                 }
@@ -212,6 +217,7 @@
             success: function(data) {
                 if (data.success) {
                     location.reload();
+                    alert('Evaluación actualizada correctamente');
                 } else {
                     alert('Error: ' + JSON.stringify(data.errors));
                 }
@@ -232,6 +238,7 @@
             success: function(data) {
                 if (data.success) {
                     location.reload();
+                    alert('Evaluación eliminada correctamente');
                 } else {
                     alert('Error al eliminar la evaluación');
                 }
@@ -242,4 +249,5 @@
         });
     }
 </script>
+
 {% endblock %}

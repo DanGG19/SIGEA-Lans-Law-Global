@@ -160,6 +160,8 @@
         $('#createModal').on('shown.bs.modal', function () {
             $.get('{% url "departamento_create" %}', function(data) {
                 $('#createForm').html(data);
+            }).fail(function(xhr, status, error) {
+                alert('Error al cargar el formulario de creación de departamento');
             });
         });
     });
@@ -175,9 +177,10 @@
             if (selectedResponsable) {
                 responsableSelect.change();
             }
+        }).fail(function(xhr, status, error) {
+            alert('Error al cargar el formulario de actualización de departamento');
         });
     }
-    
 
     // Submit create form
     function submitCreateForm() {
@@ -185,9 +188,12 @@
         $.post('{% url "departamento_create" %}', form.serialize(), function(data) {
             if (data.success) {
                 location.reload();
+                alert('Departamento creado correctamente');
             } else {
                 alert('Error: ' + JSON.stringify(data.errors));
             }
+        }).fail(function(xhr, status, error) {
+            alert('Error al procesar la creación del departamento');
         });
     }
 
@@ -197,9 +203,12 @@
         $.post('/departamento/update/' + iddepartamento + '/', form.serialize(), function(data) {
             if (data.success) {
                 location.reload();
+                alert('Departamento actualizado correctamente');
             } else {
                 alert('Error: ' + JSON.stringify(data.errors));
             }
+        }).fail(function(xhr, status, error) {
+            alert('Error al procesar la actualización del departamento');
         });
     }
 
@@ -208,11 +217,15 @@
         $.post('/departamento/delete/' + id + '/', function(data) {
             if (data.success) {
                 location.reload();
+                alert('Departamento eliminado correctamente');
             } else {
                 alert('Error: ' + JSON.stringify(data.errors));
             }
+        }).fail(function(xhr, status, error) {
+            alert('Error al procesar la eliminación del departamento');
         });
     }
 </script>
+
 
 {% endblock %}

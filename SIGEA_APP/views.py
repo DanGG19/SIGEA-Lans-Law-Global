@@ -586,9 +586,9 @@ def plandesarrollo_create(request, idevaluacion):
             eva.idplandes = d
             eva.save()
             
-            return redirect('evaluacion_list')
+            return JsonResponse({'success': True})
         else:
-            return redirect('evaluacion_list')
+            return JsonResponse({'success': False})
 
     else:
         DesarolloForm = PlanDesarolloForm()

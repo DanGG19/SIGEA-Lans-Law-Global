@@ -161,7 +161,7 @@
             $.get('{% url "departamento_create" %}', function(data) {
                 $('#createForm').html(data);
             }).fail(function(xhr, status, error) {
-                alert('Error al cargar el formulario de creación de departamento');
+                Swal.fire('Error', 'Error al cargar el formulario de creación de departamento', 'error');
             });
         });
     });
@@ -178,7 +178,7 @@
                 responsableSelect.change();
             }
         }).fail(function(xhr, status, error) {
-            alert('Error al cargar el formulario de actualización de departamento');
+            Swal.fire('Error', 'Error al cargar el formulario de actualización de departamento', 'error');
         });
     }
 
@@ -187,13 +187,14 @@
         var form = $('#createForm');
         $.post('{% url "departamento_create" %}', form.serialize(), function(data) {
             if (data.success) {
-                location.reload();
-                alert('Departamento creado correctamente');
+                Swal.fire('Éxito', 'Departamento creado correctamente', 'success').then(() => {
+                    location.reload();
+                });
             } else {
-                alert('Error: ' + JSON.stringify(data.errors));
+                Swal.fire('Error', JSON.stringify(data.errors), 'error');
             }
         }).fail(function(xhr, status, error) {
-            alert('Error al procesar la creación del departamento');
+            Swal.fire('Error', 'Error al procesar la creación del departamento', 'error');
         });
     }
 
@@ -202,27 +203,41 @@
         var form = $('#updateForm' + iddepartamento);
         $.post('/departamento/update/' + iddepartamento + '/', form.serialize(), function(data) {
             if (data.success) {
-                location.reload();
-                alert('Departamento actualizado correctamente');
+                Swal.fire('Éxito', 'Departamento actualizado correctamente', 'success').then(() => {
+                    location.reload();
+                });
             } else {
-                alert('Error: ' + JSON.stringify(data.errors));
+                Swal.fire('Error', JSON.stringify(data.errors), 'error');
             }
         }).fail(function(xhr, status, error) {
-            alert('Error al procesar la actualización del departamento');
+            Swal.fire('Error', 'Error al procesar la actualización del departamento', 'error');
         });
     }
 
     // Delete departamento
     function deleteDepartamento(id) {
-        $.post('/departamento/delete/' + id + '/', function(data) {
-            if (data.success) {
-                location.reload();
-                alert('Departamento eliminado correctamente');
-            } else {
-                alert('Error: ' + JSON.stringify(data.errors));
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: "No podrás revertir esto!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, eliminarlo!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.post('/departamento/delete/' + id + '/', function(data) {
+                    if (data.success) {
+                        Swal.fire('Eliminado!', 'El departamento ha sido eliminado.', 'success').then(() => {
+                            location.reload();
+                        });
+                    } else {
+                        Swal.fire('Error', JSON.stringify(data.errors), 'error');
+                    }
+                }).fail(function(xhr, status, error) {
+                    Swal.fire('Error', 'Error al procesar la eliminación del departamento', 'error');
+                });
             }
-        }).fail(function(xhr, status, error) {
-            alert('Error al procesar la eliminación del departamento');
         });
     }
 </script>

@@ -80,8 +80,8 @@ class TipoUsuario(models.Model):
         return self.descripcion
 
 class invitados_actividad(models.Model):
-    idusuario = models.ForeignKey('Usuario', models.DO_NOTHING, db_column='IDUSUARIO')
-    idactividad = models.ForeignKey('Actividades', models.DO_NOTHING, db_column='IDACTIVIDAD')
+    idusuario = models.ForeignKey('Usuario', on_delete=models.CASCADE , db_column='IDUSUARIO')
+    idactividad = models.ForeignKey('Actividades', on_delete=models.CASCADE, db_column='IDACTIVIDAD')
 
     class Meta:
         managed = True
@@ -116,8 +116,8 @@ class Usuario(AbstractBaseUser):
     tipousuario = models.ForeignKey(TipoUsuario, models.DO_NOTHING, db_column='IDTIPOUSUARIO')  # Actualizado
     nombre = models.CharField(db_column='NOMBRE', max_length=255)
     apellido = models.CharField(db_column='APELLIDO', max_length=255)
-    dui = models.CharField(db_column='DUI', max_length=9, unique=True)
-    telefono = models.IntegerField(db_column='TELEFONO')
+    dui = models.CharField(db_column='DUI', max_length=10, unique=True)
+    telefono = models.CharField(db_column='TELEFONO', max_length=9, unique=True)
     salario = models.DecimalField(db_column='SALARIO', max_digits=10, decimal_places=0)
     email = models.EmailField(db_column='EMAIL', max_length=255, unique=True)
     password = models.CharField(db_column='PASSWORD', max_length=255)

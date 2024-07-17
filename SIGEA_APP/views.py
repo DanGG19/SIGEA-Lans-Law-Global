@@ -402,7 +402,7 @@ def actividades_create(request):
             subject = "Se te ha invitado a una Actividad"
             message = "Se le informa que ha sido invitado a participar en la actividad "+request.POST['nombreactividad']+", la actividad se llevará acabo desde: \nInicio: "+request.POST['fechaactividad']+"\nFin: "+request.POST['fechafin']+"\n¡TE ESPERAMOS!"
             email_from=settings.EMAIL_HOST_USER
-            recipient_list=[invitado.email]
+            recipient_list=[invitado.idusuario.email] #QUE PENDEJO EL QUE LO CAMBIÓ EN EL MODELO Y NO LE AVISÓ A NADIE
             send_mail(subject, message, email_from, recipient_list, fail_silently=False)
 
         return JsonResponse({'success': True, 'message': 'Has creado un evento exitosamente'})

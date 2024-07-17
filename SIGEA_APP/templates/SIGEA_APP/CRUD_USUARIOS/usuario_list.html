@@ -1,9 +1,8 @@
+<!-- Usuario_list.html -->
 {% extends 'SIGEA_APP/admin/index.html' %}
 {% block title %}Usuario{% endblock %}
 {% block content %}
 
-<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
 
 <style>
     .scrollable-content {
@@ -88,47 +87,64 @@
 </div>
 
 <script>
-    // Para recargar automáticamente el Dgv
-    $(document).ready(function() {
-        $('#search-input').on('keyup', function() {
-            var query = $(this).val();
-            $.ajax({
-                url: '{% url "usuario_list" %}',
-                data: {'q': query},
-                success: function(data) {
-                    $('#usuarios-tbody').html($(data.html).find('#usuarios-tbody').html());
-                },
-                error: function(xhr, status, error) {
-                    alert('Error al cargar la lista de usuarios');
-                }
-            });
-        });
-    });
-
     $(document).ready(function() {
         $('#createModal').on('shown.bs.modal', function () {
             $.get('{% url "usuario_create" %}', function(data) {
                 $('#createForm').html(data);
                 setupDepartmentServiceDependency('#createForm');
+                setupFormatting(); // Llama a la función para configurar el formateo automático
             }).fail(function(xhr, status, error) {
-                alert('Error al cargar el formulario de creación de usuario');
+                Swal.fire('Error', 'Error al cargar el formulario de creación de usuario', 'error');
             });
         });
     });
-    
+
+    function setupFormatting() {
+        var duiInput = $('input[name="dui"]');
+        var telefonoInput = $('input[name="telefono"]');
+        
+        if (duiInput.length) {
+            duiInput.on('input', function () {
+                this.value = formatDUI(this.value);
+            });
+        }
+
+        if (telefonoInput.length) {
+            telefonoInput.on('input', function () {
+                this.value = formatTelefono(this.value);
+            });
+        }
+
+        function formatDUI(value) {
+            value = value.replace(/\D/g, '');
+            if (value.length > 8) {
+                value = value.slice(0, 8) + '-' + value.slice(8, 9);
+            }
+            return value;
+        }
+
+        function formatTelefono(value) {
+            value = value.replace(/\D/g, '');
+            if (value.length > 4) {
+                value = value.slice(0, 4) + '-' + value.slice(4, 8);
+            }
+            return value;
+        }
+    }
+
     function loadUpdateForm(id) {
         $.get('/usuario/update/' + id + '/', function(data) {
             $('#updateForm' + id).html(data);
             setupDepartmentServiceDependency('#updateForm' + id);
+            setupFormatting(); // Llama a la función para configurar el formateo automático en la actualización
     
-            // Trigger change to load services and division
             var departamentoSelect = $('#updateForm' + id + ' select[name="departamento"]');
             var selectedDepartment = departamentoSelect.val();
             if (selectedDepartment) {
                 departamentoSelect.change();
             }
         }).fail(function(xhr, status, error) {
-            alert('Error al cargar el formulario de actualización de usuario');
+            Swal.fire('Error', 'Error al cargar el formulario de actualización de usuario', 'error');
         });
     }
 
@@ -147,11 +163,10 @@
                         servicioSelect.append(new Option('No hay servicios disponibles', ''));
                     }
 
-                    // Esto envía la información de división del departamento
                     var divisionField = $(formSelector + ' input[name="divisiondepartamento"]');
                     divisionField.val(data.division);
                 }).fail(function(xhr, status, error) {
-                    alert('Error al cargar los servicios del departamento');
+                    Swal.fire('Error', 'Error al cargar los servicios del departamento', 'error');
                 });
             }
         });
@@ -169,14 +184,15 @@
             processData: false,
             success: function(data) {
                 if (data.success) {
-                    location.reload();
-                    alert('Usuario creado correctamente');
+                    Swal.fire('Éxito', 'Usuario creado correctamente', 'success').then(function() {
+                        location.reload();
+                    });
                 } else {
-                    alert('Error: ' + JSON.stringify(data.errors));
+                    Swal.fire('Error', 'Error: ' + JSON.stringify(data.errors), 'error');
                 }
             },
             error: function(xhr, status, error) {
-                alert('Error: ' + xhr.responseText);
+                Swal.fire('Error', 'Error: ' + xhr.responseText, 'error');
             }
         });
     }
@@ -193,35 +209,50 @@
             processData: false,
             success: function(data) {
                 if (data.success) {
-                    location.reload();
-                    alert('Usuario actualizado correctamente');
+                    Swal.fire('Éxito', 'Usuario actualizado correctamente', 'success').then(function() {
+                        location.reload();
+                    });
                 } else {
-                    alert('Error: ' + JSON.stringify(data.errors));
+                    Swal.fire('Error', 'Error: ' + JSON.stringify(data.errors), 'error');
                 }
             },
             error: function(xhr, status, error) {
-                alert('Error: ' + xhr.responseText);
+                Swal.fire('Error', 'Error: ' + xhr.responseText, 'error');
             }
         });
     }
 
     function deleteUsuario(id) {
-        $.ajax({
-            url: '/usuario/delete/' + id + '/',
-            type: 'POST',
-            data: {
-                csrfmiddlewaretoken: '{{ csrf_token }}'
-            },
-            success: function(data) {
-                if (data.success) {
-                    location.reload();
-                    alert('Usuario eliminado correctamente');
-                } else {
-                    alert('Error al eliminar el usuario');
-                }
-            },
-            error: function(xhr, status, error) {
-                alert('Error: ' + xhr.responseText);
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: 'No podrás revertir esto',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, eliminarlo',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: '/usuario/delete/' + id + '/',
+                    type: 'POST',
+                    data: {
+                        csrfmiddlewaretoken: '{{ csrf_token }}'
+                    },
+                    success: function(data) {
+                        if (data.success) {
+                            Swal.fire('Eliminado', 'Usuario eliminado correctamente', 'success').then(function() {
+                                location.reload();
+                            });
+                        } else {
+                            Swal.fire('Error', 'Error al eliminar el usuario', 'error');
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        Swal.fire('Error', 'Error: ' + xhr.responseText, 'error');
+                    }
+                });
             }
         });
     }

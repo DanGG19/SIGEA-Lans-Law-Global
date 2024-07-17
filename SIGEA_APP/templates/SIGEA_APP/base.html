@@ -23,9 +23,10 @@
 
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- Archivo CSS de Bootstrap Icons -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.9.0/font/bootstrap-icons.min.css" rel="stylesheet">
 
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.9.0/font/bootstrap-icons.min.css" rel="stylesheet" />
   </head>
 
   <body id="page-top">
@@ -50,15 +51,15 @@
 
             <h1 class="display-5" href="{% url 'index' %}">SIGEA</h1>
 
-            <!--Aquí se está pasando el valor de pruebita a la plantilla base.html este valor corresponde al tipo de usuario-->
+            <!-- Aquí se está pasando el valor de pruebita a la plantilla base.html este valor corresponde al tipo de usuario -->
             <input type="hidden" id="pruebita" value="{{ request.user.tipousuario }}" />
 
             <!-- Topbar Navbar -->
             <ul class="navbar-nav ml-auto">
               <!-- Nav Item - Alerts -->
 
-               <!-- IMPLEMENTAR LUEGO -->
-               {% comment %} <li class="nav-item dropdown no-arrow mx-1">
+              <!-- IMPLEMENTAR LUEGO -->
+              {% comment %} <li class="nav-item dropdown no-arrow mx-1">
                 <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <i class="fas fa-bell fa-fw"></i>
                   <!-- Counter - Alerts -->

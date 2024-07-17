@@ -13,6 +13,7 @@ class UsuarioForm(forms.ModelForm):
         widget=forms.Select(attrs={'class': 'form-control'})
     )
     divisiondepartamento = forms.CharField(
+        
         required=False,
         widget=forms.HiddenInput()
     )
@@ -30,25 +31,25 @@ class UsuarioForm(forms.ModelForm):
             'departamento', 'idservicio', 'nombre', 'apellido', 'dui', 'telefono', 'salario', 'email', 'password', 'tipousuario', 'foto_perfil', 'divisiondepartamento'
         ]
         labels = {
-            'departamento': 'Departamento: ',
-            'idservicio': 'Servicio: ',
-            'nombre': 'Nombre: ',
-            'apellido': 'Apellido: ',
-            'dui': 'DUI: ',
-            'telefono': 'Teléfono: ',
-            'salario': 'Salario: ',
-            'email': 'Email: ',
-            'password': 'Contraseña: ',
-            'tipousuario': 'Tipo de Usuario: ',
-            'foto_perfil': 'Foto de Perfil: ',
+            'departamento': 'Departamento ',
+            'idservicio': 'Servicio ',
+            'nombre': 'Nombre ',
+            'apellido': 'Apellido ',
+            'dui': 'DUI ',
+            'telefono': 'Teléfono ',
+            'salario': 'Salario ',
+            'email': 'Email ',
+            'password': 'Contraseña ',
+            'tipousuario': 'Tipo de Usuario ',
+            'foto_perfil': 'Foto de Perfil ',
             'divisiondepartamento': ''
         }
         widgets = {
             'idservicio': forms.Select(attrs={'class': 'form-control'}),
             'nombre': forms.TextInput(attrs={'class': 'form-control'}),
             'apellido': forms.TextInput(attrs={'class': 'form-control'}),
-            'dui': forms.TextInput(attrs={'class': 'form-control'}),
-            'telefono': forms.TextInput(attrs={'class': 'form-control'}),
+            'dui': forms.TextInput(attrs={'class': 'form-control', 'placeholder': '12345678-9', 'pattern': '\d{8}-\d', 'title': 'El DUI debe tener el formato 12345678-9'}),
+            'telefono': forms.TextInput(attrs={'class': 'form-control', 'placeholder': '1234-5678', 'pattern': '\d{4}-\d{4}', 'title': 'El teléfono debe tener el formato 1234-5678'}),
             'salario': forms.NumberInput(attrs={'class': 'form-control'}),
             'email': forms.EmailInput(attrs={'class': 'form-control'}),
             'password': forms.PasswordInput(attrs={'class': 'form-control'}),

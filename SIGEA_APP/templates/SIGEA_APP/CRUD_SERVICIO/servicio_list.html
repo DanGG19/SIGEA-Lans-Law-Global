@@ -68,7 +68,7 @@
             $.get('{% url "servicio_create" %}', function(data) {
                 $('#createForm').html(data);
             }).fail(function(xhr, status, error) {
-                alert('Error al cargar el formulario de creación de servicio');
+                Swal.fire('Error', 'Error al cargar el formulario de creación de servicio', 'error');
             });
         });
     });
@@ -78,7 +78,7 @@
         $.get('/servicio/update/' + id + '/', function(data) {
             $('#updateForm' + id).html(data);
         }).fail(function(xhr, status, error) {
-            alert('Error al cargar el formulario de actualización de servicio');
+            Swal.fire('Error', 'Error al cargar el formulario de actualización de servicio', 'error');
         });
     }
 
@@ -87,13 +87,14 @@
         var form = $('#createForm');
         $.post('{% url "servicio_create" %}', form.serialize(), function(data) {
             if (data.success) {
-                location.reload();
-                alert('Servicio creado correctamente');
+                Swal.fire('Éxito', 'Servicio creado correctamente', 'success').then(() => {
+                    location.reload();
+                });
             } else {
-                alert('Error: ' + JSON.stringify(data.errors));
+                Swal.fire('Error', JSON.stringify(data.errors), 'error');
             }
         }).fail(function(xhr, status, error) {
-            alert('Error al procesar la creación del servicio');
+            Swal.fire('Error', 'Error al procesar la creación del servicio', 'error');
         });
     }
 
@@ -102,27 +103,41 @@
         var form = $('#updateForm' + idservicio);
         $.post('/servicio/update/' + idservicio + '/', form.serialize(), function(data) {
             if (data.success) {
-                location.reload();
-                alert('Servicio actualizado correctamente');
+                Swal.fire('Éxito', 'Servicio actualizado correctamente', 'success').then(() => {
+                    location.reload();
+                });
             } else {
-                alert('Error: ' + JSON.stringify(data.errors));
+                Swal.fire('Error', JSON.stringify(data.errors), 'error');
             }
         }).fail(function(xhr, status, error) {
-            alert('Error al procesar la actualización del servicio');
+            Swal.fire('Error', 'Error al procesar la actualización del servicio', 'error');
         });
     }
 
     // Delete servicio
     function deleteServicio(idservicio) {
-        $.post('/servicio/delete/' + idservicio + '/', function(data) {
-            if (data.success) {
-                location.reload();
-                alert('Servicio eliminado correctamente');
-            } else {
-                alert('Error al eliminar el servicio');
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: "No podrás revertir esto!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, eliminarlo!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.post('/servicio/delete/' + idservicio + '/', function(data) {
+                    if (data.success) {
+                        Swal.fire('Eliminado!', 'El servicio ha sido eliminado.', 'success').then(() => {
+                            location.reload();
+                        });
+                    } else {
+                        Swal.fire('Error', JSON.stringify(data.errors), 'error');
+                    }
+                }).fail(function(xhr, status, error) {
+                    Swal.fire('Error', 'Error al procesar la eliminación del servicio', 'error');
+                });
             }
-        }).fail(function(xhr, status, error) {
-            alert('Error al procesar la eliminación del servicio');
         });
     }
 </script>

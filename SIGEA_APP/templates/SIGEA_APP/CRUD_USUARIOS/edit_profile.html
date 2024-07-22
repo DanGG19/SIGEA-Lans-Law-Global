@@ -8,7 +8,7 @@
         <div class="col">
             <div class="scrollable-content">
                 <h1><i class="bi bi-person-circle"></i> Editar Perfil</h1>
-                <form method="post" enctype="multipart/form-data">
+                <form method="post" enctype="multipart/form-data" id="editProfileForm">
                     {% csrf_token %}
                     <div class="form-group">
                         <label for="id_nombre"><i class="bi bi-person"></i> Nombre:</label>
@@ -40,4 +40,44 @@
         </div>
     </div>
 </div>
+
+<script>
+    $(document).ready(function() {
+        setupFormatting();
+    });
+
+    function setupFormatting() {
+        var duiInput = $('input[name="dui"]');
+        var telefonoInput = $('input[name="telefono"]');
+        
+        if (duiInput.length) {
+            duiInput.on('input', function () {
+                this.value = formatDUI(this.value);
+            });
+        }
+
+        if (telefonoInput.length) {
+            telefonoInput.on('input', function () {
+                this.value = formatTelefono(this.value);
+            });
+        }
+
+        function formatDUI(value) {
+            value = value.replace(/\D/g, '');
+            if (value.length > 8) {
+                value = value.slice(0, 8) + '-' + value.slice(8, 9);
+            }
+            return value;
+        }
+
+        function formatTelefono(value) {
+            value = value.replace(/\D/g, '');
+            if (value.length > 4) {
+                value = value.slice(0, 4) + '-' + value.slice(4, 8);
+            }
+            return value;
+        }
+    }
+</script>
+
 {% endblock %}

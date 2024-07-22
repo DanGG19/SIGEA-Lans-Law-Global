@@ -136,11 +136,12 @@ class EditProfileForm(forms.ModelForm):
         widgets = {
             'nombre': forms.TextInput(attrs={'class': 'form-control'}),
             'apellido': forms.TextInput(attrs={'class': 'form-control'}),
-            'dui': forms.TextInput(attrs={'class': 'form-control'}),
-            'telefono': forms.TextInput(attrs={'class': 'form-control'}),
+            'dui': forms.TextInput(attrs={'class': 'form-control', 'placeholder': '12345678-9', 'pattern': '\d{8}-\d', 'title': 'El DUI debe tener el formato 12345678-9'}),
+            'telefono': forms.TextInput(attrs={'class': 'form-control', 'placeholder': '1234-5678', 'pattern': '\d{4}-\d{4}', 'title': 'El teléfono debe tener el formato 1234-5678'}),
             'email': forms.EmailInput(attrs={'class': 'form-control'}),
             'foto_perfil': forms.FileInput(attrs={'class': 'form-control'}),
         }
+
         
 
 class UsuarioChoiceField(forms.ModelChoiceField):
@@ -270,4 +271,8 @@ class PlanDesarolloForm(forms.ModelForm):
             'amenazas': forms.Textarea(attrs={'class': 'form-control',
             'style': 'resize: none'}),
         }
-            
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if self.instance:
+            self.fields['idevaluacion'].initial = self.instance.idevaluacion
+        

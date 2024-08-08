@@ -134,10 +134,22 @@ class Usuario(AbstractBaseUser):
     def __str__(self):
         return self.email
     
+class EstadoActividad(models.Model):
+    idestado = models.AutoField(db_column='IDESTADO', primary_key=True)
+    descripcion = models.CharField(db_column='DESCRIPCION', max_length=255)
+
+    class Meta:
+        managed = True
+        db_table = 'estadoactividad'
+
+    def __str__(self):
+        return self.descripcion
+    
 class Actividades(models.Model):
     idactividad = models.AutoField(db_column='IDACTIVIDAD', primary_key=True)
     idusuario = models.ForeignKey(Usuario, on_delete=models.DO_NOTHING, db_column='IDUSUARIO')
     idrecordatorio = models.ForeignKey('Recordatorio', on_delete=models.DO_NOTHING, db_column='IDRECORDATORIO', blank=True, null=True)
+    estadoactividad = models.ForeignKey(EstadoActividad, models.DO_NOTHING, db_column='IDESTADO', default=1)  # Actualizado
     tipoactividad = models.CharField(db_column='TIPOACTIVIDAD', max_length=255)
     nombreactividad = models.CharField(db_column='NOMBREACTIVIDAD', max_length=255)
     fechaactividad = models.DateTimeField(db_column='FECHAACTIVIDAD')

@@ -370,6 +370,51 @@ def actividades(request):
     
     return render(request, 'SIGEA_APP/CRUD_EVENT/event.html', context)
 
+@login_required
+@csrf_exempt
+@admin_or_secretaria_required
+def actividades_list_template(request):
+    user_type = request.user.tipousuario.idtipousuario  # Obtener el tipo de usuario
+    
+    actividades = Actividades.objects.all()
+    
+    estados = EstadoActividad.objects.all()
+    
+    context = {
+        'pruebita': user_type,
+        'estados': estados,
+        'actividades': actividades,
+    }
+    return render(request, 'SIGEA_APP/CRUD_EVENT/actividades_list.html', context)
+
+def actividades_list(request):
+    actividades = Actividades.objects.all()
+    actividades_json = []
+    
+    for acti in actividades:
+        invitados = invitados_actividad.objects.all()  # Obtener todos los invitados de la actividad
+        invitados_list = []
+        for invitado in invitados:
+            if acti == invitado.idactividad:
+                invitados_list.append({
+                'nombre': invitado.idusuario.nombre,
+                'apellido': invitado.idusuario.apellido,
+            })
+        
+        actividades_json.append({
+            'title': acti.nombreactividad,
+            'start': acti.fechaactividad.isoformat(),
+            'end': acti.fechafin.isoformat(),
+            'description': acti.descripcionactividad,
+            'typeact': acti.tipoactividad,
+            'idacti': acti.idactividad,
+            'invitados': invitados_list,
+            'archivoactividad': acti.docanexoactividad.url if acti.docanexoactividad else None,  # Añadir URL del archivo
+        })
+    
+    return JsonResponse(actividades_json, safe=False)
+
+
 @csrf_exempt
 def actividades_create(request):
     if request.method == 'POST':
@@ -408,40 +453,36 @@ def actividades_create(request):
         return JsonResponse({'success': True, 'message': 'Has creado un evento exitosamente'})
     else:
         return JsonResponse({'success': False, 'message': 'La solicitud debe ser de tipo POST'})
-    
+
+@login_required
+@csrf_exempt # Decorador para deshabilitar la protección CSRF
+@admin_or_secretaria_required # Decorador para permitir solo a los administradores y secretarias acceder a la vista
+def cambiar_estado(request, idactividad):
+    if request.method == 'POST':
+        try:
+            nuevo_estado = get_object_or_404(EstadoActividad, idestado=request.POST.get('estado'))
+            actividad = get_object_or_404(Actividades, idactividad=idactividad)
+            #print(f'este es el estado que estoy guardando {nuevo_estado.idestado}')
+            #print(f'este es el estado que estoy guardando {actividad.nombreactividad}' )
+            #print(f'este es el estado que estoy guardando {actividad.estadoactividad}' )
+            # Asignar el ID de estado correspondiente basado en el nuevo estado recibido
+            actividad.estadoactividad = nuevo_estado
+            #print(f'este es el estado que estoy guardando {actividad.estadoactividad}' )
+            actividad.save()
+
+            return JsonResponse({'success': True})
+        except Exception as e:
+            return JsonResponse({'success': False, 'error': str(e)})
+    return JsonResponse({'success': False, 'error': 'Método no permitido'})
+
+
+
 @admin_or_secretaria_or_jefe_required
 def search_users(request):
     query = request.GET.get('q')
     usuarios = Usuario.objects.filter(nombre__icontains=query) | Usuario.objects.filter(apellido__icontains=query)
     results = [{'id': usuario.idusuario, 'nombre': usuario.nombre, 'apellido': usuario.apellido} for usuario in usuarios]
     return JsonResponse(results, safe=False)
-
-def actividades_list(request):
-    actividades = Actividades.objects.all()
-    actividades_json = []
-    
-    for acti in actividades:
-        invitados = invitados_actividad.objects.all()  # Obtener todos los invitados de la actividad
-        invitados_list = []
-        for invitado in invitados:
-            if acti == invitado.idactividad:
-                invitados_list.append({
-                'nombre': invitado.idusuario.nombre,
-                'apellido': invitado.idusuario.apellido,
-            })
-        
-        actividades_json.append({
-            'title': acti.nombreactividad,
-            'start': acti.fechaactividad.isoformat(),
-            'end': acti.fechafin.isoformat(),
-            'description': acti.descripcionactividad,
-            'typeact': acti.tipoactividad,
-            'idacti': acti.idactividad,
-            'invitados': invitados_list,
-            'archivoactividad': acti.docanexoactividad.url if acti.docanexoactividad else None,  # Añadir URL del archivo
-        })
-    
-    return JsonResponse(actividades_json, safe=False)
 
 @csrf_exempt # Decorador para deshabilitar la protección CSRF
 @admin_or_secretaria_or_jefe_required

@@ -275,4 +275,33 @@ class PlanDesarolloForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         if self.instance:
             self.fields['idevaluacion'].initial = self.instance.idevaluacion
+
+
+class TipoClienteChoiceField(forms.ModelChoiceField):
+    def label_from_instance(self, obj):
+        return f"{obj.descripcion}"
+
+class ClienteForm(forms.ModelForm):
+    idTipo = TipoClienteChoiceField(
+        queryset=TipoCliente.objects.all(),
+        empty_label="Seleccione el tipo de cliente:",
+        widget=forms.Select(attrs={'class': 'form-control'}),
+        label='Tipo del Cliente'
+    )
+
+    class Meta:
+        model = Cliente
+        fields = ['idTipo', 'nombre', 'correo', 'telefono']
+        labels = {
+            'idTipo': 'Tipo de Cliente: ',
+            'nombre': 'Nombre del Cliente: ',
+            'correo': 'Correo: ',
+            'telefono': 'Teléfono: ',
+        }
+        widgets = {
+            'idTipo': forms.Select(attrs={'class': 'form-control'}),
+            'nombre': forms.TextInput(attrs={'class': 'form-control'}),
+            'correo': forms.TextInput(attrs={'class': 'form-control'}),
+            'telefono': forms.TextInput(attrs={'class': 'form-control'})
+        }
         

@@ -639,3 +639,55 @@ def plandesarrollo_create(request, idevaluacion):
             'DesarolloForm': DesarolloForm
         }
     return render(request, 'SIGEA_APP/PLANESDES/plandesarrollo_create.html', context)
+
+@login_required
+@admin_or_secretaria_required
+@csrf_exempt
+def cliente_list(request):
+    user_type = request.user.tipousuario.idtipousuario
+    context = {
+        'pruebita': user_type,
+        'clientes': Cliente.objects.all(),
+        }
+    return render(request, 'SIGEA_APP/CRUD_CLIENTE/cliente_list.html', context)
+
+@login_required
+@csrf_exempt
+@admin_or_secretaria_required
+def cliente_create(request):
+    if request.method == 'POST':
+        form = ClienteForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return JsonResponse({'success': True})
+        else:
+            return JsonResponse({'success': False, 'errors': form.errors})
+    else:
+        form = ClienteForm()
+    return render(request, 'SIGEA_APP/CRUD_CLIENTE/cliente_form.html', {'form': form})
+
+@login_required
+@csrf_exempt
+@admin_or_secretaria_required
+def cliente_update(request, id):
+    cliente = get_object_or_404(Cliente, id=id)
+    if request.method == 'POST':
+        form = ClienteForm(request.POST, instance=cliente)
+        if form.is_valid():
+            form.save()
+            return JsonResponse({'success': True})
+        else:
+            return JsonResponse({'success': False, 'errors': form.errors})
+    else:
+        form = ClienteForm(instance=cliente)
+    return render(request, 'SIGEA_APP/CRUD_CLIENTE/cliente_form.html', {'form': form})
+
+@login_required
+@csrf_exempt
+@admin_or_secretaria_required
+def cliente_delete(request, id):
+    cliente = get_object_or_404(Cliente, id=id)
+    if request.method == 'POST':
+        cliente.delete()
+        return JsonResponse({'success': True})
+    return JsonResponse({'success': False})

@@ -63,6 +63,15 @@
             <span>Evaluaciones</span>
         </a>
     </li>
+
+    <!-- Clientes -->
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'cliente_list' %}">
+            <i class="fas fa-poll"></i>
+            <span>Clientes</span>
+        </a>
+    </li>
+    
     {% elif pruebita == 2 %}
     <!-- Mostrar para pruebita == 2 -->
         <!-- Usuarios -->
@@ -77,6 +86,14 @@
         <a class="nav-link" href="{% url 'actividades' %}">
             <i class="fas fa-tasks"></i>
             <span>Actividades</span>
+        </a>
+    </li>
+
+    <!-- Clientes -->
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'cliente_list' %}">
+            <i class="fas fa-poll"></i>
+            <span>Clientes</span>
         </a>
     </li>
 

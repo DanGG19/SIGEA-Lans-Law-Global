@@ -44,7 +44,12 @@ urlpatterns = [
     path('evaluaciones/<int:idevaluacion>/edit/', views.evaluacion_update, name='evaluacion_update'),
     path('evaluaciones/<int:idevaluacion>/', views.evaluacion_detail, name='evaluacion_detail'),
     path('evaluaciones/<int:idevaluacion>/delete/', views.evaluacion_delete, name='evaluacion_delete'),
-    path('evaluaciones/<int:idevaluacion>/crearPlan', views.plandesarrollo_create, name='plandesarrollo_create')
+    path('evaluaciones/<int:idevaluacion>/crearPlan', views.plandesarrollo_create, name='plandesarrollo_create'),
+
+    path('cliente/', views.cliente_list, name='cliente_list'),
+    path('cliente/new/', views.cliente_create, name='cliente_create'),
+    path('cliente/<int:id>/edit/', views.cliente_update, name='cliente_update'),
+    path('cliente/<int:id>/delete/', views.cliente_delete, name='cliente_delete'),
     
 ]
 if settings.DEBUG:

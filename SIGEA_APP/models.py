@@ -171,3 +171,25 @@ class Recordatorio(models.Model):
     class Meta:
         managed = True
         db_table = 'recordatorio'
+
+class TipoCliente(models.Model):
+    idtipoCliente = models.AutoField(db_column='IDCLIENTE', primary_key=True)
+    descripcion = models.CharField(db_column='DESCRIPCION', max_length=255)
+
+    class Meta:
+        managed = True
+        db_table = 'tipocliente'
+
+    def __str__(self):
+        return self.descripcion
+    
+class Cliente(models.Model):
+    id = models.AutoField(db_column='ID', primary_key=True)  # Field name made lowercase.
+    idTipo = models.ForeignKey(TipoCliente, db_column='IDTIPOCLIENTE', on_delete=models.CASCADE)  # Field name made lowercase.
+    nombre = models.CharField(db_column='NOMBRE', max_length=100)  # Field name made lowercase.
+    correo = models.CharField(db_column='CORREO', max_length=100)  # Field name made lowercase.
+    telefono = models.CharField(db_column='TELEFONO', max_length=9, unique=True)
+
+    class Meta:
+        managed = True
+        db_table = 'cliente'

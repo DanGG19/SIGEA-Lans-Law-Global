@@ -691,3 +691,78 @@ def cliente_delete(request, id):
         cliente.delete()
         return JsonResponse({'success': True})
     return JsonResponse({'success': False})
+
+#Views para Casos
+@login_required
+def caso_list(request):
+    casos = Caso.objects.all()
+    user_type = request.user.tipousuario.idtipousuario
+    
+    context = []
+    for caso in casos:
+        usuario = caso.idUsuario  # Ya es un objeto Usuario
+        context.append({
+            'idCaso': caso.idCaso,
+            'nombreCaso': caso.nombreCaso,
+            'usuario_nombre': usuario.nombre if usuario else 'Sin usuario',
+            'usuario_apellido': usuario.apellido if usuario else '',
+            'descripcionCaso': caso.descripcionCaso,
+            'estadoCaso': caso.estadoCaso
+        })
+
+    return render(request, 'SIGEA_APP/CRUD_CASOS/caso_list.html', {'casos': context, 'pruebita': user_type})
+
+
+@login_required
+@csrf_exempt
+def caso_create(request): #Vista para crear un caso
+    if request.method == 'POST': #Si el método es POST, se crea un formulario con los datos del caso.
+        form = CasoForm(request.POST) #Se crea un formulario con los datos del caso.
+        if form.is_valid(): #Si el formulario es válido, se guarda el caso en la base de datos.
+            form.save() #Se guarda el caso en la base de datos.
+            return JsonResponse({'success': True}) #Se retorna un JSON con el mensaje de éxito.
+        else:
+            return JsonResponse({'success': False, 'errors': form.errors}) #Si el formulario no es válido, se retorna un JSON con el mensaje de error.
+    else:
+        form = CasoForm()
+    return render(request, 'SIGEA_APP/CRUD_CASOS/caso_form.html', {'form': form}) #Si el método no es POST, se muestra el formulario para crear un caso.
+
+@login_required
+@csrf_exempt
+def caso_update(request, idCaso):
+    caso = get_object_or_404(Caso, idCaso=idCaso)
+    if request.method == 'POST':
+        form = CasoForm(request.POST, instance=caso)
+        if form.is_valid():
+            form.save()
+            return JsonResponse({'success': True})
+        else:
+            return JsonResponse({'success': False, 'errors': form.errors})
+    else:
+        form = CasoForm(instance=caso)
+    return render(request, 'SIGEA_APP/CRUD_CASOS/caso_form.html', {'form': form})
+
+@admin_jefe_required
+def caso_detail(request, idCaso):
+    caso = get_object_or_404(Caso, idCaso=idCaso)
+    usuario = caso.idUsuario
+    context = {
+        'caso': caso,
+        'usuario_nombre': usuario.nombre if usuario else 'Sin usuario',
+        'usuario_apellido': usuario.apellido if usuario else '',
+        'usuario_email': usuario.email if usuario else 'N/A'
+    }
+    return render(request, 'SIGEA_APP/CRUD_CASOS/caso_detail.html', context)
+
+@login_required
+@csrf_exempt
+def caso_delete(request, idCaso):
+    caso = get_object_or_404(Caso, idCaso=idCaso)
+    if request.method == 'POST':
+        caso.delete()
+        return JsonResponse({'success': True})
+    return JsonResponse({'success': False})
+
+
+
+

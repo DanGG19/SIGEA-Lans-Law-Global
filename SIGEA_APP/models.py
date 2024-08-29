@@ -193,3 +193,26 @@ class Cliente(models.Model):
     class Meta:
         managed = True
         db_table = 'cliente'
+        
+    
+#Modelo para la tabla de casos de los usuarios tipo abogado y usuarios cliente
+class Caso(models.Model):
+    ESTADO_CHOICES = [
+        ('Iniciado', 'Iniciado'),
+        ('En proceso', 'En Proceso'),
+        ('Finalizado', 'Finalizado'),
+    ]
+
+    idCaso = models.AutoField(db_column='IDCASO', primary_key=True)  
+    nombreCaso = models.CharField(db_column='NOMBRECASO', max_length=255)
+    idUsuario = models.ForeignKey(Usuario, models.DO_NOTHING, db_column='IDUSUARIO')  
+    descripcionCaso = models.CharField(db_column='DESCRIPCIONCASO', max_length=2000) 
+    #campo para el estado del caso si esta iniciado, en progreso o finalizado
+    estadoCaso = models.CharField(db_column='ESTADOCASO', max_length=255, choices=ESTADO_CHOICES) 
+    
+    #clase str para retornar el nombre del caso y su estado
+    def __str__(self):
+        return self.nombreCaso + " - " + self.descripcionCaso + " - " + self.estadoCaso
+    class Meta:
+        managed = True
+        db_table = 'caso'    

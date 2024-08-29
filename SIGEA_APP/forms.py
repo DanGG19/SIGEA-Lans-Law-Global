@@ -304,4 +304,32 @@ class ClienteForm(forms.ModelForm):
             'correo': forms.TextInput(attrs={'class': 'form-control'}),
             'telefono': forms.TextInput(attrs={'class': 'form-control'})
         }
+
+class CasoForm(forms.ModelForm):
+    idUsuario = forms.ModelChoiceField(
+        queryset=Usuario.objects.all(),
+        empty_label="Seleccione un encargado",
+        widget=forms.Select(attrs={'class': 'form-control'}),
+        label="Encargado de Caso",
+        required=True
+    )
+
+    class Meta:
+        model = Caso
+        fields = ['nombreCaso', 'idUsuario', 'descripcionCaso', 'estadoCaso']
+        labels = {
+            'nombreCaso': 'Nombre del Caso: ',
+            'idUsuario': 'Usuario: ',
+            'descripcionCaso': 'Descripción del Caso: ',
+            'estadoCaso': 'Estado del Caso: '
+        }
+        widgets = {
+            'nombreCaso': forms.TextInput(attrs={'class': 'form-control'}),
+            'descripcionCaso': forms.Textarea(attrs={'class': 'form-control'}),
+            'estadoCaso': forms.Select(attrs={'class': 'form-control'}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['idUsuario'].label_from_instance = lambda obj: f"{obj.nombre} {obj.apellido}"
         

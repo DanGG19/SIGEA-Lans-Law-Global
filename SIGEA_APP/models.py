@@ -1,7 +1,9 @@
+import datetime
 from django.db import models
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser # Se importan las clases BaseUserManager y AbstractBaseUser de django para manejar la creación de usuarios
 from django.db.models.signals import pre_delete
 from django.dispatch import receiver
+from django.utils import timezone
 
 # Create your models here.
 
@@ -22,13 +24,13 @@ def update_responsable_departamento(sender, instance, **kwargs):
 
 
 class Evaluacion(models.Model):
-    idevaluacion = models.AutoField(db_column='IDEVALUACION', primary_key=True)  # Field name made lowercase.
-    idplandes = models.ForeignKey('Plandesarrollo', on_delete=models.CASCADE, db_column='IDPLANDES', blank=True, null=True)  # Field name made lowercase.
-    idusuario = models.ForeignKey('Usuario', on_delete=models.CASCADE, db_column='IDUSUARIO')  # Field name made lowercase.
-    tipoevaluacion = models.CharField(db_column='TIPOEVALUACION', max_length=255)  # Field name made lowercase.
-    notaevaluacio = models.DecimalField(db_column='NOTAEVALUACIO', max_digits=10, decimal_places=0)  # Field name made lowercase.
-    comentarioevaluacio = models.CharField(db_column='COMENTARIOEVALUACIO', max_length=2000)  # Field name made lowercase.
-    fechaevaluacion = models.DateTimeField(db_column='FECHAEVALUACION')  # Field name made lowercase.
+    idevaluacion = models.AutoField(db_column='IDEVALUACION', primary_key=True)
+    idplandes = models.ForeignKey('Plandesarrollo', on_delete=models.SET_NULL, db_column='IDPLANDES', blank=True, null=True)
+    idusuario = models.ForeignKey('Usuario', on_delete=models.CASCADE, db_column='IDUSUARIO')
+    tipoevaluacion = models.CharField(db_column='TIPOEVALUACION', max_length=255)
+    notaevaluacio = models.DecimalField(db_column='NOTAEVALUACIO', max_digits=10, decimal_places=0)
+    comentarioevaluacio = models.CharField(db_column='COMENTARIOEVALUACIO', max_length=2000)
+    fechaevaluacion = models.DateTimeField(db_column='FECHAEVALUACION')
 
     class Meta:
         managed = True
@@ -193,6 +195,47 @@ class Cliente(models.Model):
     class Meta:
         managed = True
         db_table = 'cliente'
+        
+
+
+class RegistroAsistencia(models.Model):
+    idregistro = models.AutoField(db_column='ID', primary_key=True)
+    empleado = models.ForeignKey('Usuario', on_delete=models.CASCADE, related_name='registros_asistencia')
+    fecha = models.DateField(default=timezone.now)
+    hora_entrada = models.TimeField()
+    hora_salida = models.TimeField(null=True, blank=True)
+    horas_trabajadas = models.DurationField(default=datetime.timedelta)
+
+    def calcular_horas_trabajadas(self):
+        if self.hora_salida:
+            entrada = datetime.datetime.combine(self.fecha, self.hora_entrada)
+            salida = datetime.datetime.combine(self.fecha, self.hora_salida)
+            diferencia = salida - entrada
+            self.horas_trabajadas = diferencia
+        else:
+            self.horas_trabajadas = datetime.timedelta()
+
+    def save(self, *args, **kwargs):
+        self.calcular_horas_trabajadas()
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f'{self.empleado} - {self.fecha}'
+
+    class Meta:
+        db_table = 'registro_asistencia'
+        constraints = [
+            models.CheckConstraint(check=models.Q(hora_salida__gte=models.F('hora_entrada')), name='check_hora_entrada_salida'),
+            models.UniqueConstraint(fields=['empleado', 'fecha'], name='unique_empleado_fecha')
+        ]
+        
+    @property
+    def horas_trabajadas_formateadas(self):
+        total_segundos = self.horas_trabajadas.total_seconds()
+        horas = total_segundos // 3600
+        minutos = (total_segundos % 3600) // 60
+        return f'{int(horas)} horas, {int(minutos)} minutos'
+
         
     
 #Modelo para la tabla de casos de los usuarios tipo abogado y usuarios cliente

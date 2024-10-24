@@ -45,14 +45,16 @@
     <!-- Actividades -->
     <li class="nav-item">
         <a class="nav-link" href="{% url 'actividades' %}">
-            <i class="fas fa-tasks"></i>
+            <i class="fas fa-calendar-check"></i> 
             <span>Actividades</span>
         </a>
     </li>
+
+    <!-- Lista de Actividades -->
     <li class="nav-item">
         <a class="nav-link" href="{% url 'actividades_list_template' %}">
-            <i class="fas fa-tasks"></i>
-            <span>Lista de actividades</span>
+            <i class="fas fa-clipboard-list"></i> 
+            <span>Lista de Actividades</span>
         </a>
     </li>
 
@@ -67,10 +69,21 @@
     <!-- Clientes -->
     <li class="nav-item">
         <a class="nav-link" href="{% url 'cliente_list' %}">
-            <i class="fas fa-poll"></i>
+            <i class="fas fa-user-tie"></i> 
             <span>Clientes</span>
         </a>
     </li>
+
+    <!-- Registro de Horas -->
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'registroasistencia_list' %}">
+            <i class="fas fa-clock"></i>
+            <span>Registro de Horas</span>
+        </a>
+    </li>
+
+
+
 
     <!-- Casos -->
     <li class="nav-item">

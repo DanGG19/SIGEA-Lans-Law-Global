@@ -9,7 +9,7 @@
 <div class="container">
   <div class="row">
     <div class="col-12">
-      <h1><i class="fas fa-file-alt"></i> Nuevo plan de desarrollo</h1>
+      <h1><i class="fas fa-file-alt"></i> Editar plan de desarrollo</h1>
     </div>
   </div>
   
@@ -90,8 +90,7 @@
       <div class="row mt-4 justify-content-center">
         <div class="col-md-2">
 
-          <button type="submit" id="btnCrearPlan" class="btn btn-primary btn-block"><i class="fas fa-plus"></i> Crear plan</button>
-
+          <button type="submit" id="btnEditarPlan" class="btn btn-primary btn-block"><i class="fas fa-plus"></i>Guardar cambios</button>
 
         </div>
       </div>
@@ -101,7 +100,7 @@
 <script>
 
   $(document).ready(function() {
-      $('#btnCrearPlan').click(function(event) {
+      $('#btnEditarPlan').click(function(event) {
           event.preventDefault(); // Evitar el comportamiento predeterminado de envío del formulario
           var form = $(this).closest('form'); // Obtener el formulario más cercano al botón
           $.ajax({
@@ -109,10 +108,10 @@
               url: form.attr('action'),
               data: form.serialize(),
               success: function(data) {
-                  window.location.href = '/evaluaciones'; // Reemplaza '/ruta-a-donde-redirigir' con la URL deseada
+                  window.location.href = '/evaluaciones'; 
               },
               error: function(xhr, status, error) {
-                  alert('Error al crear el plan'); // Mostrar alerta en caso de error
+                  alert('Error al editar el plan'); // Mostrar alerta en caso de error
               }
           });
       });

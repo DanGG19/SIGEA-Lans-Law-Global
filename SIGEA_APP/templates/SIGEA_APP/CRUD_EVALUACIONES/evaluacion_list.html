@@ -16,6 +16,7 @@
                     <th>Nota</th>
                     <th>Plan de Desarrollo</th>
                     <th>Acciones</th>
+                    <th>Acciones PlanDes</th>         
                 </tr>
             </thead>
             <tbody>
@@ -26,15 +27,16 @@
                     <td>{{ evaluacion.tipoevaluacion }}</td>
                     <td>{{ evaluacion.notaevaluacio }}</td>
                     <td>
-                        {% if plandes %}
-                        {% for pd in plandes %}
-                        {% if evaluacion.idplandes.idplandes == pd.idplandes %}
-                            <a>{{ pd.nombreplandes }}</a>
-                        {% endif %}
-                        {% endfor %}
+                        {% if evaluacion.idplandes %}
+                            {% if evaluacion.idplandes.nombreplandes %}
+                                <a>{{ evaluacion.idplandes.nombreplandes }}</a>
+                            {% else %}
+                                (Sin nombre)
+                            {% endif %}
                         {% else %}
-                        No hay plan asignado
+                            No hay plan asignado
                         {% endif %}
+                    </td>                 
                     <td>
                         <button class="btn btn-info" data-toggle="modal" data-target="#detailModal{{ evaluacion.idevaluacion }}">
                             <i class="fas fa-eye"></i> Ver
@@ -45,9 +47,22 @@
                         <button class="btn btn-danger" data-toggle="modal" data-target="#deleteModal{{ evaluacion.idevaluacion }}">
                             <i class="fas fa-trash-alt"></i> Eliminar
                         </button>
+                    </td>
+                    <td>
+                        <!-- Botones dinámicos para planes de desarrollo -->
+                        {% if evaluacion.idplandes %}
+                        <a class="btn btn-primary" href="{% url 'plandesarrollo_update' evaluacion.idevaluacion evaluacion.idplandes.idplandes %}">
+                            <i class="fas fa-edit"></i>Editar plan
+                        </a>
+                        <button class="btn btn-danger" data-toggle="modal" data-target="#deleteModalPlan{{ evaluacion.idplandes.idplandes }}">
+                            <i class="fas fa-trash-alt"></i> Eliminar plan
+                        </button>
+
+                        {% else  %}
                         <a class="btn btn-success" href="{% url 'plandesarrollo_create' evaluacion.idevaluacion %}">
                             <i class="fas fa-plus-circle"></i> Crear Plan
                         </a>             
+                        {% endif %}
                     </td>
                 </tr>
 
@@ -127,6 +142,28 @@
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
                                 <button type="button" class="btn btn-danger" onclick="deleteEvaluacion({{ evaluacion.idevaluacion }})">Eliminar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Delete Modal PLAN -->
+                <div class="modal fade" id="deleteModalPlan{{ evaluacion.idplandes.idplandes }}" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabelPlan{{ evaluacion.idplandes.idplandes }}" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="deleteModalLabelPlan{{ evaluacion.idplandes.idplandes }}">Eliminar plan</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                ¿Estás seguro de que deseas eliminar este plan de desarollo?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                <button type="button" class="btn btn-danger" onclick="deletePlanDesarrollo({{ evaluacion.idplandes.idplandes }})">Eliminar</button>
                             </div>
                         </div>
                     </div>
@@ -251,6 +288,31 @@
                     }
                 }).fail(function(xhr, status, error) {
                     Swal.fire('Error', 'Error al procesar la eliminación de la evaluación', 'error');
+                });
+            }
+        });
+    }
+    function deletePlanDesarrollo(id) {
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: "No podrás revertir esto!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, eliminarlo!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.post('/evaluaciones/deletePlan/' + id , function(data) {
+                    if (data.success) {
+                        Swal.fire('Eliminado!', 'El plan de desarollo ha sido eliminada.', 'success').then(() => {
+                            location.reload();
+                        });
+                    } else {
+                        Swal.fire('Error', JSON.stringify(data.errors), 'error');
+                    }
+                }).fail(function(xhr, status, error) {
+                    Swal.fire('Error', 'Error al procesar la eliminación del plan de desarollo', 'error');
                 });
             }
         });

@@ -45,13 +45,16 @@ urlpatterns = [
     path('evaluaciones/<int:idevaluacion>/', views.evaluacion_detail, name='evaluacion_detail'),
     path('evaluaciones/<int:idevaluacion>/delete/', views.evaluacion_delete, name='evaluacion_delete'),
     path('evaluaciones/<int:idevaluacion>/crearPlan', views.plandesarrollo_create, name='plandesarrollo_create'),
+    path('evaluaciones/<int:idevaluacion>/editarPlan/<int:idplandes>', views.plandesarrollo_update, name='plandesarrollo_update'),
+    path('evaluaciones/deletePlan/<int:idplandes>', views.plandesarollo_delete, name='plandesarrollo_delete'),
+
 
     path('cliente/', views.cliente_list, name='cliente_list'),
     path('cliente/new/', views.cliente_create, name='cliente_create'),
     path('cliente/<int:id>/edit/', views.cliente_update, name='cliente_update'),
     path('cliente/<int:id>/delete/', views.cliente_delete, name='cliente_delete'),
     
-    #rutas para acceder a los casos
+        #rutas para acceder a los casos
     path('caso/', views.caso_list, name='caso_list'),
     path('caso/create/', views.caso_create, name='caso_create'),  # Ruta para crear un caso, que llama a la vista caso_create.
     path('caso/update/<int:idCaso>/', views.caso_update, name='caso_update'),  # Ruta para actualizar un caso, que llama a la vista caso_update.

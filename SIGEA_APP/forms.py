@@ -230,7 +230,7 @@ class EvaluacionForm(forms.ModelForm):
             'comentarioevaluacio': forms.Textarea(attrs={'class': 'form-control'}),
             'fechaevaluacion': forms.DateTimeInput(
                 attrs={'class': 'form-control', 'type': 'datetime-local'},
-                format='%Y-%m-%dT%H:%M'  # Ajusta el formato según tu necesidad
+                format='%Y-%m-%dT%H:%M'  
             ),
         }
 
@@ -273,7 +273,7 @@ class PlanDesarolloForm(forms.ModelForm):
         }
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        if self.instance:
+        if self.instance and self.instance.pk:
             self.fields['idevaluacion'].initial = self.instance.idevaluacion
 
 
@@ -333,3 +333,33 @@ class CasoForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields['idUsuario'].label_from_instance = lambda obj: f"{obj.nombre} {obj.apellido}"
         
+        
+class RegistroAsistenciaForm(forms.ModelForm):
+    empleado = forms.ModelChoiceField(
+        queryset=Usuario.objects.all(),
+        empty_label="Seleccione un empleado",  
+        widget=forms.Select(attrs={'class': 'form-control'})
+    )
+
+    class Meta:
+        model = RegistroAsistencia
+        fields = ['empleado', 'fecha', 'hora_entrada', 'hora_salida']
+        labels = {
+            'empleado': 'Empleado',
+            'fecha': 'Fecha',
+            'hora_entrada': 'Hora de Entrada',
+            'hora_salida': 'Hora de Salida'
+        }
+        widgets = {
+            'empleado': forms.Select(attrs={'class': 'form-control'}),
+            'fecha': forms.DateInput(
+                attrs={'class': 'form-control', 'type': 'date'},
+                format='%Y-%m-%d' 
+            ),
+            'hora_entrada': forms.TimeInput(attrs={'class': 'form-control', 'type': 'time'}),
+            'hora_salida': forms.TimeInput(attrs={'class': 'form-control', 'type': 'time'}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['fecha'].input_formats = ['%Y-%m-%d']  

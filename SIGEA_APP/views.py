@@ -1,3 +1,4 @@
+import json
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import *
 from django.contrib.auth.decorators import login_required
@@ -7,12 +8,9 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from .forms import *
 from django.db.models import Q
-from django.template.loader import render_to_string
-from django.utils import timezone
-from datetime import datetime
 from django.core.mail import send_mail
 from django.conf import settings
-from django.core.files.storage import FileSystemStorage
+from django.http import JsonResponse
 
 
 def admin_or_secretaria_required(view_func):
@@ -609,9 +607,12 @@ def evaluacion_detail(request, idevaluacion):
 def evaluacion_delete(request, idevaluacion):
     evaluacion = get_object_or_404(Evaluacion, idevaluacion=idevaluacion)
     if request.method == 'POST':
-        evaluacion.delete()
+        if evaluacion.idplandes:
+            evaluacion.idplandes.delete() 
+        evaluacion.delete() 
         return JsonResponse({'success': True})
     return JsonResponse({'success': False})
+
 
 @login_required
 @csrf_exempt
@@ -634,11 +635,48 @@ def plandesarrollo_create(request, idevaluacion):
     else:
         DesarolloForm = PlanDesarolloForm()
         user_type = request.user.tipousuario.idtipousuario
-        context = {
+        context = {     
             'pruebita': user_type,
             'DesarolloForm': DesarolloForm
         }
     return render(request, 'SIGEA_APP/PLANESDES/plandesarrollo_create.html', context)
+
+@login_required
+@csrf_exempt
+@admin_jefe_required
+def plandesarrollo_update(request, idevaluacion, idplandes):
+    plandes = Plandesarrollo.objects.get(idplandes=idplandes)
+    if request.method == 'POST':
+        eva = Evaluacion.objects.get(idevaluacion=idevaluacion)
+        DF = PlanDesarolloForm(request.POST, instance=plandes)
+        if DF.is_valid():
+            d = DF.save()
+            eva.idplandes = d
+            eva.save()
+            
+            return JsonResponse({'success': True})
+        else:
+            return JsonResponse({'success': False})
+
+    else:
+        DesarolloForm = PlanDesarolloForm(instance=plandes)
+        user_type = request.user.tipousuario.idtipousuario
+        context = {     
+            'pruebita': user_type,
+            'DesarolloForm': DesarolloForm
+        }
+    return render(request, 'SIGEA_APP/PLANESDES/plandesarrollo_update.html', context)
+
+@login_required
+@csrf_exempt
+@admin_jefe_required
+def plandesarollo_delete(request, idplandes):
+    plan = get_object_or_404(Plandesarrollo, idplandes=idplandes)
+    if request.method == 'POST':
+        plan.delete()
+        return JsonResponse({'success': True})
+    return JsonResponse({'success': False})
+
 
 @login_required
 @admin_or_secretaria_required
@@ -691,6 +729,92 @@ def cliente_delete(request, id):
         cliente.delete()
         return JsonResponse({'success': True})
     return JsonResponse({'success': False})
+
+
+# CONTROL DE ASISTENCIA
+@login_required
+@csrf_exempt
+def registroasistencia_list(request):
+    user_type = request.user.tipousuario.idtipousuario  # Obtener el tipo de usuario
+    usuario_id = request.GET.get('usuario_id')
+    dia = request.GET.get('dia')
+    mes = request.GET.get('mes')
+    anio = request.GET.get('anio')
+
+    # Filtrar los registros de asistencia
+    registros = RegistroAsistencia.objects.all()
+
+    # Obtener todos los usuarios (empleados)
+    usuarios = Usuario.objects.all()
+
+    # Aplicar filtro por usuario si está seleccionado
+    if usuario_id:
+        registros = registros.filter(empleado_id=usuario_id)
+
+    # Filtrar por día, mes y año si están definidos
+    if dia:
+        registros = registros.filter(fecha__day=dia)
+    if mes:
+        registros = registros.filter(fecha__month=mes)
+    if anio:
+        registros = registros.filter(fecha__year=anio)
+
+    # Cargar el menú con pruebita (tipo de usuario)
+    context = {
+        'pruebita': user_type,  # Pasar el tipo de usuario al contexto
+        'registros': registros,  # Registros filtrados
+        'usuarios': usuarios,  # Lista de usuarios para el filtro
+        'selected_usuario_id': usuario_id,  # Usuario seleccionado
+        'dia': dia,
+        'mes': mes,
+        'anio': anio,
+    }
+
+    return render(request, 'SIGEA_APP/CRUD_CONTROL_ASISTENCIAS/registroasistencia_list.html', context)
+
+
+
+@csrf_exempt
+def registroasistencia_create(request):
+    if request.method == 'POST':
+        form = RegistroAsistenciaForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return JsonResponse({'success': True})
+        else:
+            return JsonResponse({'success': False, 'errors': form.errors})
+
+    form = RegistroAsistenciaForm()
+    return render(request, 'SIGEA_APP/CRUD_CONTROL_ASISTENCIAS/registroasistencia_form.html', {'form': form})
+
+
+@csrf_exempt
+def registroasistencia_update(request, idregistro):
+    registro = get_object_or_404(RegistroAsistencia, idregistro=idregistro)
+    
+    if request.method == 'POST':
+        form = RegistroAsistenciaForm(request.POST, instance=registro)
+        if form.is_valid():
+            form.save()
+            return JsonResponse({'success': True})
+        else:
+            return JsonResponse({'success': False, 'errors': form.errors})
+    else:
+        form = RegistroAsistenciaForm(instance=registro)  # Cargar el registro existente
+
+    return render(request, 'SIGEA_APP/CRUD_CONTROL_ASISTENCIAS/registroasistencia_form.html', {'form': form})
+
+
+@require_POST
+@csrf_exempt
+def registroasistencia_delete(request, idregistro):
+    registro = get_object_or_404(RegistroAsistencia, idregistro=idregistro)
+    try:
+        registro.delete()
+        return JsonResponse({'success': True})
+    except Exception as e:
+        return JsonResponse({'success': False, 'errors': str(e)})
+
 
 #Views para Casos
 @login_required

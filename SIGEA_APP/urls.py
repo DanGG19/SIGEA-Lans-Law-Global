@@ -53,14 +53,20 @@ urlpatterns = [
     path('cliente/new/', views.cliente_create, name='cliente_create'),
     path('cliente/<int:id>/edit/', views.cliente_update, name='cliente_update'),
     path('cliente/<int:id>/delete/', views.cliente_delete, name='cliente_delete'),
-    
-        #rutas para acceder a los casos
+
+    #rutas para acceder a los casos
     path('caso/', views.caso_list, name='caso_list'),
     path('caso/create/', views.caso_create, name='caso_create'),  # Ruta para crear un caso, que llama a la vista caso_create.
     path('caso/update/<int:idCaso>/', views.caso_update, name='caso_update'),  # Ruta para actualizar un caso, que llama a la vista caso_update.
     path('caso/delete/<int:idCaso>/', views.caso_delete, name='caso_delete'),  # Ruta para eliminar un caso, que llama a la vista caso_delete.
     path('caso/detail/<int:idCaso>/', views.caso_detail, name='caso_detail'),  # Ruta para ver los detalles de un caso, que llama a la vista caso_detail.
 
+    path('registroasistencia/', views.registroasistencia_list, name='registroasistencia_list'),
+    path('registroasistencia/create/', views.registroasistencia_create, name='registroasistencia_create'),
+    path('registroasistencia/update/<int:idregistro>/', views.registroasistencia_update, name='registroasistencia_update'),
+    path('registroasistencia/delete/<int:idregistro>/', views.registroasistencia_delete, name='registroasistencia_delete'),
+
+    
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

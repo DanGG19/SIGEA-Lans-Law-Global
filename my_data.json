@@ -504,6 +504,114 @@
   }
 },
 {
+  "model": "auth.permission",
+  "pk": 57,
+  "fields": {
+    "name": "Can add cliente",
+    "content_type": 15,
+    "codename": "add_cliente"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 58,
+  "fields": {
+    "name": "Can change cliente",
+    "content_type": 15,
+    "codename": "change_cliente"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 59,
+  "fields": {
+    "name": "Can delete cliente",
+    "content_type": 15,
+    "codename": "delete_cliente"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 60,
+  "fields": {
+    "name": "Can view cliente",
+    "content_type": 15,
+    "codename": "view_cliente"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 61,
+  "fields": {
+    "name": "Can add usuario",
+    "content_type": 16,
+    "codename": "add_usuario"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 62,
+  "fields": {
+    "name": "Can change usuario",
+    "content_type": 16,
+    "codename": "change_usuario"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 63,
+  "fields": {
+    "name": "Can delete usuario",
+    "content_type": 16,
+    "codename": "delete_usuario"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 64,
+  "fields": {
+    "name": "Can view usuario",
+    "content_type": 16,
+    "codename": "view_usuario"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 65,
+  "fields": {
+    "name": "Can add invitados_actividad",
+    "content_type": 17,
+    "codename": "add_invitados_actividad"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 66,
+  "fields": {
+    "name": "Can change invitados_actividad",
+    "content_type": 17,
+    "codename": "change_invitados_actividad"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 67,
+  "fields": {
+    "name": "Can delete invitados_actividad",
+    "content_type": 17,
+    "codename": "delete_invitados_actividad"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 68,
+  "fields": {
+    "name": "Can view invitados_actividad",
+    "content_type": 17,
+    "codename": "view_invitados_actividad"
+  }
+},
+{
   "model": "contenttypes.contenttype",
   "pk": 1,
   "fields": {
@@ -548,7 +656,7 @@
   "pk": 6,
   "fields": {
     "app_label": "SIGEA_APP",
-    "model": "actividades"
+    "model": "departamentos"
   }
 },
 {
@@ -556,7 +664,7 @@
   "pk": 7,
   "fields": {
     "app_label": "SIGEA_APP",
-    "model": "departamentos"
+    "model": "estadoactividad"
   }
 },
 {
@@ -572,7 +680,7 @@
   "pk": 9,
   "fields": {
     "app_label": "SIGEA_APP",
-    "model": "tipousuario"
+    "model": "tipocliente"
   }
 },
 {
@@ -580,7 +688,7 @@
   "pk": 10,
   "fields": {
     "app_label": "SIGEA_APP",
-    "model": "plandesarrollo"
+    "model": "tipousuario"
   }
 },
 {
@@ -588,7 +696,7 @@
   "pk": 11,
   "fields": {
     "app_label": "SIGEA_APP",
-    "model": "recordatorio"
+    "model": "actividades"
   }
 },
 {
@@ -596,7 +704,7 @@
   "pk": 12,
   "fields": {
     "app_label": "SIGEA_APP",
-    "model": "servicios"
+    "model": "plandesarrollo"
   }
 },
 {
@@ -604,7 +712,7 @@
   "pk": 13,
   "fields": {
     "app_label": "SIGEA_APP",
-    "model": "usuario"
+    "model": "recordatorio"
   }
 },
 {
@@ -612,7 +720,23 @@
   "pk": 14,
   "fields": {
     "app_label": "SIGEA_APP",
-    "model": "invitados_actividad"
+    "model": "servicios"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 15,
+  "fields": {
+    "app_label": "SIGEA_APP",
+    "model": "cliente"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 16,
+  "fields": {
+    "app_label": "SIGEA_APP",
+    "model": "usuario"
   }
 },
 {
@@ -931,13 +1055,13 @@
   "model": "SIGEA_APP.usuario",
   "pk": 1,
   "fields": {
-    "last_login": "2024-06-16T21:50:33.623Z",
+    "last_login": "2024-10-05T06:04:41.071Z",
     "idservicio": null,
     "tipousuario": 1,
     "nombre": "Allan Augusto",
     "apellido": "Anduray Portillo",
     "dui": "364025904",
-    "telefono": 74313705,
+    "telefono": "74313705",
     "salario": "1200",
     "email": "ap20025@ues.edu.sv",
     "password": "pbkdf2_sha256$720000$06LS2E5u1w4yMFSYzl8kkv$foNawpVPI8FLWm42FuTOydAYEy/gwD58gCocO3Urt0Q=",
@@ -954,7 +1078,7 @@
     "nombre": "Jefe",
     "apellido": "Departamento 1",
     "dui": "904583102",
-    "telefono": 77352145,
+    "telefono": "77352145",
     "salario": "1200",
     "email": "correo1@correo.com",
     "password": "pbkdf2_sha256$720000$7aJNKj6ax8TIpC9pPZelIP$XiWn2zq2WWTx61hWx/AGepQRuNA4UitoVMbopWZge9o=",
@@ -971,7 +1095,7 @@
     "nombre": "Jefe",
     "apellido": "Departamento 2",
     "dui": "904583103",
-    "telefono": 77352146,
+    "telefono": "77352146",
     "salario": "1200",
     "email": "correo2@correo.com",
     "password": "pbkdf2_sha256$720000$1GFcu3lMkHfbGFtxEzDe0C$u3s6E/AVTrInhPo2SiY6zA2TPJakvefwQezgYhu9FnY=",
@@ -988,7 +1112,7 @@
     "nombre": "Jefe",
     "apellido": "Departamento 3",
     "dui": "904583104",
-    "telefono": 77352147,
+    "telefono": "77352147",
     "salario": "1200",
     "email": "correo3@correo.com",
     "password": "pbkdf2_sha256$720000$N8AIiQghBFyWJpP51DQalG$rbIn9d6umX+eHlSjahpZcDS4QtqE/CXU+OLqz6pwEeY=",
@@ -1005,7 +1129,7 @@
     "nombre": "Jefe",
     "apellido": "Departamento 4",
     "dui": "904583105",
-    "telefono": 77352148,
+    "telefono": "77352148",
     "salario": "1200",
     "email": "correo4@correo.com",
     "password": "pbkdf2_sha256$720000$swONmhsrZ505Wadpy7BI3D$zW/lOezgX7rYgyS4yM27rEnpIw/l6i5p5KgnqMYihEI=",
@@ -1022,7 +1146,7 @@
     "nombre": "s",
     "apellido": "1",
     "dui": "987654321",
-    "telefono": 25896347,
+    "telefono": "25896347",
     "salario": "100",
     "email": "s1@s1.com",
     "password": "pbkdf2_sha256$720000$QmGSGvFh4OKdiUSmUOfVHk$eDVPNFJaL/KzW3KaLMTvSGcSk/xYL+OztVtF4HM4CvI=",
@@ -1039,25 +1163,11 @@
     "nombre": "a",
     "apellido": "1",
     "dui": "98765431",
-    "telefono": 77777777,
+    "telefono": "77777777",
     "salario": "100",
     "email": "a1@a1.com",
     "password": "pbkdf2_sha256$720000$yLREXhzjNixFayllMQsVuG$hS5XtRlgExfkaJoY2dOLVaWZgeOmknWBbWWSzH62yKk=",
     "foto_perfil": ""
-  }
-},
-{
-  "model": "SIGEA_APP.actividades",
-  "pk": 2,
-  "fields": {
-    "idusuario": 10,
-    "idrecordatorio": null,
-    "tipoactividad": "aaa",
-    "nombreactividad": "Abogado",
-    "fechaactividad": "2024-06-10T18:00:00Z",
-    "fechafin": "2024-06-13T18:00:00Z",
-    "descripcionactividad": "",
-    "docanexoactividad": ""
   }
 }
 ]

@@ -8,10 +8,10 @@ from django.utils import timezone
 # Create your models here.
 
 class Departamentos(models.Model):
-    iddepartamento = models.AutoField(db_column='IDDEPARTAMENTO', primary_key=True)  # Field name made lowercase.
-    divisiondepartamento = models.CharField(db_column='DIVISIONDEPARTAMENTO', max_length=255)  # Field name made lowercase.
+    iddepartamento = models.AutoField(db_column='IDDEPARTAMENTO', primary_key=True)
+    divisiondepartamento = models.CharField(db_column='DIVISIONDEPARTAMENTO', max_length=255)
     responsabledepartamento = models.ForeignKey('Usuario', models.SET_NULL, db_column='RESPONSABLEDEPARTAMENTO', null=True, blank=True)
-
+    
     class Meta:
         managed = True
         db_table = 'departamentos'
@@ -26,7 +26,7 @@ def update_responsable_departamento(sender, instance, **kwargs):
 class Evaluacion(models.Model):
     idevaluacion = models.AutoField(db_column='IDEVALUACION', primary_key=True)
     idplandes = models.ForeignKey('Plandesarrollo', on_delete=models.SET_NULL, db_column='IDPLANDES', blank=True, null=True)
-    idusuario = models.ForeignKey('Usuario', on_delete=models.CASCADE, db_column='IDUSUARIO')
+    idusuario = models.ForeignKey('Usuario', on_delete=models.CASCADE, db_column='IDUSUARIO', blank=True, null=True)  # Puede ser nulo en evaluación de departamento
     tipoevaluacion = models.CharField(db_column='TIPOEVALUACION', max_length=255)
     notaevaluacio = models.DecimalField(db_column='NOTAEVALUACIO', max_digits=10, decimal_places=0)
     comentarioevaluacio = models.CharField(db_column='COMENTARIOEVALUACIO', max_length=2000)

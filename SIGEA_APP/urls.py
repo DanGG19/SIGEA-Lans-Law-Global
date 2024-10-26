@@ -5,6 +5,8 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('', views.index, name="index"), #Ruta para la página de inicio, que llama a la vista index.
+    path('actualizar_estado_actividad/', views.actualizar_estado_actividad, name='actualizar_estado_actividad'),
+    
     path('login/', views.login_V, name="login"), #Ruta para la página de inicio de sesión, que llama a la vista login_V.
     path('accounts/login/', views.login_V, name="login"), #Ruta para la redirección de inicio de sesión (usualmente usada por el sistema de autenticación de Django).
     path('logout/', views.exit, name='exit'),
@@ -40,15 +42,14 @@ urlpatterns = [
     path('recordatorio/create', views.recordatorio_create, name='recordatorio_create'),
     
     path('evaluaciones/', views.evaluacion_list, name='evaluacion_list'),
-    path('evaluaciones/new/', views.evaluacion_create, name='evaluacion_create'),
+    path('evaluaciones/create/', views.evaluacion_create, name='evaluacion_create'),
     path('evaluaciones/<int:idevaluacion>/edit/', views.evaluacion_update, name='evaluacion_update'),
     path('evaluaciones/<int:idevaluacion>/', views.evaluacion_detail, name='evaluacion_detail'),
     path('evaluaciones/<int:idevaluacion>/delete/', views.evaluacion_delete, name='evaluacion_delete'),
     path('evaluaciones/<int:idevaluacion>/crearPlan', views.plandesarrollo_create, name='plandesarrollo_create'),
     path('evaluaciones/<int:idevaluacion>/editarPlan/<int:idplandes>', views.plandesarrollo_update, name='plandesarrollo_update'),
     path('evaluaciones/deletePlan/<int:idplandes>', views.plandesarollo_delete, name='plandesarrollo_delete'),
-
-
+    
     path('cliente/', views.cliente_list, name='cliente_list'),
     path('cliente/new/', views.cliente_create, name='cliente_create'),
     path('cliente/<int:id>/edit/', views.cliente_update, name='cliente_update'),
@@ -66,6 +67,8 @@ urlpatterns = [
     path('registroasistencia/update/<int:idregistro>/', views.registroasistencia_update, name='registroasistencia_update'),
     path('registroasistencia/delete/<int:idregistro>/', views.registroasistencia_delete, name='registroasistencia_delete'),
 
+
+    
     
 ]
 if settings.DEBUG:

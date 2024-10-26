@@ -48,20 +48,99 @@ def admin_or_secretaria_or_jefe_required(view_func):
 def vista404(request):
     return render(request, 'SIGEA_APP/404.html')
 
+
 @login_required
 def index(request):
     user_type = request.user.tipousuario.idtipousuario
     context = {'pruebita': user_type}
-    if user_type == 1:  # Redirige al administrador
+
+    if request.method == 'POST':
+        # Cambiar el estado de una actividad
+        actividad_id = request.POST.get('actividad_id')
+        nuevo_estado = request.POST.get('nuevo_estado')
+
+        if actividad_id and nuevo_estado:
+            try:
+                actividad = Actividades.objects.get(pk=actividad_id)
+                actividad.estadoactividad_id = nuevo_estado
+                actividad.save()
+            except Actividades.DoesNotExist:
+                pass  # Manejar el error según sea necesario
+
+    if user_type == 1:  # Administrador
+        # Obtener las actividades programadas
+        actividades_programadas = Actividades.objects.all().order_by('fechaactividad')
+
+        # Obtener los departamentos y las evaluaciones por departamento
+        departamentos = Departamentos.objects.all()
+        evaluaciones_por_departamento = []
+        evaluaciones_data = []
+        for departamento in departamentos:
+            evaluaciones = Evaluacion.objects.filter(idusuario__idservicio__iddepartamento=departamento)
+            evaluaciones_por_departamento.append({
+                'departamento': departamento.divisiondepartamento,
+                'evaluaciones': evaluaciones
+            })
+            # Datos para el gráfico
+            evaluaciones_data.append({
+                'departamento': departamento.divisiondepartamento,
+                'evaluaciones_count': evaluaciones.count()
+            })
+
+        # Datos para el gráfico de actividades
+        actividades_data = [
+            {'actividad': actividad.nombreactividad, 'fecha': actividad.fechaactividad.strftime('%Y-%m-%d')}
+            for actividad in actividades_programadas
+        ]
+
+        # Agregar los datos al contexto
+        context.update({
+            'actividades_programadas': actividades_programadas,
+            'evaluaciones_por_departamento': evaluaciones_por_departamento,
+            'evaluaciones_data': evaluaciones_data,
+            'actividades_data': actividades_data,
+            'estados': EstadoActividad.objects.all()  # Para los botones de cambio de estado
+        })
+
         return render(request, 'SIGEA_APP/admin/index.html', context)
-    elif user_type == 2:  # Redirige a la secretaria
+
+    # Otros tipos de usuarios
+    elif user_type == 2:  # Secretaria
         return render(request, 'SIGEA_APP/secretaria/index.html', context)
-    elif user_type == 3:  # Redirige al jefe de departamento
+    
+    elif user_type == 3:  # Jefe de departamento
         return render(request, 'SIGEA_APP/jefe_departamento/index.html', context)
-    elif user_type == 4:  # Redirige al abogado
+    
+    elif user_type == 4:  # Abogado
         return render(request, 'SIGEA_APP/abogado/index.html', context)
+    
     else:
         return redirect('login')
+
+
+@login_required
+@csrf_exempt
+def actualizar_estado_actividad(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            id_actividad = data.get('idActividad')
+            nuevo_estado_id = data.get('nuevoEstado')
+
+            actividad = Actividades.objects.get(idactividad=id_actividad)
+            nuevo_estado = EstadoActividad.objects.get(idestado=nuevo_estado_id)
+
+            # Actualizamos el estado de la actividad
+            actividad.estadoactividad = nuevo_estado
+            actividad.save()
+
+            return JsonResponse({'success': True})
+        except Exception as e:
+            return JsonResponse({'success': False, 'message': str(e)})
+    return JsonResponse({'success': False, 'message': 'Método no permitido'})
+
+ 
+ 
  
 def login_V(request):
     if request.method == 'POST':
@@ -564,20 +643,68 @@ def evaluacion_list(request):
         }
     return render(request, 'SIGEA_APP/CRUD_EVALUACIONES/evaluacion_list.html', context)
 
+
 @login_required
-@csrf_exempt
 @admin_jefe_required
+@csrf_exempt
 def evaluacion_create(request):
+    jefe_departamento = request.user  # Asumiendo que el jefe de departamento es el usuario actual
+    departamento = Departamentos.objects.filter(responsabledepartamento=jefe_departamento).first()
+    user = request.user
+    jefe_departamento = None
+    
+    if user.tipousuario.descripcion == 'Jefe de Departamento':
+        jefe_departamento = user.idservicio.iddepartamento  # Ajustar según el modelo
+    
     if request.method == 'POST':
-        form = EvaluacionForm(request.POST)
+        form = EvaluacionForm(request.POST, jefe_departamento=jefe_departamento)
         if form.is_valid():
             form.save()
             return JsonResponse({'success': True})
         else:
             return JsonResponse({'success': False, 'errors': form.errors})
     else:
-        form = EvaluacionForm()
+        form = EvaluacionForm(jefe_departamento=jefe_departamento)
+        if jefe_departamento:
+            departamento = jefe_departamento.divisiondepartamento
+            cantidad_empleados = Usuario.objects.filter(idservicio__iddepartamento=jefe_departamento).count()
+        else:
+            departamento = None
+            cantidad_empleados = None
+
+    return render(request, 'SIGEA_APP/CRUD_EVALUACIONES/evaluacion_form.html', {
+        'form': form,
+        'departamento': departamento,
+        'cantidad_empleados': cantidad_empleados
+    })
+
+
+
+@login_required
+@csrf_exempt
+def evaluacion_update(request, id):
+    evaluacion = get_object_or_404(Evaluacion, idevaluacion=id)
+    if request.method == 'POST':
+        form = EvaluacionForm(request.POST, instance=evaluacion)
+        if form.is_valid():
+            form.save()
+            return JsonResponse({'success': True})
+        else:
+            return JsonResponse({'success': False, 'errors': form.errors})
+    else:
+        form = EvaluacionForm(instance=evaluacion)
     return render(request, 'SIGEA_APP/CRUD_EVALUACIONES/evaluacion_form.html', {'form': form})
+
+@login_required
+@csrf_exempt
+def evaluacion_delete(request, id):
+    evaluacion = get_object_or_404(Evaluacion, idevaluacion=id)
+    if request.method == 'POST':
+        evaluacion.delete()
+        return JsonResponse({'success': True})
+    return JsonResponse({'success': False, 'errors': 'Método no permitido'})
+
+
 
 @login_required
 @csrf_exempt
@@ -886,6 +1013,8 @@ def caso_delete(request, idCaso):
         caso.delete()
         return JsonResponse({'success': True})
     return JsonResponse({'success': False})
+
+
 
 
 

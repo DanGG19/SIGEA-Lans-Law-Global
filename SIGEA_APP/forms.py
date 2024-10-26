@@ -203,20 +203,22 @@ class ActividadesForm(forms.ModelForm):
             actividad.save()
             self.save_m2m()  # Guardar relaciones many-to-many, como los invitados
 
+
 class EvaluacionForm(forms.ModelForm):
     idusuario = UsuarioChoiceField(
         queryset=Usuario.objects.all(),
         empty_label="Seleccione usuario",
         widget=forms.Select(attrs={'class': 'form-control'}),
-        label='Usuario'
+        label='Empleado',
+        required=True  # El campo 'idusuario' es obligatorio para la evaluación de empleados
     )
 
     class Meta:
         model = Evaluacion
         fields = ['idusuario', 'tipoevaluacion', 'notaevaluacio', 'comentarioevaluacio', 'fechaevaluacion']
         labels = {
-            'idusuario': 'Usuario: ',
-            'tipoevaluacion': 'Tipo de Evaluación: ',
+            'idusuario': 'Empleado: ',
+            'tipoevaluacion': 'Descripción de la Evaluación: ',
             'notaevaluacio': 'Nota de Evaluación: ',
             'comentarioevaluacio': 'Comentario: ',
             'fechaevaluacion': 'Fecha de Evaluación: '
@@ -224,20 +226,24 @@ class EvaluacionForm(forms.ModelForm):
         widgets = {
             'idusuario': forms.Select(attrs={'class': 'form-control'}),
             'tipoevaluacion': forms.TextInput(attrs={'class': 'form-control'}),
-            'notaevaluacio': forms.NumberInput(attrs={'class': 'form-control',
-                                                      'min': 1,
-                                                      'max': 10}),
+            'notaevaluacio': forms.NumberInput(attrs={'class': 'form-control', 'min': 1, 'max': 10}),
             'comentarioevaluacio': forms.Textarea(attrs={'class': 'form-control'}),
-            'fechaevaluacion': forms.DateTimeInput(
-                attrs={'class': 'form-control', 'type': 'datetime-local'},
-                format='%Y-%m-%dT%H:%M'  
-            ),
+            'fechaevaluacion': forms.DateTimeInput(attrs={'class': 'form-control', 'type': 'datetime-local'}, format='%Y-%m-%dT%H:%M'),
         }
 
     def __init__(self, *args, **kwargs):
+        jefe_departamento = kwargs.pop('jefe_departamento', None)
         super(EvaluacionForm, self).__init__(*args, **kwargs)
+
+        # Si es jefe de departamento, mostrar empleados de su departamento
+        if jefe_departamento:
+            self.fields['idusuario'].queryset = Usuario.objects.filter(idservicio__iddepartamento=jefe_departamento)
+
+        # Prepopulate the fechaevaluacion field
         if self.instance and self.instance.pk:
             self.fields['fechaevaluacion'].initial = self.instance.fechaevaluacion.strftime('%Y-%m-%dT%H:%M')
+
+
 
 class PlanDesarolloForm(forms.ModelForm):
     class Meta:

@@ -5,7 +5,8 @@
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script src='https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@6.1.13/index.global.min.js'></script>
-<div class="scrollable-content mt-5">
+
+<div class="mt-2">
     <h1>Calendario</h1>
 
     <button type="button" class="btn btn-primary mb-2" data-toggle="modal" data-target="#createModal">
@@ -16,218 +17,224 @@
 
     <!-- Create Modal Crear Nueva Actividad -->
     <!-- Modal Crear Actividad -->
-<div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="createModalLabel">
-                    <i class="fas fa-plus-circle"></i> Crear Nueva Actividad
-                </h5>
-                <button type="button" class="btn text-secondary" data-dismiss="modal">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="modal-body">
-                <!-- Formulario de Creación de Actividad -->
-                <form id="newActividad" method="post" action="{% url 'actividades_create' %}" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    <div class="form-group">
-                        <label for="actividadTitle">
-                            <i class="fas fa-heading"></i> Nombre de actividad:
-                        </label>
-                        <input type="text" class="form-control" id="actividadTitle" name="nombreactividad" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="actividadStart">
-                            <i class="fas fa-calendar-alt"></i> Fecha y hora de inicio:
-                        </label>
-                        <input type="datetime-local" class="form-control" id="actividadStart" name="fechaactividad" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="actividadEND">
-                            <i class="fas fa-calendar-alt"></i> Fecha y hora de finalización:
-                        </label>
-                        <input type="datetime-local" class="form-control" id="actividadEND" name="fechafin" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="actividadTipo">
-                            <i class="fas fa-tag"></i> Tipo de actividad:
-                        </label>
-                        <input type="text" class="form-control" id="actividadTipo" name="tipoactividad" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="actividadDescription">
-                            <i class="fas fa-align-left"></i> Descripción:
-                        </label>
-                        <textarea class="form-control" id="actividadDescription" name="descripcionactividad" rows="3"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="docanexoactividad">
-                            <i class="fas fa-file"></i> Documento anexo:
-                        </label>
-                        <input type="file" class="form-control" id="docanexoactividad" name="docanexoactividad">
-                    </div>
-                    <div class="form-group sticky">
-                        <label for="searchUser">
-                            <i class="fas fa-search"></i> Buscar Invitados:
-                        </label>
-                        <input type="text" id="searchUser" class="form-control" placeholder="Buscar usuario por nombre">
-                        <div id="containerUserList" class="container d-none" style="position:relative;margin-top: 1.2rem;overflow:auto; height: 100px">
-                            <div id="userList">
-                                <!-- Los usuarios se cargarán dinámicamente aquí -->
-                            </div>
-                        </div>
-                    </div>
-                    <button id="insertaract" type="submit" class="btn btn-primary" data-url="{% url 'actividades_create' %}">
-                        <i class="fas fa-save"></i> Crear Actividad
+    <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createModalLabel">
+                        <i class="fas fa-plus-circle"></i> Crear Nueva Actividad
+                    </h5>
+                    <button type="button" class="btn text-secondary" data-dismiss="modal">
+                        <i class="fas fa-times"></i>
                     </button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Modal Detalles de Actividad -->
-<div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="detailModalLabel">
-                    <i class="fas fa-info-circle"></i> Detalles de la Actividad
-                </h5>
-                <button type="button" class="btn text-secondary" data-dismiss="modal">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="modal-body">
-                <!-- Detalles de la Actividad -->
-                <div class="form-group">
-                    <label for="detailTitle">
-                        <i class="fas fa-heading"></i> Nombre de actividad:
-                    </label>
-                    <input type="text" class="form-control" id="detailTitle" readonly>
                 </div>
-                <div class="form-group">
-                    <label for="detailStart">
-                        <i class="fas fa-calendar-alt"></i> Fecha y hora de inicio:
-                    </label>
-                    <input type="datetime-local" class="form-control" id="detailStart" readonly>
-                </div>
-                <div class="form-group">
-                    <label for="detailEnd">
-                        <i class="fas fa-calendar-alt"></i> Fecha y hora de finalización:
-                    </label>
-                    <input type="datetime-local" class="form-control" id="detailEnd" readonly>
-                </div>
-                <div class="form-group">
-                    <label for="detailTypeActivity">
-                        <i class="fas fa-tag"></i> Tipo de actividad:
-                    </label>
-                    <input type="text" class="form-control" id="detailTypeActivity" readonly>
-                </div>
-                <div class="form-group">
-                    <label for="detailDescription">
-                        <i class="fas fa-align-left"></i> Descripción:
-                    </label>
-                    <textarea class="form-control" id="detailDescription" rows="3" readonly></textarea>
-                </div>
-                <div id="archivoContainer" class="form-group">
-                    <label for="archivoLink">
-                        <i class="fas fa-file"></i> Archivo anexo:
-                    </label>
-                    <a class="btn btn-primary" id="archivoLink" href="#" target="_blank">
-                        <i class="fas fa-file"></i> Ver archivo
-                    </a>
-                </div>
-                <div id="invitadosContainer">
-                    <h5>Invitados:</h5>
-                    <ul id="invitadosList">
-                        <!-- Los invitados se llenarán dinámicamente aquí -->
-                    </ul>
-                </div>
-                <button type="button" class="btn btn-primary" onclick="mostrarFormulario()">
-                    <i class="fas fa-bell"></i> Añadir Recordatorio
-                </button>
-
-                {% if pruebita == 4 %}
-
-                {% else %}
-                <button class="btn btn-danger" data-toggle="modal" data-target="#deleteModal{{ actividades.idactividad }}">
-                    <i class="fas fa-trash-alt"></i> Eliminar
-                </button>
-                <button class="btn btn-warning" data-dismiss="modal" data-toggle="modal" onclick="editActi({{ actividades.idactividad }})">
-                    <i class="fas fa-edit"></i> Editar
-                </button>
-                {% endif %}
-
-                <!-- Formulario de Recordatorio -->
-                <div id="newRecordatorio" style="display: none;" onsubmit="ocultarFormulario()">
-                    <form id="newRecordatorioForm">
+                <div class="modal-body">
+                    <!-- Formulario de Creación de Actividad -->
+                    <form id="newActividad" method="post" action="{% url 'actividades_create' %}" enctype="multipart/form-data">
+                        {% csrf_token %}
                         <div class="form-group">
-                            <label for="recordatorioTitle">
-                                <i class="fas fa-bell"></i> Nombre de Recordatorio:
+                            <label for="actividadTitle">
+                                <i class="fas fa-heading"></i> Nombre de actividad:
                             </label>
-                            <input type="text" class="form-control" id="recordatorioTitle" name="nombrerecordatorio" required>
+                            <input type="text" class="form-control" id="actividadTitle" name="nombreactividad" required>
                         </div>
                         <div class="form-group">
-                            <label for="RecordatorioStart">
-                                <i class="fas fa-calendar-alt"></i> Fecha y hora del Recordatorio:
+                            <label for="actividadStart">
+                                <i class="fas fa-calendar-alt"></i> Fecha y hora de inicio:
                             </label>
-                            <input type="datetime-local" class="form-control" id="RecordatorioStart" name="fecharecordatorio" required>
+                            <input type="datetime-local" class="form-control" id="actividadStart" name="fechaactividad" required>
                         </div>
                         <div class="form-group">
-                            <label for="recordatorioDescription">
+                            <label for="actividadEND">
+                                <i class="fas fa-calendar-alt"></i> Fecha y hora de finalización:
+                            </label>
+                            <input type="datetime-local" class="form-control" id="actividadEND" name="fechafin" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="actividadTipo">
+                                <i class="fas fa-tag"></i> Tipo de actividad:
+                            </label>
+                            <input type="text" class="form-control" id="actividadTipo" name="tipoactividad" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="actividadDescription">
                                 <i class="fas fa-align-left"></i> Descripción:
                             </label>
-                            <textarea class="form-control" id="recordatorioDescription" name="descripcionrecordatorio" rows="3"></textarea>
+                            <textarea class="form-control" id="actividadDescription" name="descripcionactividad" rows="3"></textarea>
                         </div>
                         <div class="form-group">
-                            <label for="idactividad">
-                                <i class="fas fa-tasks"></i> Actividad:
+                            <label for="docanexoactividad">
+                                <i class="fas fa-file"></i> Documento anexo:
                             </label>
-                            <input readonly class="form-control" id="idactividad" name="idactividad">
+                            <input type="file" class="form-control" id="docanexoactividad" name="docanexoactividad">
                         </div>
-                        <button id="insertarRec" type="submit" class="btn btn-primary" data-url="{% url 'recordatorio_create' %}">
-                            <i class="fas fa-save"></i> Crear Recordatorio
+                        <div class="form-group sticky">
+                            <label for="searchUser">
+                                <i class="fas fa-search"></i> Buscar Invitados:
+                            </label>
+                            <input type="text" id="searchUser" class="form-control" placeholder="Buscar usuario por nombre">
+                            <div id="containerUserList" class="container d-none" style="position:relative;margin-top: 1.2rem;overflow:auto; height: 100px">
+                                <div id="userList">
+                                    <!-- Los usuarios se cargarán dinámicamente aquí -->
+                                </div>
+                            </div>
+                        </div>
+                        <button id="insertaract" type="submit" class="btn btn-primary" data-url="{% url 'actividades_create' %}">
+                            <i class="fas fa-save"></i> Crear Actividad
                         </button>
                     </form>
                 </div>
+            </div>
+        </div>
 
-                <!-- Modal Eliminar Actividad -->
-                <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="deleteModalLabel">
-                                    <i class="fas fa-trash-alt"></i> Eliminar Actividad
-                                </h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
+    </div>
+
+    <!-- Modal Detalles de Actividad -->
+    <div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="detailModalLabel">
+                        <i class="fas fa-info-circle"></i> Detalles de la Actividad
+                    </h5>
+                    <button type="button" class="btn text-secondary" data-dismiss="modal">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- Detalles de la Actividad -->
+                    <div class="form-group">
+                        <label for="detailTitle">
+                            <i class="fas fa-heading"></i> Nombre de actividad:
+                        </label>
+                        <input type="text" class="form-control" id="detailTitle" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="detailStart">
+                            <i class="fas fa-calendar-alt"></i> Fecha y hora de inicio:
+                        </label>
+                        <input type="datetime-local" class="form-control" id="detailStart" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="detailEnd">
+                            <i class="fas fa-calendar-alt"></i> Fecha y hora de finalización:
+                        </label>
+                        <input type="datetime-local" class="form-control" id="detailEnd" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="detailTypeActivity">
+                            <i class="fas fa-tag"></i> Tipo de actividad:
+                        </label>
+                        <input type="text" class="form-control" id="detailTypeActivity" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="detailDescription">
+                            <i class="fas fa-align-left"></i> Descripción:
+                        </label>
+                        <textarea class="form-control" id="detailDescription" rows="3" readonly></textarea>
+                    </div>
+                    <div id="archivoContainer" class="form-group">
+                        <label for="archivoLink">
+                            <i class="fas fa-file"></i> Archivo anexo:
+                        </label>
+                        <a class="btn btn-primary" id="archivoLink" href="#" target="_blank">
+                            <i class="fas fa-file"></i> Ver archivo
+                        </a>
+                    </div>
+                    <div id="invitadosContainer">
+                        <h5>Invitados:</h5>
+                        <ul id="invitadosList">
+                            <!-- Los invitados se llenarán dinámicamente aquí -->
+                        </ul>
+                    </div>
+                    <button type="button" class="btn btn-primary" onclick="mostrarFormulario()">
+                        <i class="fas fa-bell"></i> Añadir Recordatorio
+                    </button>
+
+                    {% if pruebita == 4 %}
+
+                    {% else %}
+                    <button class="btn btn-danger" data-toggle="modal" data-target="#deleteModal{{ actividades.idactividad }}">
+                        <i class="fas fa-trash-alt"></i> Eliminar
+                    </button>
+                    <button class="btn btn-warning" data-dismiss="modal" data-toggle="modal" onclick="editActi({{ actividades.idactividad }})">
+                        <i class="fas fa-edit"></i> Editar
+                    </button>
+                    {% endif %}
+
+                    <!-- Formulario de Recordatorio -->
+                    <div id="newRecordatorio" style="display: none;" onsubmit="ocultarFormulario()">
+                        <form id="newRecordatorioForm">
+                            <div class="form-group">
+                                <label for="recordatorioTitle">
+                                    <i class="fas fa-bell"></i> Nombre de Recordatorio:
+                                </label>
+                                <input type="text" class="form-control" id="recordatorioTitle" name="nombrerecordatorio" required>
                             </div>
-                            <div class="modal-body">
-                                ¿Estás seguro de que deseas eliminar esta actividad?
+                            <div class="form-group">
+                                <label for="RecordatorioStart">
+                                    <i class="fas fa-calendar-alt"></i> Fecha y hora del Recordatorio:
+                                </label>
+                                <input type="datetime-local" class="form-control" id="RecordatorioStart" name="fecharecordatorio" required>
                             </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                                    <i class="fas fa-times"></i> Cancelar
-                                </button>
-                                <button type="button" class="btn btn-danger" onclick="deleteActividad()">
-                                    <i class="fas fa-trash-alt"></i> Eliminar
-                                </button>
+                            <div class="form-group">
+                                <label for="recordatorioDescription">
+                                    <i class="fas fa-align-left"></i> Descripción:
+                                </label>
+                                <textarea class="form-control" id="recordatorioDescription" name="descripcionrecordatorio" rows="3"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="idactividad">
+                                    <i class="fas fa-tasks"></i> Actividad:
+                                </label>
+                                <input readonly class="form-control" id="idactividad" name="idactividad">
+                            </div>
+                            <button id="insertarRec" type="submit" class="btn btn-primary" data-url="{% url 'recordatorio_create' %}">
+                                <i class="fas fa-save"></i> Crear Recordatorio
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Modal Eliminar Actividad -->
+                    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="deleteModalLabel">
+                                        <i class="fas fa-trash-alt"></i> Eliminar Actividad
+                                    </h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    ¿Estás seguro de que deseas eliminar esta actividad?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                        <i class="fas fa-times"></i> Cancelar
+                                    </button>
+                                    <button type="button" class="btn btn-danger" onclick="deleteActividad()">
+                                        <i class="fas fa-trash-alt"></i> Eliminar
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
+        <div class="modal d-none" id="editarActividad"> 
+        </div>
+
     </div>
-</div>
-
-
-<div class="modal d-none" id="editarActividad">
 
 </div>
+
+
+
+
 
 
 <script>
@@ -248,9 +255,10 @@ function closeEditActividad(){
 document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');
     var calendar = new FullCalendar.Calendar(calendarEl, {
-        timeZone: 'UTC',
+        locale:'es',
+        timeZone: 'local',
         initialView: 'dayGridMonth',
-        aspectRatio: 1.5,
+        height: 635,
         headerToolbar: {
             left: 'prev,next',
             center: 'title',
@@ -261,6 +269,13 @@ document.addEventListener('DOMContentLoaded', function() {
         dayMaxEvents: true,
         events: '/actividades/list',
         resourceAreaHeaderContent: 'Rooms',
+
+        buttonText: {
+            month: 'Mes',
+            week: 'Semana',
+            day: 'Día',
+            year: 'Año'
+        },
 
         // Handler for event clicks
         eventClick: function(info) {

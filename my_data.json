@@ -612,6 +612,402 @@
   }
 },
 {
+  "model": "auth.permission",
+  "pk": 69,
+  "fields": {
+    "name": "Can add invitados_actividad",
+    "content_type": 18,
+    "codename": "add_invitados_actividad"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 70,
+  "fields": {
+    "name": "Can change invitados_actividad",
+    "content_type": 18,
+    "codename": "change_invitados_actividad"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 71,
+  "fields": {
+    "name": "Can delete invitados_actividad",
+    "content_type": 18,
+    "codename": "delete_invitados_actividad"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 72,
+  "fields": {
+    "name": "Can view invitados_actividad",
+    "content_type": 18,
+    "codename": "view_invitados_actividad"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 73,
+  "fields": {
+    "name": "Can add caso",
+    "content_type": 19,
+    "codename": "add_caso"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 74,
+  "fields": {
+    "name": "Can change caso",
+    "content_type": 19,
+    "codename": "change_caso"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 75,
+  "fields": {
+    "name": "Can delete caso",
+    "content_type": 19,
+    "codename": "delete_caso"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 76,
+  "fields": {
+    "name": "Can view caso",
+    "content_type": 19,
+    "codename": "view_caso"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 77,
+  "fields": {
+    "name": "Can add departamentos",
+    "content_type": 6,
+    "codename": "add_departamentos"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 78,
+  "fields": {
+    "name": "Can change departamentos",
+    "content_type": 6,
+    "codename": "change_departamentos"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 79,
+  "fields": {
+    "name": "Can delete departamentos",
+    "content_type": 6,
+    "codename": "delete_departamentos"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 80,
+  "fields": {
+    "name": "Can view departamentos",
+    "content_type": 6,
+    "codename": "view_departamentos"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 81,
+  "fields": {
+    "name": "Can add estado actividad",
+    "content_type": 7,
+    "codename": "add_estadoactividad"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 82,
+  "fields": {
+    "name": "Can change estado actividad",
+    "content_type": 7,
+    "codename": "change_estadoactividad"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 83,
+  "fields": {
+    "name": "Can delete estado actividad",
+    "content_type": 7,
+    "codename": "delete_estadoactividad"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 84,
+  "fields": {
+    "name": "Can view estado actividad",
+    "content_type": 7,
+    "codename": "view_estadoactividad"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 85,
+  "fields": {
+    "name": "Can add tipo usuario",
+    "content_type": 10,
+    "codename": "add_tipousuario"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 86,
+  "fields": {
+    "name": "Can change tipo usuario",
+    "content_type": 10,
+    "codename": "change_tipousuario"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 87,
+  "fields": {
+    "name": "Can delete tipo usuario",
+    "content_type": 10,
+    "codename": "delete_tipousuario"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 88,
+  "fields": {
+    "name": "Can view tipo usuario",
+    "content_type": 10,
+    "codename": "view_tipousuario"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 89,
+  "fields": {
+    "name": "Can add actividades",
+    "content_type": 11,
+    "codename": "add_actividades"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 90,
+  "fields": {
+    "name": "Can change actividades",
+    "content_type": 11,
+    "codename": "change_actividades"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 91,
+  "fields": {
+    "name": "Can delete actividades",
+    "content_type": 11,
+    "codename": "delete_actividades"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 92,
+  "fields": {
+    "name": "Can view actividades",
+    "content_type": 11,
+    "codename": "view_actividades"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 93,
+  "fields": {
+    "name": "Can add plandesarrollo",
+    "content_type": 12,
+    "codename": "add_plandesarrollo"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 94,
+  "fields": {
+    "name": "Can change plandesarrollo",
+    "content_type": 12,
+    "codename": "change_plandesarrollo"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 95,
+  "fields": {
+    "name": "Can delete plandesarrollo",
+    "content_type": 12,
+    "codename": "delete_plandesarrollo"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 96,
+  "fields": {
+    "name": "Can view plandesarrollo",
+    "content_type": 12,
+    "codename": "view_plandesarrollo"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 97,
+  "fields": {
+    "name": "Can add recordatorio",
+    "content_type": 13,
+    "codename": "add_recordatorio"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 98,
+  "fields": {
+    "name": "Can change recordatorio",
+    "content_type": 13,
+    "codename": "change_recordatorio"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 99,
+  "fields": {
+    "name": "Can delete recordatorio",
+    "content_type": 13,
+    "codename": "delete_recordatorio"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 100,
+  "fields": {
+    "name": "Can view recordatorio",
+    "content_type": 13,
+    "codename": "view_recordatorio"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 101,
+  "fields": {
+    "name": "Can add servicios",
+    "content_type": 14,
+    "codename": "add_servicios"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 102,
+  "fields": {
+    "name": "Can change servicios",
+    "content_type": 14,
+    "codename": "change_servicios"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 103,
+  "fields": {
+    "name": "Can delete servicios",
+    "content_type": 14,
+    "codename": "delete_servicios"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 104,
+  "fields": {
+    "name": "Can view servicios",
+    "content_type": 14,
+    "codename": "view_servicios"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 105,
+  "fields": {
+    "name": "Can add registro asistencia",
+    "content_type": 17,
+    "codename": "add_registroasistencia"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 106,
+  "fields": {
+    "name": "Can change registro asistencia",
+    "content_type": 17,
+    "codename": "change_registroasistencia"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 107,
+  "fields": {
+    "name": "Can delete registro asistencia",
+    "content_type": 17,
+    "codename": "delete_registroasistencia"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 108,
+  "fields": {
+    "name": "Can view registro asistencia",
+    "content_type": 17,
+    "codename": "view_registroasistencia"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 109,
+  "fields": {
+    "name": "Can add tipo cliente",
+    "content_type": 9,
+    "codename": "add_tipocliente"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 110,
+  "fields": {
+    "name": "Can change tipo cliente",
+    "content_type": 9,
+    "codename": "change_tipocliente"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 111,
+  "fields": {
+    "name": "Can delete tipo cliente",
+    "content_type": 9,
+    "codename": "delete_tipocliente"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 112,
+  "fields": {
+    "name": "Can view tipo cliente",
+    "content_type": 9,
+    "codename": "view_tipocliente"
+  }
+},
+{
   "model": "contenttypes.contenttype",
   "pk": 1,
   "fields": {
@@ -649,94 +1045,6 @@
   "fields": {
     "app_label": "sessions",
     "model": "session"
-  }
-},
-{
-  "model": "contenttypes.contenttype",
-  "pk": 6,
-  "fields": {
-    "app_label": "SIGEA_APP",
-    "model": "departamentos"
-  }
-},
-{
-  "model": "contenttypes.contenttype",
-  "pk": 7,
-  "fields": {
-    "app_label": "SIGEA_APP",
-    "model": "estadoactividad"
-  }
-},
-{
-  "model": "contenttypes.contenttype",
-  "pk": 8,
-  "fields": {
-    "app_label": "SIGEA_APP",
-    "model": "evaluacion"
-  }
-},
-{
-  "model": "contenttypes.contenttype",
-  "pk": 9,
-  "fields": {
-    "app_label": "SIGEA_APP",
-    "model": "tipocliente"
-  }
-},
-{
-  "model": "contenttypes.contenttype",
-  "pk": 10,
-  "fields": {
-    "app_label": "SIGEA_APP",
-    "model": "tipousuario"
-  }
-},
-{
-  "model": "contenttypes.contenttype",
-  "pk": 11,
-  "fields": {
-    "app_label": "SIGEA_APP",
-    "model": "actividades"
-  }
-},
-{
-  "model": "contenttypes.contenttype",
-  "pk": 12,
-  "fields": {
-    "app_label": "SIGEA_APP",
-    "model": "plandesarrollo"
-  }
-},
-{
-  "model": "contenttypes.contenttype",
-  "pk": 13,
-  "fields": {
-    "app_label": "SIGEA_APP",
-    "model": "recordatorio"
-  }
-},
-{
-  "model": "contenttypes.contenttype",
-  "pk": 14,
-  "fields": {
-    "app_label": "SIGEA_APP",
-    "model": "servicios"
-  }
-},
-{
-  "model": "contenttypes.contenttype",
-  "pk": 15,
-  "fields": {
-    "app_label": "SIGEA_APP",
-    "model": "cliente"
-  }
-},
-{
-  "model": "contenttypes.contenttype",
-  "pk": 16,
-  "fields": {
-    "app_label": "SIGEA_APP",
-    "model": "usuario"
   }
 },
 {
@@ -1055,7 +1363,7 @@
   "model": "SIGEA_APP.usuario",
   "pk": 1,
   "fields": {
-    "last_login": "2024-10-05T06:04:41.071Z",
+    "last_login": "2024-10-25T14:21:10.779Z",
     "idservicio": null,
     "tipousuario": 1,
     "nombre": "Allan Augusto",
@@ -1168,6 +1476,41 @@
     "email": "a1@a1.com",
     "password": "pbkdf2_sha256$720000$yLREXhzjNixFayllMQsVuG$hS5XtRlgExfkaJoY2dOLVaWZgeOmknWBbWWSzH62yKk=",
     "foto_perfil": ""
+  }
+},
+{
+  "model": "SIGEA_APP.tipocliente",
+  "pk": 1,
+  "fields": {
+    "descripcion": "Persona Natural"
+  }
+},
+{
+  "model": "SIGEA_APP.tipocliente",
+  "pk": 2,
+  "fields": {
+    "descripcion": "Persona Jurídica"
+  }
+},
+{
+  "model": "SIGEA_APP.estadoactividad",
+  "pk": 1,
+  "fields": {
+      "descripcion": "No iniciado"
+  }
+},
+{
+  "model": "SIGEA_APP.estadoactividad",
+  "pk": 2,
+  "fields": {
+      "descripcion": "En Proceso"
+  }
+},
+{
+  "model": "SIGEA_APP.estadoactividad",
+  "pk": 3,
+  "fields": {
+      "descripcion": "Finalizado"
   }
 }
 ]

@@ -175,7 +175,7 @@ class Recordatorio(models.Model):
         db_table = 'recordatorio'
 
 class TipoCliente(models.Model):
-    idtipoCliente = models.AutoField(db_column='IDCLIENTE', primary_key=True)
+    idtipoCliente = models.AutoField(db_column='IDTIPO', primary_key=True)
     descripcion = models.CharField(db_column='DESCRIPCION', max_length=255)
 
     class Meta:
@@ -248,7 +248,7 @@ class Caso(models.Model):
 
     idCaso = models.AutoField(db_column='IDCASO', primary_key=True)  
     nombreCaso = models.CharField(db_column='NOMBRECASO', max_length=255)
-    idUsuario = models.ForeignKey(Usuario, models.DO_NOTHING, db_column='IDUSUARIO')  
+    idCliente = models.ForeignKey(Cliente, models.DO_NOTHING, db_column='IDCLIENTE')  
     descripcionCaso = models.CharField(db_column='DESCRIPCIONCASO', max_length=2000) 
     #campo para el estado del caso si esta iniciado, en progreso o finalizado
     estadoCaso = models.CharField(db_column='ESTADOCASO', max_length=255, choices=ESTADO_CHOICES) 

@@ -312,20 +312,20 @@ class ClienteForm(forms.ModelForm):
         }
 
 class CasoForm(forms.ModelForm):
-    idUsuario = forms.ModelChoiceField(
-        queryset=Usuario.objects.all(),
-        empty_label="Seleccione un encargado",
+    idCliente = forms.ModelChoiceField(
+        queryset=Cliente.objects.all(),
+        empty_label="Seleccione un cliente",
         widget=forms.Select(attrs={'class': 'form-control'}),
-        label="Encargado de Caso",
+        label="Dueño del caso",
         required=True
     )
 
     class Meta:
         model = Caso
-        fields = ['nombreCaso', 'idUsuario', 'descripcionCaso', 'estadoCaso']
+        fields = ['nombreCaso', 'idCliente', 'descripcionCaso', 'estadoCaso']
         labels = {
             'nombreCaso': 'Nombre del Caso: ',
-            'idUsuario': 'Usuario: ',
+            'idCliente': 'Cliente: ',
             'descripcionCaso': 'Descripción del Caso: ',
             'estadoCaso': 'Estado del Caso: '
         }
@@ -337,7 +337,7 @@ class CasoForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['idUsuario'].label_from_instance = lambda obj: f"{obj.nombre} {obj.apellido}"
+        self.fields['idCliente'].label_from_instance = lambda obj: f"{obj.nombre}"
         
         
 class RegistroAsistenciaForm(forms.ModelForm):

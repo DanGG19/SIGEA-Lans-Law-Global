@@ -23,8 +23,9 @@
                     <th>Fecha y hora de finalización</th>
                     <th>Tipo de actividad</th>
                     <th>Descripción</th>
-                    <th>Estado</th>
-                    <th>Cambiar actividad a:</th>
+                    <th>Estado actual</th>
+                    <th>Cambiar estado</th>
+                    <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>
@@ -37,99 +38,44 @@
                     <td>{{ actividad.descripcionactividad }}</td>
                     <td>{{ actividad.estadoactividad.descripcion }}</td>
                     <td>
-                        <button class="btn btn-info" data-toggle="modal" data-target="#cambioEstado1{{ actividad.idactividad }}">
-                            <i class="fas fa-eye"></i> No iniciado
-                        </button>
-                        <button class="btn btn-warning" data-toggle="modal" data-target="#cambioEstado2{{ actividad.idactividad }}">
-                            <i class="fas fa-edit"></i> En proceso
-                        </button>
-                        <button class="btn btn-danger" data-toggle="modal" data-target="#cambioEstado3{{ actividad.idactividad }}">
-                            <i class="fas fa-trash-alt"></i> Finalizado
-                        </button>                    
+                        <!-- Dropdown para seleccionar el nuevo estado -->
+                        <select class="form-control" id="estadoActividad{{ actividad.idactividad }}">
+                            {% for estado in estados %}
+                            <option value="{{ estado.idestado }}" {% if estado.idestado == actividad.estadoactividad.idestado %}selected{% endif %}>
+                                {{ estado.descripcion }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                    <td>
+                        <!-- Botón de actualizar -->
+                        <button class="btn btn-primary" onclick="actualizarEstado({{ actividad.idactividad }})">Actualizar</button>
                     </td>
                 </tr>
-
-                 <!-- Modal para cambiar estado a no iniciado -->
-                 <div class="modal fade" id="cambioEstado1{{ actividad.idactividad }}" tabindex="-1" role="dialog" aria-labelledby="cambioModalLabel1{{ actividad.idactividad }}" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="cambioModalLabel1{{ actividad.idactividad }}">Cambio de estado de la actividad</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                ¿Estás seguro de que deseas cambiar el estado de la actividad a "no iniciado"?
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                                <button type="button" class="btn btn-danger" onclick="cambiarEstado({{ actividad.idactividad }}, 1)">Cambiar estado</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Modal para cambiar estado a en proceso -->
-                <div class="modal fade" id="cambioEstado2{{ actividad.idactividad }}" tabindex="-1" role="dialog" aria-labelledby="cambioModalLabel2{{ actividad.idactividad }}" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="cambioModalLabel2{{ actividad.idactividad }}">Cambio de estado de la actividad</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                ¿Estás seguro de que deseas cambiar el estado de la actividad a "en proceso"?
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                                <button type="button" class="btn btn-danger" onclick="cambiarEstado({{ actividad.idactividad }}, 2)">Cambiar estado</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Modal para cambiar estado a finalizado -->
-                <div class="modal fade" id="cambioEstado3{{ actividad.idactividad }}" tabindex="-1" role="dialog" aria-labelledby="cambioModalLabel3{{ actividad.idactividad }}" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="cambioModalLabel3{{ actividad.idactividad }}">Cambio de estado de la actividad</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                ¿Estás seguro de que deseas cambiar el estado de la actividad a "finalizado"?
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                                <button type="button" class="btn btn-danger" onclick="cambiarEstado({{ actividad.idactividad }}, 3)">Cambiar estado</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 {% endfor %}
             </tbody>
         </table>
     </div>
 </div>
 
+<!-- Script para manejar el cambio de estado -->
 <script>
-    function cambiarEstado(idActividad, nuevoEstado) {
+    function actualizarEstado(idActividad) {
+        // Obtener el estado seleccionado
+        const estadoSeleccionado = document.getElementById('estadoActividad' + idActividad).value;
+
+        // Hacer la solicitud AJAX para cambiar el estado
         $.ajax({
             url: '/actividad/cambiar-estado/' + idActividad + '/',
             type: 'POST',
             data: {
-                estado: nuevoEstado,
+                estado: estadoSeleccionado,
                 csrfmiddlewaretoken: '{{ csrf_token }}'
             },
             success: function(data) {
                 if (data.success) {
                     Swal.fire('Éxito', 'Estado de la actividad actualizado correctamente', 'success').then(() => {
-                        location.reload();
+                        location.reload(); // Recargar la página para mostrar los cambios
                     });
                 } else {
                     Swal.fire('Error', JSON.stringify(data.error), 'error');

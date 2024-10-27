@@ -11,6 +11,7 @@ from django.db.models import Q
 from django.core.mail import send_mail
 from django.conf import settings
 from django.http import JsonResponse
+from django.core.paginator import Paginator
 
 
 def admin_or_secretaria_required(view_func):
@@ -206,10 +207,15 @@ def usuario_list(request):
 
     departamentos = Departamentos.objects.all()  # Obtener todos los departamentos para el filtro
 
+    paginator=Paginator(usuarios,7)
+    pagina = request.GET.get("page") or 1
+    posts = paginator.get_page(pagina)
+
     context = {
         'pruebita': user_type,
         'usuarios': usuarios,
         'query': query,
+        'page_obj':posts,
         'departamentos': departamentos,
         'selected_departamento': int(departamento_id) if departamento_id else None,
     }
@@ -366,6 +372,7 @@ def servicio_list(request):
     
     # Obtener el departamento desde la URL o un formulario
     departamento_id = request.GET.get('departamento_id')
+
     
     if departamento_id:
         servicios = Servicios.objects.filter(iddepartamento=departamento_id)
@@ -373,10 +380,15 @@ def servicio_list(request):
         servicios = Servicios.objects.all()
     
     departamentos = Departamentos.objects.all()  # Obtener todos los departamentos para el filtro
+
+    paginator=Paginator(servicios,7)
+    pagina = request.GET.get("page") or 1
+    posts = paginator.get_page(pagina)
     
     context = {
         'pruebita': user_type,
         'servicio': servicios,
+        'page_obj': posts,
         'departamentos': departamentos,  # Pasar departamentos al contexto
         'selected_departamento_id': departamento_id,  # Pasar el departamento seleccionado al contexto
     }
@@ -951,12 +963,11 @@ def caso_list(request):
     
     context = []
     for caso in casos:
-        usuario = caso.idUsuario  # Ya es un objeto Usuario
+        cliente = caso.idCliente  # Ya es un objeto Cliente
         context.append({
             'idCaso': caso.idCaso,
             'nombreCaso': caso.nombreCaso,
-            'usuario_nombre': usuario.nombre if usuario else 'Sin usuario',
-            'usuario_apellido': usuario.apellido if usuario else '',
+            'cliente_nombre': cliente.nombre if cliente else 'Sin cliente',
             'descripcionCaso': caso.descripcionCaso,
             'estadoCaso': caso.estadoCaso
         })
@@ -996,12 +1007,11 @@ def caso_update(request, idCaso):
 @admin_jefe_required
 def caso_detail(request, idCaso):
     caso = get_object_or_404(Caso, idCaso=idCaso)
-    usuario = caso.idUsuario
+    cliente = caso.idCliente
     context = {
         'caso': caso,
-        'usuario_nombre': usuario.nombre if usuario else 'Sin usuario',
-        'usuario_apellido': usuario.apellido if usuario else '',
-        'usuario_email': usuario.email if usuario else 'N/A'
+        'cliente_nombre': cliente.nombre if cliente else 'Sin cliente',
+        'cliente_email': cliente.email if cliente else 'N/A'
     }
     return render(request, 'SIGEA_APP/CRUD_CASOS/caso_detail.html', context)
 

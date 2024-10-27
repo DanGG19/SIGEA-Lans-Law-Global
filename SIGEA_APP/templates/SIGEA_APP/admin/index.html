@@ -83,7 +83,8 @@
                             <td>{{ actividad.fechaactividad }}</td>
                             <td>{{ actividad.descripcionactividad }}</td>
                             <td>
-                                <select class="form-control" id="estadoActividad{{ actividad.idactividad }}" onchange="cambiarEstado({{ actividad.idactividad }})">
+                                <!-- Dropdown para seleccionar el estado -->
+                                <select class="form-control" id="estadoActividad{{ actividad.idactividad }}">
                                     {% for estado in estados %}
                                     <option value="{{ estado.idestado }}" {% if estado.idestado == actividad.estadoactividad.idestado %}selected{% endif %}>
                                         {{ estado.descripcion }}
@@ -92,7 +93,8 @@
                                 </select>
                             </td>
                             <td>
-                                <button class="btn btn-primary" onclick="actualizarEstado({{ actividad.idactividad }})">Actualizar</button>
+                                <!-- Botón para actualizar el estado -->
+                                <button class="btn btn-primary" onclick="guardarEstado({{ actividad.idactividad }})">Actualizar</button>
                             </td>
                         </tr>
                         {% empty %}
@@ -111,6 +113,36 @@
     </div>
 
     <script>
+        // Función para cambiar el estado de una actividad al hacer clic en "Actualizar"
+        function guardarEstado(idActividad) {
+            const estadoSeleccionado = document.getElementById('estadoActividad' + idActividad).value;
+
+            fetch("{% url 'actualizar_estado_actividad' %}", {
+                method: "POST",
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    'idActividad': idActividad,
+                    'nuevoEstado': estadoSeleccionado
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    Swal.fire('Éxito', 'Estado actualizado correctamente', 'success').then(() => {
+                        location.reload();
+                    });
+                } else {
+                    Swal.fire('Error', data.message, 'error');
+                }
+            })
+            .catch(error => {
+                Swal.fire('Error', 'Hubo un error al actualizar el estado', 'error');
+            });
+        }
+
         // Gráfico de Evaluaciones por Departamento
         const evaluacionesData = {{ evaluaciones_data|safe }};
         const departamentoLabels = evaluacionesData.map(item => item.departamento);

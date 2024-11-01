@@ -195,8 +195,6 @@ class Cliente(models.Model):
     class Meta:
         managed = True
         db_table = 'cliente'
-        
-
 
 class RegistroAsistencia(models.Model):
     idregistro = models.AutoField(db_column='ID', primary_key=True)

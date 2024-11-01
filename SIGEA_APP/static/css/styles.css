@@ -67,3 +67,6 @@
     max-height: 70vh; /* Ajusta esta altura según tus necesidades */
     overflow-y: auto;
 }
+.sidebar__nav{
+    position: fixed;
+}

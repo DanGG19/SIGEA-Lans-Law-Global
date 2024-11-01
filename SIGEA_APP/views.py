@@ -647,12 +647,26 @@ def recordatorio_create(request):
 @csrf_exempt
 def evaluacion_list(request):
     user_type = request.user.tipousuario.idtipousuario
+    query = request.GET.get('q', None)
     
+    # Filtrar evaluaciones según el nombre o apellido del usuario
+    if query:
+        evaluaciones = Evaluacion.objects.filter(idusuario__nombre__icontains=query) | Evaluacion.objects.filter(idusuario__apellido__icontains=query)
+    else:
+        evaluaciones = Evaluacion.objects.all()
+    
+    # Paginación
+    paginator = Paginator(evaluaciones, 7)
+    page_number = request.GET.get("page") or 1
+    posts = paginator.get_page(page_number)
+
     context = {
         'pruebita': user_type,
-        'evaluaciones': Evaluacion.objects.all(),
+        'evaluaciones': evaluaciones,
+        'page_obj':posts,
         'plandes': Plandesarrollo.objects.all()
-        }
+    }
+    
     return render(request, 'SIGEA_APP/CRUD_EVALUACIONES/evaluacion_list.html', context)
 
 
@@ -822,10 +836,37 @@ def plandesarollo_delete(request, idplandes):
 @csrf_exempt
 def cliente_list(request):
     user_type = request.user.tipousuario.idtipousuario
+    query = request.GET.get('q', '').strip()
+    selected_tipocliente = request.GET.get('tipocliente', '')
+    
+    # Inicializa el queryset de clientes
+    clientes = Cliente.objects.all()
+
+    # Filtro por nombre si se ingresó un término de búsqueda
+    if query:
+        clientes = clientes.filter(nombre__icontains=search_query)
+
+    # Filtro por tipo de cliente si se seleccionó uno
+    if selected_tipocliente:
+        clientes = clientes.filter(idTipo__idtipoCliente=selected_tipocliente)  # Usa `idTipo_id` para filtrar por clave foránea
+
+    # Paginación
+    paginator = Paginator(clientes, 7)
+    page_number = request.GET.get("page") or 1
+    posts = paginator.get_page(page_number)
+
+    # Carga de los tipos de clientes para el filtro
+    tipoclientes = TipoCliente.objects.all()
+
+    # Contexto
     context = {
         'pruebita': user_type,
-        'clientes': Cliente.objects.all(),
-        }
+        'page_obj': posts,  # El queryset paginado
+        'tipoclientes': tipoclientes,
+        'selected_tipocliente': selected_tipocliente,
+        'q': query,
+    }
+
     return render(request, 'SIGEA_APP/CRUD_CLIENTE/cliente_list.html', context)
 
 @login_required
@@ -961,18 +1002,25 @@ def caso_list(request):
     casos = Caso.objects.all()
     user_type = request.user.tipousuario.idtipousuario
     
-    context = []
-    for caso in casos:
-        cliente = caso.idCliente  # Ya es un objeto Cliente
-        context.append({
-            'idCaso': caso.idCaso,
-            'nombreCaso': caso.nombreCaso,
-            'cliente_nombre': cliente.nombre if cliente else 'Sin cliente',
-            'descripcionCaso': caso.descripcionCaso,
-            'estadoCaso': caso.estadoCaso
-        })
+    query = request.GET.get('q', None)
 
-    return render(request, 'SIGEA_APP/CRUD_CASOS/caso_list.html', {'casos': context, 'pruebita': user_type})
+    if query:
+        casos = Caso.objects.filter(idCliente__nombre__icontains=query)
+    else:
+        casos = Caso.objects.all()
+
+    # Paginación
+    paginator = Paginator(casos, 7)
+    page_number = request.GET.get("page") or 1
+    posts = paginator.get_page(page_number)
+
+    context = {
+        'pruebita': user_type,
+        'caso': casos,
+        'page_obj':posts,
+    }
+    
+    return render(request, 'SIGEA_APP/CRUD_CASOS/caso_list.html', context)
 
 
 @login_required

@@ -37,7 +37,6 @@
         <table class="table table-striped table-hover table-borderless table-primary align-middle">
             <thead class="table-dark">
                 <tr>
-                    <th>ID</th>
                     <th>Nombre del Caso</th>
                     <th>Cliente</th>
                     <th>Descripción</th>
@@ -48,7 +47,6 @@
             <tbody>
                 {% for caso in page_obj %}
                 <tr>
-                    <td>{{ caso.idCaso }}</td>
                     <td>{{ caso.nombreCaso }}</td>
                     <td>
                         {{ caso.idCliente.nombre }}

@@ -33,7 +33,6 @@ def admin_jefe_required(view_func):
     return _wrapped_view_func
 
 
-
 def admin_or_secretaria_or_jefe_required(view_func):
     def _wrapped_view_func(request, *args, **kwargs):
         user_type = request.user.tipousuario.idtipousuario
@@ -43,7 +42,14 @@ def admin_or_secretaria_or_jefe_required(view_func):
             return redirect('404')
     return _wrapped_view_func
 
-
+def admin_or_abogado_or_jefe_required(view_func):
+    def _wrapped_view_func(request, *args, **kwargs):
+        user_type = request.user.tipousuario.idtipousuario
+        if user_type == 1 or user_type == 4 or user_type == 3:
+            return view_func(request, *args, **kwargs)
+        else:
+            return redirect('404')
+    return _wrapped_view_func
 
 @login_required
 def vista404(request):
@@ -381,7 +387,7 @@ def servicio_list(request):
     
     departamentos = Departamentos.objects.all()  # Obtener todos los departamentos para el filtro
 
-    paginator=Paginator(servicios,7)
+    paginator=Paginator(servicios,3)
     pagina = request.GET.get("page") or 1
     posts = paginator.get_page(pagina)
     
@@ -884,7 +890,7 @@ def cliente_list(request):
 
     # Filtro por nombre si se ingresó un término de búsqueda
     if query:
-        clientes = clientes.filter(nombre__icontains=search_query)
+        clientes = clientes.filter(nombre__icontains=query)
 
     # Filtro por tipo de cliente si se seleccionó uno
     if selected_tipocliente:
@@ -1098,7 +1104,7 @@ def caso_update(request, idCaso):
         form = CasoForm(instance=caso)
     return render(request, 'SIGEA_APP/CRUD_CASOS/caso_form.html', {'form': form})
 
-@admin_jefe_required
+
 def caso_detail(request, idCaso):
     caso = get_object_or_404(Caso, idCaso=idCaso)
     cliente = caso.idCliente

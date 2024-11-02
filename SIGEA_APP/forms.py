@@ -368,4 +368,5 @@ class RegistroAsistenciaForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['fecha'].input_formats = ['%Y-%m-%d']  
+        self.fields['fecha'].input_formats = ['%Y-%m-%d']
+        self.fields['empleado'].label_from_instance = lambda obj: f"{obj.nombre} {obj.apellido}"  

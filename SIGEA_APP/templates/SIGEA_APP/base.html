@@ -8,10 +8,9 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
     <link rel="icon" type="image/x-icon" href="{% static 'img/SIGEA_transparent_logo.png' %}" />
-
+    
     <title>
       {% block title %}
-        SIGEA
       {% endblock %}
     </title>
     <!-- Carga los archivos estáticos -->
@@ -28,64 +27,42 @@
     <!-- Archivo CSS de Bootstrap Icons -->
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.9.0/font/bootstrap-icons.min.css" rel="stylesheet" />
+
+  <style>
+    .scrollable-content{
+      overflow-y: auto;
+    }
+  </style>
   </head>
 
   <body id="page-top" >
     <!-- Page Wrapper -->
-    <div id="wrapper" >
-        {% block sidenavbar %}
-        {% include 'SIGEA_APP/Side-navbar.html' with pruebita=pruebita %}
-        {% endblock %}
+    <div id="wrapper">
 
       <!-- Sidebar -->
+
+      {% block sidenavbar %}
+      {% include 'SIGEA_APP/Side-navbar.html' with pruebita=pruebita %}
+      {% endblock %}
 
       <!-- End of Sidebar -->
 
       <!-- Content Wrapper -->
-      <div id="content-wrapper" class="d-flex flex-column">
+      <div id="content-wrapper" class="d-flex flex-column scrollable-content">
         <!-- Main Content -->
         <div id="content">
           <!-- Topbar -->
-          <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-            <!-- Sidebar Toggle (Topbar) -->
-            <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3"><i class="fa fa-bars"></i></button>
-
-            <h1 class="display-5" href="{% url 'index' %}">SIGEA</h1>
-
-            <!-- Aquí se está pasando el valor de pruebita a la plantilla base.html este valor corresponde al tipo de usuario -->
-            <input type="hidden" id="pruebita" value="{{ request.user.tipousuario }}" />
-
+          <nav class="navbar navbar-expand topbar mb-4 static-top bg-white shadow" id="navbar-horizontal">
+          
+            <!-- Título de la aplicación o logo -->
+            <h1 class="" href="{% url 'index' %}">SIGEA</h1>
+          
             <!-- Topbar Navbar -->
-            <ul class="navbar-nav ml-auto">
-              <!-- Nav Item - Alerts -->
-
-              <!-- IMPLEMENTAR LUEGO -->
-              {% comment %} <li class="nav-item dropdown no-arrow mx-1">
-                <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <i class="fas fa-bell fa-fw"></i>
-                  <!-- Counter - Alerts -->
-                  <span class="badge badge-danger badge-counter">3+</span>
-                </a>
-                <!-- Dropdown - Alerts -->
-                <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
-                  <!-- Encabezado de alertas -->
-                  <h6 class="dropdown-header">Alerts Center</h6>
-                  <!-- lista de alertas -->
-                  <a class="dropdown-item d-flex align-items-center" href="#">
-                    <div>
-                      <div class="small text-gray-500">December 12, 2019</div>
-                      <span class="font-weight-bold">A new monthly report is ready to download!</span>
-                    </div>
-                  </a>
-                  <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
-                </div>
-              </li> {% endcomment %}
-
-              <div class="topbar-divider d-none d-sm-block"></div>
-
-              <!-- Nav Item - User Information -->
-              <li class="nav-item dropdown no-arrow">
-                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <ul class="navbar-nav">
+          
+              <!-- Información del usuario -->
+              <li class="nav-item dropdown no-arrow ">
+                <a class="nav-link dropdown-toggle " href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ user.nombre }} {{ user.apellido }}</span>
                   <img class="img-profile rounded-circle"
                     src="{% if user.foto_perfil %}
@@ -112,26 +89,24 @@
           <!-- End of Topbar -->
 
           <!-- Begin Page Content -->
-          <div class="container-fluid" style="max-height: 100vh; overflow-y: auto;">
+          <div class="container-fluid">
             {% block content %}
 
             {% endblock %}
+            
           </div>
 
           <!-- Page Heading -->
-
           <!-- /.container-fluid -->
         </div>
-
-        {% block footer %}
-          {% include 'SIGEA_APP/footer.html' %}
-        {% endblock %}
         <!-- End of Main Content -->
+        
       </div>
       <!-- End of Content Wrapper -->
+       
     </div>
+    
     <!-- End of Page Wrapper -->
-
     <!-- Logout Modal -->
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
@@ -170,5 +145,8 @@
                 alert('Usted entró como Empleado');
             };})
     </script> {% endcomment %}
+    
   </body>
+  
 </html>
+

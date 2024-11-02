@@ -1,7 +1,6 @@
 <table class="table table-striped table-hover table-borderless table-primary align-middle">
     <thead class="table-dark">
         <tr>
-            <th>ID</th>
             <th>Empleado</th>
             <th>Fecha</th>
             <th>Hora de Entrada</th>
@@ -11,10 +10,9 @@
         </tr>
     </thead>
     <tbody>
-        {% for registro in registros %}
+        {% for registro in page_obj %}
         <tr>
-            <td class="text-center align-middle">{{ registro.idregistro }}</td>
-            <td class="text-center align-middle">{{ registro.empleado.nombre }}</td>
+            <td class="text-center align-middle">{{ registro.empleado.nombre }} {{ registro.empleado.apellido }}</td>
             <td class="text-center align-middle">{{ registro.fecha }}</td>
             <td class="text-center align-middle">{{ registro.hora_entrada }}</td>
             <td class="text-center align-middle">{{ registro.hora_salida }}</td>

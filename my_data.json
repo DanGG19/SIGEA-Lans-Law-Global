@@ -1008,6 +1008,474 @@
   }
 },
 {
+  "model": "auth.permission",
+  "pk": 113,
+  "fields": {
+    "name": "Can add estado actividad",
+    "content_type": 8,
+    "codename": "add_estadoactividad"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 114,
+  "fields": {
+    "name": "Can change estado actividad",
+    "content_type": 8,
+    "codename": "change_estadoactividad"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 115,
+  "fields": {
+    "name": "Can delete estado actividad",
+    "content_type": 8,
+    "codename": "delete_estadoactividad"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 116,
+  "fields": {
+    "name": "Can view estado actividad",
+    "content_type": 8,
+    "codename": "view_estadoactividad"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 117,
+  "fields": {
+    "name": "Can add evaluacion",
+    "content_type": 9,
+    "codename": "add_evaluacion"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 118,
+  "fields": {
+    "name": "Can change evaluacion",
+    "content_type": 9,
+    "codename": "change_evaluacion"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 119,
+  "fields": {
+    "name": "Can delete evaluacion",
+    "content_type": 9,
+    "codename": "delete_evaluacion"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 120,
+  "fields": {
+    "name": "Can view evaluacion",
+    "content_type": 9,
+    "codename": "view_evaluacion"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 121,
+  "fields": {
+    "name": "Can add tipo usuario",
+    "content_type": 11,
+    "codename": "add_tipousuario"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 122,
+  "fields": {
+    "name": "Can change tipo usuario",
+    "content_type": 11,
+    "codename": "change_tipousuario"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 123,
+  "fields": {
+    "name": "Can delete tipo usuario",
+    "content_type": 11,
+    "codename": "delete_tipousuario"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 124,
+  "fields": {
+    "name": "Can view tipo usuario",
+    "content_type": 11,
+    "codename": "view_tipousuario"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 125,
+  "fields": {
+    "name": "Can add actividades",
+    "content_type": 13,
+    "codename": "add_actividades"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 126,
+  "fields": {
+    "name": "Can change actividades",
+    "content_type": 13,
+    "codename": "change_actividades"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 127,
+  "fields": {
+    "name": "Can delete actividades",
+    "content_type": 13,
+    "codename": "delete_actividades"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 128,
+  "fields": {
+    "name": "Can view actividades",
+    "content_type": 13,
+    "codename": "view_actividades"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 129,
+  "fields": {
+    "name": "Can add plandesarrollo",
+    "content_type": 14,
+    "codename": "add_plandesarrollo"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 130,
+  "fields": {
+    "name": "Can change plandesarrollo",
+    "content_type": 14,
+    "codename": "change_plandesarrollo"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 131,
+  "fields": {
+    "name": "Can delete plandesarrollo",
+    "content_type": 14,
+    "codename": "delete_plandesarrollo"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 132,
+  "fields": {
+    "name": "Can view plandesarrollo",
+    "content_type": 14,
+    "codename": "view_plandesarrollo"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 133,
+  "fields": {
+    "name": "Can add recordatorio",
+    "content_type": 15,
+    "codename": "add_recordatorio"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 134,
+  "fields": {
+    "name": "Can change recordatorio",
+    "content_type": 15,
+    "codename": "change_recordatorio"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 135,
+  "fields": {
+    "name": "Can delete recordatorio",
+    "content_type": 15,
+    "codename": "delete_recordatorio"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 136,
+  "fields": {
+    "name": "Can view recordatorio",
+    "content_type": 15,
+    "codename": "view_recordatorio"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 137,
+  "fields": {
+    "name": "Can add servicios",
+    "content_type": 16,
+    "codename": "add_servicios"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 138,
+  "fields": {
+    "name": "Can change servicios",
+    "content_type": 16,
+    "codename": "change_servicios"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 139,
+  "fields": {
+    "name": "Can delete servicios",
+    "content_type": 16,
+    "codename": "delete_servicios"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 140,
+  "fields": {
+    "name": "Can view servicios",
+    "content_type": 16,
+    "codename": "view_servicios"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 141,
+  "fields": {
+    "name": "Can add usuario",
+    "content_type": 17,
+    "codename": "add_usuario"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 142,
+  "fields": {
+    "name": "Can change usuario",
+    "content_type": 17,
+    "codename": "change_usuario"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 143,
+  "fields": {
+    "name": "Can delete usuario",
+    "content_type": 17,
+    "codename": "delete_usuario"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 144,
+  "fields": {
+    "name": "Can view usuario",
+    "content_type": 17,
+    "codename": "view_usuario"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 145,
+  "fields": {
+    "name": "Can add registro asistencia",
+    "content_type": 18,
+    "codename": "add_registroasistencia"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 146,
+  "fields": {
+    "name": "Can change registro asistencia",
+    "content_type": 18,
+    "codename": "change_registroasistencia"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 147,
+  "fields": {
+    "name": "Can delete registro asistencia",
+    "content_type": 18,
+    "codename": "delete_registroasistencia"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 148,
+  "fields": {
+    "name": "Can view registro asistencia",
+    "content_type": 18,
+    "codename": "view_registroasistencia"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 149,
+  "fields": {
+    "name": "Can add invitados_actividad",
+    "content_type": 19,
+    "codename": "add_invitados_actividad"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 150,
+  "fields": {
+    "name": "Can change invitados_actividad",
+    "content_type": 19,
+    "codename": "change_invitados_actividad"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 151,
+  "fields": {
+    "name": "Can delete invitados_actividad",
+    "content_type": 19,
+    "codename": "delete_invitados_actividad"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 152,
+  "fields": {
+    "name": "Can view invitados_actividad",
+    "content_type": 19,
+    "codename": "view_invitados_actividad"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 153,
+  "fields": {
+    "name": "Can add caso",
+    "content_type": 12,
+    "codename": "add_caso"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 154,
+  "fields": {
+    "name": "Can change caso",
+    "content_type": 12,
+    "codename": "change_caso"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 155,
+  "fields": {
+    "name": "Can delete caso",
+    "content_type": 12,
+    "codename": "delete_caso"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 156,
+  "fields": {
+    "name": "Can view caso",
+    "content_type": 12,
+    "codename": "view_caso"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 157,
+  "fields": {
+    "name": "Can add cliente",
+    "content_type": 6,
+    "codename": "add_cliente"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 158,
+  "fields": {
+    "name": "Can change cliente",
+    "content_type": 6,
+    "codename": "change_cliente"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 159,
+  "fields": {
+    "name": "Can delete cliente",
+    "content_type": 6,
+    "codename": "delete_cliente"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 160,
+  "fields": {
+    "name": "Can view cliente",
+    "content_type": 6,
+    "codename": "view_cliente"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 161,
+  "fields": {
+    "name": "Can add tipo cliente",
+    "content_type": 10,
+    "codename": "add_tipocliente"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 162,
+  "fields": {
+    "name": "Can change tipo cliente",
+    "content_type": 10,
+    "codename": "change_tipocliente"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 163,
+  "fields": {
+    "name": "Can delete tipo cliente",
+    "content_type": 10,
+    "codename": "delete_tipocliente"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 164,
+  "fields": {
+    "name": "Can view tipo cliente",
+    "content_type": 10,
+    "codename": "view_tipocliente"
+  }
+},
+{
   "model": "contenttypes.contenttype",
   "pk": 1,
   "fields": {
@@ -1048,6 +1516,118 @@
   }
 },
 {
+  "model": "contenttypes.contenttype",
+  "pk": 6,
+  "fields": {
+    "app_label": "SIGEA_APP",
+    "model": "cliente"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 7,
+  "fields": {
+    "app_label": "SIGEA_APP",
+    "model": "departamentos"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 8,
+  "fields": {
+    "app_label": "SIGEA_APP",
+    "model": "estadoactividad"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 9,
+  "fields": {
+    "app_label": "SIGEA_APP",
+    "model": "evaluacion"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 10,
+  "fields": {
+    "app_label": "SIGEA_APP",
+    "model": "tipocliente"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 11,
+  "fields": {
+    "app_label": "SIGEA_APP",
+    "model": "tipousuario"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 12,
+  "fields": {
+    "app_label": "SIGEA_APP",
+    "model": "caso"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 13,
+  "fields": {
+    "app_label": "SIGEA_APP",
+    "model": "actividades"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 14,
+  "fields": {
+    "app_label": "SIGEA_APP",
+    "model": "plandesarrollo"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 15,
+  "fields": {
+    "app_label": "SIGEA_APP",
+    "model": "recordatorio"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 16,
+  "fields": {
+    "app_label": "SIGEA_APP",
+    "model": "servicios"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 17,
+  "fields": {
+    "app_label": "SIGEA_APP",
+    "model": "usuario"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 18,
+  "fields": {
+    "app_label": "SIGEA_APP",
+    "model": "registroasistencia"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 19,
+  "fields": {
+    "app_label": "SIGEA_APP",
+    "model": "invitados_actividad"
+  }
+},
+{
   "model": "SIGEA_APP.departamentos",
   "pk": 1,
   "fields": {
@@ -1077,6 +1657,296 @@
   "fields": {
     "divisiondepartamento": "Asesoría y Outsourcing",
     "responsabledepartamento": 5
+  }
+},
+{
+  "model": "SIGEA_APP.evaluacion",
+  "pk": 1,
+  "fields": {
+    "idplandes": 1,
+    "idusuario": 6,
+    "tipoevaluacion": "Evaluación de desempeño",
+    "notaevaluacio": "85",
+    "comentarioevaluacio": "Buen desempeño general en las tareas asignadas.",
+    "fechaevaluacion": "2024-10-05T10:00:00Z"
+  }
+},
+{
+  "model": "SIGEA_APP.evaluacion",
+  "pk": 2,
+  "fields": {
+    "idplandes": 2,
+    "idusuario": 6,
+    "tipoevaluacion": "Evaluación de habilidades",
+    "notaevaluacio": "90",
+    "comentarioevaluacio": "Excelente manejo de las herramientas del proyecto.",
+    "fechaevaluacion": "2024-10-20T14:00:00Z"
+  }
+},
+{
+  "model": "SIGEA_APP.evaluacion",
+  "pk": 3,
+  "fields": {
+    "idplandes": 3,
+    "idusuario": 7,
+    "tipoevaluacion": "Evaluación de desempeño",
+    "notaevaluacio": "78",
+    "comentarioevaluacio": "Buen rendimiento pero necesita mejorar en puntualidad.",
+    "fechaevaluacion": "2024-10-06T11:30:00Z"
+  }
+},
+{
+  "model": "SIGEA_APP.evaluacion",
+  "pk": 4,
+  "fields": {
+    "idplandes": 4,
+    "idusuario": 7,
+    "tipoevaluacion": "Evaluación de objetivos",
+    "notaevaluacio": "80",
+    "comentarioevaluacio": "Cumplió con la mayoría de los objetivos propuestos.",
+    "fechaevaluacion": "2024-10-21T15:00:00Z"
+  }
+},
+{
+  "model": "SIGEA_APP.evaluacion",
+  "pk": 5,
+  "fields": {
+    "idplandes": 5,
+    "idusuario": 8,
+    "tipoevaluacion": "Evaluación de habilidades",
+    "notaevaluacio": "92",
+    "comentarioevaluacio": "Excelente manejo de técnicas avanzadas.",
+    "fechaevaluacion": "2024-10-07T09:15:00Z"
+  }
+},
+{
+  "model": "SIGEA_APP.evaluacion",
+  "pk": 6,
+  "fields": {
+    "idplandes": 6,
+    "idusuario": 8,
+    "tipoevaluacion": "Evaluación de desempeño",
+    "notaevaluacio": "88",
+    "comentarioevaluacio": "Sólido rendimiento en todas las áreas.",
+    "fechaevaluacion": "2024-10-22T16:00:00Z"
+  }
+},
+{
+  "model": "SIGEA_APP.evaluacion",
+  "pk": 7,
+  "fields": {
+    "idplandes": 7,
+    "idusuario": 9,
+    "tipoevaluacion": "Evaluación de desempeño",
+    "notaevaluacio": "83",
+    "comentarioevaluacio": "Buen rendimiento, con margen para mejorar en comunicación.",
+    "fechaevaluacion": "2024-10-08T13:30:00Z"
+  }
+},
+{
+  "model": "SIGEA_APP.evaluacion",
+  "pk": 8,
+  "fields": {
+    "idplandes": 8,
+    "idusuario": 9,
+    "tipoevaluacion": "Evaluación de habilidades",
+    "notaevaluacio": "89",
+    "comentarioevaluacio": "Habilidades técnicas a nivel óptimo.",
+    "fechaevaluacion": "2024-10-23T11:00:00Z"
+  }
+},
+{
+  "model": "SIGEA_APP.evaluacion",
+  "pk": 9,
+  "fields": {
+    "idplandes": 9,
+    "idusuario": 10,
+    "tipoevaluacion": "Evaluación de objetivos",
+    "notaevaluacio": "77",
+    "comentarioevaluacio": "Cumplió parcialmente con los objetivos esperados.",
+    "fechaevaluacion": "2024-10-09T08:45:00Z"
+  }
+},
+{
+  "model": "SIGEA_APP.evaluacion",
+  "pk": 10,
+  "fields": {
+    "idplandes": 10,
+    "idusuario": 10,
+    "tipoevaluacion": "Evaluación de habilidades",
+    "notaevaluacio": "85",
+    "comentarioevaluacio": "Buen conocimiento y aplicación de métodos aprendidos.",
+    "fechaevaluacion": "2024-10-24T14:30:00Z"
+  }
+},
+{
+  "model": "SIGEA_APP.plandesarrollo",
+  "pk": 1,
+  "fields": {
+    "idevaluacion": 1,
+    "nombreplandes": "Plan de Mejora en Desempeño",
+    "objetivosplandes": "Incrementar productividad en un 20%",
+    "alcancesplandes": "Aplicación de mejores prácticas en equipo",
+    "descripcionplandes": "Este plan está diseñado para mejorar el rendimiento general.",
+    "instruccionesplandes": "Seguir las pautas diarias y cumplir metas semanales.",
+    "duracionmesesplandes": 6,
+    "fortalezas": "Responsable y dedicado",
+    "debilidades": "Puntualidad variable",
+    "oportunidades": "Oportunidades de capacitación",
+    "amenazas": "Alta competencia en el área"
+  }
+},
+{
+  "model": "SIGEA_APP.plandesarrollo",
+  "pk": 2,
+  "fields": {
+    "idevaluacion": 2,
+    "nombreplandes": "Desarrollo de Habilidades Técnicas",
+    "objetivosplandes": "Perfeccionar el uso de herramientas avanzadas",
+    "alcancesplandes": "Cobertura de técnicas y metodologías avanzadas",
+    "descripcionplandes": "Un plan enfocado en mejorar habilidades técnicas.",
+    "instruccionesplandes": "Aplicar conocimientos en proyectos específicos.",
+    "duracionmesesplandes": 5,
+    "fortalezas": "Buen manejo de herramientas",
+    "debilidades": "A veces falta atención al detalle",
+    "oportunidades": "Posibilidad de asistir a cursos",
+    "amenazas": "Competencia con colegas experimentados"
+  }
+},
+{
+  "model": "SIGEA_APP.plandesarrollo",
+  "pk": 3,
+  "fields": {
+    "idevaluacion": 3,
+    "nombreplandes": "Plan de Puntualidad y Desempeño",
+    "objetivosplandes": "Mejorar puntualidad y rendimiento",
+    "alcancesplandes": "Aplicación de técnicas de gestión del tiempo",
+    "descripcionplandes": "Plan orientado a mejorar la puntualidad y eficiencia.",
+    "instruccionesplandes": "Seguir el calendario de gestión del tiempo.",
+    "duracionmesesplandes": 4,
+    "fortalezas": "Compromiso con las tareas",
+    "debilidades": "Falta de puntualidad",
+    "oportunidades": "Cursos de administración del tiempo",
+    "amenazas": "Demandas adicionales de clientes"
+  }
+},
+{
+  "model": "SIGEA_APP.plandesarrollo",
+  "pk": 4,
+  "fields": {
+    "idevaluacion": 4,
+    "nombreplandes": "Cumplimiento de Objetivos",
+    "objetivosplandes": "Cumplir objetivos en tiempos establecidos",
+    "alcancesplandes": "Evaluación y seguimiento de cumplimiento de objetivos",
+    "descripcionplandes": "Este plan ayuda a alcanzar metas de forma eficaz.",
+    "instruccionesplandes": "Revisar metas mensualmente y ajustarse.",
+    "duracionmesesplandes": 6,
+    "fortalezas": "Capacidad de aprendizaje",
+    "debilidades": "Dificultad para cumplir plazos",
+    "oportunidades": "Apoyo del equipo",
+    "amenazas": "Demandas cambiantes de proyectos"
+  }
+},
+{
+  "model": "SIGEA_APP.plandesarrollo",
+  "pk": 5,
+  "fields": {
+    "idevaluacion": 5,
+    "nombreplandes": "Perfeccionamiento Técnico",
+    "objetivosplandes": "Adquirir dominio total en técnicas avanzadas",
+    "alcancesplandes": "Fortalecer técnicas de análisis y desarrollo",
+    "descripcionplandes": "Este plan fomenta el crecimiento en habilidades avanzadas.",
+    "instruccionesplandes": "Aplicar lo aprendido en proyectos futuros.",
+    "duracionmesesplandes": 8,
+    "fortalezas": "Detallista y minucioso",
+    "debilidades": "Poca experiencia en metodologías nuevas",
+    "oportunidades": "Capacitación en metodologías avanzadas",
+    "amenazas": "Complejidad en implementación de nuevas técnicas"
+  }
+},
+{
+  "model": "SIGEA_APP.plandesarrollo",
+  "pk": 6,
+  "fields": {
+    "idevaluacion": 6,
+    "nombreplandes": "Fortalecimiento de Desempeño",
+    "objetivosplandes": "Mejorar consistencia en desempeño general",
+    "alcancesplandes": "Aplicación de habilidades a nuevos proyectos",
+    "descripcionplandes": "Plan diseñado para mantener el rendimiento óptimo.",
+    "instruccionesplandes": "Revisar rendimiento en base a objetivos.",
+    "duracionmesesplandes": 6,
+    "fortalezas": "Responsabilidad en el trabajo",
+    "debilidades": "Tendencia a cansancio en tareas largas",
+    "oportunidades": "Acceso a mentorías especializadas",
+    "amenazas": "Altas expectativas del equipo"
+  }
+},
+{
+  "model": "SIGEA_APP.plandesarrollo",
+  "pk": 7,
+  "fields": {
+    "idevaluacion": 7,
+    "nombreplandes": "Comunicación y Rendimiento",
+    "objetivosplandes": "Mejorar comunicación en equipo",
+    "alcancesplandes": "Aumento de interacción con compañeros",
+    "descripcionplandes": "Este plan fomenta habilidades de comunicación.",
+    "instruccionesplandes": "Participar en reuniones y recibir feedback.",
+    "duracionmesesplandes": 3,
+    "fortalezas": "Buen colaborador",
+    "debilidades": "Dificultad para expresar ideas",
+    "oportunidades": "Formación en comunicación efectiva",
+    "amenazas": "Alta carga laboral en equipo"
+  }
+},
+{
+  "model": "SIGEA_APP.plandesarrollo",
+  "pk": 8,
+  "fields": {
+    "idevaluacion": 8,
+    "nombreplandes": "Desarrollo Técnico Continuo",
+    "objetivosplandes": "Alcanzar estándares altos en habilidades técnicas",
+    "alcancesplandes": "Aplicación de técnicas avanzadas",
+    "descripcionplandes": "Plan diseñado para elevar habilidades técnicas.",
+    "instruccionesplandes": "Realizar un seguimiento de técnicas nuevas.",
+    "duracionmesesplandes": 5,
+    "fortalezas": "Gran habilidad técnica",
+    "debilidades": "Limitación en conocimiento de nuevas herramientas",
+    "oportunidades": "Cursos de actualización",
+    "amenazas": "Alta competencia tecnológica"
+  }
+},
+{
+  "model": "SIGEA_APP.plandesarrollo",
+  "pk": 9,
+  "fields": {
+    "idevaluacion": 9,
+    "nombreplandes": "Cumplimiento de Objetivos",
+    "objetivosplandes": "Alcanzar objetivos parcialmente logrados",
+    "alcancesplandes": "Evaluación de objetivos semanales",
+    "descripcionplandes": "Plan enfocado en alcanzar metas más concretas.",
+    "instruccionesplandes": "Definir metas claras y medibles.",
+    "duracionmesesplandes": 6,
+    "fortalezas": "Enfocado en resultados",
+    "debilidades": "Dificultad para organizar tareas",
+    "oportunidades": "Mentoría de organización",
+    "amenazas": "Complejidad en gestionar tiempos"
+  }
+},
+{
+  "model": "SIGEA_APP.plandesarrollo",
+  "pk": 10,
+  "fields": {
+    "idevaluacion": 10,
+    "nombreplandes": "Refuerzo en Conocimientos Técnicos",
+    "objetivosplandes": "Mejorar conocimientos y aplicación práctica",
+    "alcancesplandes": "Abarcar nuevas técnicas en tareas actuales",
+    "descripcionplandes": "Plan orientado a reforzar conocimientos.",
+    "instruccionesplandes": "Realizar pruebas prácticas de conocimientos.",
+    "duracionmesesplandes": 4,
+    "fortalezas": "Gran interés por aprender",
+    "debilidades": "Falta de experiencia en tareas complejas",
+    "oportunidades": "Asistir a talleres avanzados",
+    "amenazas": "Alta competencia interna"
   }
 },
 {
@@ -1363,8 +2233,8 @@
   "model": "SIGEA_APP.usuario",
   "pk": 1,
   "fields": {
-    "last_login": "2024-10-25T14:21:10.779Z",
-    "idservicio": null,
+    "last_login": "2024-11-01T15:08:52.213Z",
+    "idservicio": 10,
     "tipousuario": 1,
     "nombre": "Allan Augusto",
     "apellido": "Anduray Portillo",
@@ -1373,7 +2243,7 @@
     "salario": "1200",
     "email": "ap20025@ues.edu.sv",
     "password": "pbkdf2_sha256$720000$06LS2E5u1w4yMFSYzl8kkv$foNawpVPI8FLWm42FuTOydAYEy/gwD58gCocO3Urt0Q=",
-    "foto_perfil": ""
+    "foto_perfil": "fotos_perfil/Allan.jpg"
   }
 },
 {
@@ -1381,16 +2251,16 @@
   "pk": 2,
   "fields": {
     "last_login": "2024-06-16T21:32:51.296Z",
-    "idservicio": 1,
-    "tipousuario": 3,
-    "nombre": "Jefe",
-    "apellido": "Departamento 1",
+    "idservicio": 10,
+    "tipousuario": 1,
+    "nombre": "Daniel Alexis",
+    "apellido": "García Gómez",
     "dui": "904583102",
     "telefono": "77352145",
     "salario": "1200",
-    "email": "correo1@correo.com",
-    "password": "pbkdf2_sha256$720000$7aJNKj6ax8TIpC9pPZelIP$XiWn2zq2WWTx61hWx/AGepQRuNA4UitoVMbopWZge9o=",
-    "foto_perfil": ""
+    "email": "gg19083@ues.edu.sv",
+    "password": "pbkdf2_sha256$720000$P9OO4VGblvrWp5yvZngVR6$B4eI7n38gVt8md4gMVsKrWwCpOIuQ/fO+RxZHd5NgXo=",
+    "foto_perfil": "fotos_perfil/Daniel.jpg"
   }
 },
 {
@@ -1398,16 +2268,16 @@
   "pk": 3,
   "fields": {
     "last_login": null,
-    "idservicio": 11,
-    "tipousuario": 3,
-    "nombre": "Jefe",
-    "apellido": "Departamento 2",
+    "idservicio": 10,
+    "tipousuario": 1,
+    "nombre": "Josias Abner",
+    "apellido": "Rivas Fuentes",
     "dui": "904583103",
     "telefono": "77352146",
     "salario": "1200",
-    "email": "correo2@correo.com",
+    "email": "rf20010@ues.edu.sv",
     "password": "pbkdf2_sha256$720000$1GFcu3lMkHfbGFtxEzDe0C$u3s6E/AVTrInhPo2SiY6zA2TPJakvefwQezgYhu9FnY=",
-    "foto_perfil": ""
+    "foto_perfil": "fotos_perfil/Abner.png"
   }
 },
 {
@@ -1415,16 +2285,16 @@
   "pk": 4,
   "fields": {
     "last_login": null,
-    "idservicio": 17,
-    "tipousuario": 3,
-    "nombre": "Jefe",
-    "apellido": "Departamento 3",
+    "idservicio": 10,
+    "tipousuario": 1,
+    "nombre": "Esther Eunice",
+    "apellido": "Guillén Cárcamo",
     "dui": "904583104",
     "telefono": "77352147",
     "salario": "1200",
-    "email": "correo3@correo.com",
+    "email": "gc21025@ues.edu.sv",
     "password": "pbkdf2_sha256$720000$N8AIiQghBFyWJpP51DQalG$rbIn9d6umX+eHlSjahpZcDS4QtqE/CXU+OLqz6pwEeY=",
-    "foto_perfil": ""
+    "foto_perfil": "fotos_perfil/Esther.jpg"
   }
 },
 {
@@ -1432,15 +2302,66 @@
   "pk": 5,
   "fields": {
     "last_login": null,
-    "idservicio": 26,
-    "tipousuario": 3,
-    "nombre": "Jefe",
-    "apellido": "Departamento 4",
+    "idservicio": 10,
+    "tipousuario": 1,
+    "nombre": "Karen Elvira",
+    "apellido": "Avilés Peñate",
     "dui": "904583105",
     "telefono": "77352148",
     "salario": "1200",
-    "email": "correo4@correo.com",
+    "email": "karen.penate@ues.edu.sv",
     "password": "pbkdf2_sha256$720000$swONmhsrZ505Wadpy7BI3D$zW/lOezgX7rYgyS4yM27rEnpIw/l6i5p5KgnqMYihEI=",
+    "foto_perfil": "fotos_perfil/Ingra._KAren.jpg"
+  }
+},
+{
+  "model": "SIGEA_APP.usuario",
+  "pk": 6,
+  "fields": {
+    "last_login": null,
+    "idservicio": null,
+    "tipousuario": 2,
+    "nombre": "Juan",
+    "apellido": "Perez",
+    "dui": "12345678-9",
+    "telefono": "71234567",
+    "salario": "500",
+    "email": "juan.perez@example.com",
+    "password": "hashed_password1",
+    "foto_perfil": ""
+  }
+},
+{
+  "model": "SIGEA_APP.usuario",
+  "pk": 7,
+  "fields": {
+    "last_login": null,
+    "idservicio": 2,
+    "tipousuario": 2,
+    "nombre": "Maria",
+    "apellido": "Lopez",
+    "dui": "23456789-0",
+    "telefono": "72234567",
+    "salario": "700",
+    "email": "maria.lopez@example.com",
+    "password": "hashed_password2",
+    "foto_perfil": ""
+  }
+},
+{
+  "model": "SIGEA_APP.usuario",
+  "pk": 8,
+  "fields": {
+    "last_login": null,
+    "idservicio": 3,
+    "tipousuario": 2,
+    "nombre": "Carlos",
+    "apellido": "Martinez",
+    "dui": "34567890-1",
+    "telefono": "73234567",
+    "salario": "600",
+    "email": "carlos.martinez@example.com",
+    "password": "hashed_password3",
     "foto_perfil": ""
   }
 },
@@ -1448,16 +2369,16 @@
   "model": "SIGEA_APP.usuario",
   "pk": 9,
   "fields": {
-    "last_login": "2024-06-16T22:07:14.819Z",
-    "idservicio": 2,
+    "last_login": null,
+    "idservicio": null,
     "tipousuario": 2,
-    "nombre": "s",
-    "apellido": "1",
-    "dui": "987654321",
-    "telefono": "25896347",
-    "salario": "100",
-    "email": "s1@s1.com",
-    "password": "pbkdf2_sha256$720000$QmGSGvFh4OKdiUSmUOfVHk$eDVPNFJaL/KzW3KaLMTvSGcSk/xYL+OztVtF4HM4CvI=",
+    "nombre": "Ana",
+    "apellido": "Gonzalez",
+    "dui": "45678901-2",
+    "telefono": "74234567",
+    "salario": "650",
+    "email": "ana.gonzalez@example.com",
+    "password": "hashed_password4",
     "foto_perfil": ""
   }
 },
@@ -1465,17 +2386,307 @@
   "model": "SIGEA_APP.usuario",
   "pk": 10,
   "fields": {
-    "last_login": "2024-06-16T22:06:28.966Z",
-    "idservicio": 9,
-    "tipousuario": 4,
-    "nombre": "a",
-    "apellido": "1",
-    "dui": "98765431",
-    "telefono": "77777777",
-    "salario": "100",
-    "email": "a1@a1.com",
-    "password": "pbkdf2_sha256$720000$yLREXhzjNixFayllMQsVuG$hS5XtRlgExfkaJoY2dOLVaWZgeOmknWBbWWSzH62yKk=",
+    "last_login": null,
+    "idservicio": 1,
+    "tipousuario": 3,
+    "nombre": "Luis",
+    "apellido": "Hernandez",
+    "dui": "56789012-3",
+    "telefono": "75234567",
+    "salario": "550",
+    "email": "luis.hernandez@example.com",
+    "password": "hashed_password5",
     "foto_perfil": ""
+  }
+},
+{
+  "model": "SIGEA_APP.usuario",
+  "pk": 11,
+  "fields": {
+    "last_login": null,
+    "idservicio": 2,
+    "tipousuario": 3,
+    "nombre": "Carmen",
+    "apellido": "Ramirez",
+    "dui": "67890123-4",
+    "telefono": "76234567",
+    "salario": "680",
+    "email": "carmen.ramirez@example.com",
+    "password": "hashed_password6",
+    "foto_perfil": ""
+  }
+},
+{
+  "model": "SIGEA_APP.usuario",
+  "pk": 12,
+  "fields": {
+    "last_login": null,
+    "idservicio": 3,
+    "tipousuario": 3,
+    "nombre": "Jose",
+    "apellido": "Torres",
+    "dui": "78901234-5",
+    "telefono": "77234567",
+    "salario": "720",
+    "email": "jose.torres@example.com",
+    "password": "hashed_password7",
+    "foto_perfil": ""
+  }
+},
+{
+  "model": "SIGEA_APP.usuario",
+  "pk": 13,
+  "fields": {
+    "last_login": null,
+    "idservicio": null,
+    "tipousuario": 3,
+    "nombre": "Diana",
+    "apellido": "Rivas",
+    "dui": "89012345-6",
+    "telefono": "78234567",
+    "salario": "530",
+    "email": "diana.rivas@example.com",
+    "password": "hashed_password8",
+    "foto_perfil": ""
+  }
+},
+{
+  "model": "SIGEA_APP.usuario",
+  "pk": 14,
+  "fields": {
+    "last_login": null,
+    "idservicio": 1,
+    "tipousuario": 4,
+    "nombre": "Oscar",
+    "apellido": "Jimenez",
+    "dui": "90123456-7",
+    "telefono": "79234567",
+    "salario": "750",
+    "email": "oscar.jimenez@example.com",
+    "password": "hashed_password9",
+    "foto_perfil": ""
+  }
+},
+{
+  "model": "SIGEA_APP.usuario",
+  "pk": 15,
+  "fields": {
+    "last_login": null,
+    "idservicio": null,
+    "tipousuario": 4,
+    "nombre": "Andrea",
+    "apellido": "Vasquez",
+    "dui": "01234567-8",
+    "telefono": "70234567",
+    "salario": "600",
+    "email": "andrea.vasquez@example.com",
+    "password": "hashed_password10",
+    "foto_perfil": ""
+  }
+},
+{
+  "model": "SIGEA_APP.usuario",
+  "pk": 16,
+  "fields": {
+    "last_login": null,
+    "idservicio": 2,
+    "tipousuario": 4,
+    "nombre": "Fernando",
+    "apellido": "Sanchez",
+    "dui": "22345678-9",
+    "telefono": "71234568",
+    "salario": "800",
+    "email": "fernando.sanchez@example.com",
+    "password": "hashed_password11",
+    "foto_perfil": ""
+  }
+},
+{
+  "model": "SIGEA_APP.usuario",
+  "pk": 17,
+  "fields": {
+    "last_login": null,
+    "idservicio": 3,
+    "tipousuario": 4,
+    "nombre": "Laura",
+    "apellido": "Mendoza",
+    "dui": "83456789-0",
+    "telefono": "72234568",
+    "salario": "670",
+    "email": "laura.mendoza@example.com",
+    "password": "hashed_password12",
+    "foto_perfil": ""
+  }
+},
+{
+  "model": "SIGEA_APP.estadoactividad",
+  "pk": 1,
+  "fields": {
+    "descripcion": "No iniciado"
+  }
+},
+{
+  "model": "SIGEA_APP.estadoactividad",
+  "pk": 2,
+  "fields": {
+    "descripcion": "En Proceso"
+  }
+},
+{
+  "model": "SIGEA_APP.estadoactividad",
+  "pk": 3,
+  "fields": {
+    "descripcion": "Finalizado"
+  }
+},
+{
+  "model": "SIGEA_APP.actividades",
+  "pk": 1,
+  "fields": {
+    "idusuario": 6,
+    "idrecordatorio": null,
+    "estadoactividad": 1,
+    "tipoactividad": "Reunión",
+    "nombreactividad": "Revisión mensual",
+    "fechaactividad": "2024-10-01T10:00:00Z",
+    "fechafin": "2024-10-01T11:30:00Z",
+    "descripcionactividad": "Revisión de objetivos mensuales y desempeño.",
+    "docanexoactividad": ""
+  }
+},
+{
+  "model": "SIGEA_APP.actividades",
+  "pk": 2,
+  "fields": {
+    "idusuario": 6,
+    "idrecordatorio": null,
+    "estadoactividad": 2,
+    "tipoactividad": "Tarea",
+    "nombreactividad": "Informe semanal",
+    "fechaactividad": "2024-10-07T09:00:00Z",
+    "fechafin": "2024-10-07T17:00:00Z",
+    "descripcionactividad": "Elaboración de informe semanal de actividades.",
+    "docanexoactividad": ""
+  }
+},
+{
+  "model": "SIGEA_APP.actividades",
+  "pk": 3,
+  "fields": {
+    "idusuario": 6,
+    "idrecordatorio": null,
+    "estadoactividad": 3,
+    "tipoactividad": "Reunión",
+    "nombreactividad": "Planificación de proyectos",
+    "fechaactividad": "2024-10-08T11:00:00Z",
+    "fechafin": "2024-10-08T13:00:00Z",
+    "descripcionactividad": "Planificación y asignación de recursos para proyectos.",
+    "docanexoactividad": ""
+  }
+},
+{
+  "model": "SIGEA_APP.actividades",
+  "pk": 4,
+  "fields": {
+    "idusuario": 6,
+    "idrecordatorio": null,
+    "estadoactividad": 1,
+    "tipoactividad": "Tarea",
+    "nombreactividad": "Actualización de documentos",
+    "fechaactividad": "2024-10-09T08:30:00Z",
+    "fechafin": "2024-10-09T16:30:00Z",
+    "descripcionactividad": "Actualización de documentación del proyecto.",
+    "docanexoactividad": ""
+  }
+},
+{
+  "model": "SIGEA_APP.actividades",
+  "pk": 5,
+  "fields": {
+    "idusuario": 6,
+    "idrecordatorio": null,
+    "estadoactividad": 2,
+    "tipoactividad": "Reunión",
+    "nombreactividad": "Revisión de equipo",
+    "fechaactividad": "2024-10-10T10:00:00Z",
+    "fechafin": "2024-10-10T11:00:00Z",
+    "descripcionactividad": "Revisión semanal con equipo de trabajo.",
+    "docanexoactividad": ""
+  }
+},
+{
+  "model": "SIGEA_APP.actividades",
+  "pk": 6,
+  "fields": {
+    "idusuario": 6,
+    "idrecordatorio": null,
+    "estadoactividad": 3,
+    "tipoactividad": "Capacitación",
+    "nombreactividad": "Curso avanzado de SQL",
+    "fechaactividad": "2024-10-15T09:00:00Z",
+    "fechafin": "2024-10-15T12:00:00Z",
+    "descripcionactividad": "Curso de actualización en técnicas avanzadas de SQL.",
+    "docanexoactividad": ""
+  }
+},
+{
+  "model": "SIGEA_APP.actividades",
+  "pk": 7,
+  "fields": {
+    "idusuario": 6,
+    "idrecordatorio": null,
+    "estadoactividad": 1,
+    "tipoactividad": "Tarea",
+    "nombreactividad": "Análisis de datos",
+    "fechaactividad": "2024-10-16T08:30:00Z",
+    "fechafin": "2024-10-16T17:30:00Z",
+    "descripcionactividad": "Análisis de datos para reporte mensual.",
+    "docanexoactividad": ""
+  }
+},
+{
+  "model": "SIGEA_APP.actividades",
+  "pk": 8,
+  "fields": {
+    "idusuario": 6,
+    "idrecordatorio": null,
+    "estadoactividad": 2,
+    "tipoactividad": "Reunión",
+    "nombreactividad": "Evaluación de medio término",
+    "fechaactividad": "2024-10-17T14:00:00Z",
+    "fechafin": "2024-10-17T15:30:00Z",
+    "descripcionactividad": "Evaluación del rendimiento del equipo en el proyecto.",
+    "docanexoactividad": ""
+  }
+},
+{
+  "model": "SIGEA_APP.actividades",
+  "pk": 9,
+  "fields": {
+    "idusuario": 6,
+    "idrecordatorio": null,
+    "estadoactividad": 3,
+    "tipoactividad": "Tarea",
+    "nombreactividad": "Elaboración de presentaciones",
+    "fechaactividad": "2024-10-22T08:00:00Z",
+    "fechafin": "2024-10-22T12:00:00Z",
+    "descripcionactividad": "Preparación de presentaciones para clientes.",
+    "docanexoactividad": ""
+  }
+},
+{
+  "model": "SIGEA_APP.actividades",
+  "pk": 10,
+  "fields": {
+    "idusuario": 6,
+    "idrecordatorio": null,
+    "estadoactividad": 1,
+    "tipoactividad": "Reunión",
+    "nombreactividad": "Cierre mensual",
+    "fechaactividad": "2024-10-29T16:00:00Z",
+    "fechafin": "2024-10-29T17:30:00Z",
+    "descripcionactividad": "Revisión y cierre de actividades del mes.",
+    "docanexoactividad": ""
   }
 },
 {
@@ -1493,24 +2704,768 @@
   }
 },
 {
-  "model": "SIGEA_APP.estadoactividad",
+  "model": "SIGEA_APP.cliente",
   "pk": 1,
   "fields": {
-      "descripcion": "No iniciado"
+    "idTipo": 1,
+    "nombre": "Carlos Gonzalez",
+    "correo": "carlos.gonzalez@example.com",
+    "telefono": "71234561"
   }
 },
 {
-  "model": "SIGEA_APP.estadoactividad",
+  "model": "SIGEA_APP.cliente",
   "pk": 2,
   "fields": {
-      "descripcion": "En Proceso"
+    "idTipo": 1,
+    "nombre": "María Fernandez",
+    "correo": "maria.fernandez@example.com",
+    "telefono": "71234562"
   }
 },
 {
-  "model": "SIGEA_APP.estadoactividad",
+  "model": "SIGEA_APP.cliente",
   "pk": 3,
   "fields": {
-      "descripcion": "Finalizado"
+    "idTipo": 1,
+    "nombre": "Luis Perez",
+    "correo": "luis.perez@example.com",
+    "telefono": "71234563"
+  }
+},
+{
+  "model": "SIGEA_APP.cliente",
+  "pk": 4,
+  "fields": {
+    "idTipo": 1,
+    "nombre": "Ana Lopez",
+    "correo": "ana.lopez@example.com",
+    "telefono": "71234564"
+  }
+},
+{
+  "model": "SIGEA_APP.cliente",
+  "pk": 5,
+  "fields": {
+    "idTipo": 1,
+    "nombre": "Juan Rodriguez",
+    "correo": "juan.rodriguez@example.com",
+    "telefono": "71234565"
+  }
+},
+{
+  "model": "SIGEA_APP.cliente",
+  "pk": 6,
+  "fields": {
+    "idTipo": 1,
+    "nombre": "Sofia Martinez",
+    "correo": "sofia.martinez@example.com",
+    "telefono": "71234566"
+  }
+},
+{
+  "model": "SIGEA_APP.cliente",
+  "pk": 7,
+  "fields": {
+    "idTipo": 1,
+    "nombre": "Miguel Torres",
+    "correo": "miguel.torres@example.com",
+    "telefono": "71234567"
+  }
+},
+{
+  "model": "SIGEA_APP.cliente",
+  "pk": 8,
+  "fields": {
+    "idTipo": 1,
+    "nombre": "Laura Ramirez",
+    "correo": "laura.ramirez@example.com",
+    "telefono": "71234568"
+  }
+},
+{
+  "model": "SIGEA_APP.cliente",
+  "pk": 9,
+  "fields": {
+    "idTipo": 1,
+    "nombre": "Ricardo Jimenez",
+    "correo": "ricardo.jimenez@example.com",
+    "telefono": "71234569"
+  }
+},
+{
+  "model": "SIGEA_APP.cliente",
+  "pk": 10,
+  "fields": {
+    "idTipo": 1,
+    "nombre": "Patricia Suarez",
+    "correo": "patricia.suarez@example.com",
+    "telefono": "71234570"
+  }
+},
+{
+  "model": "SIGEA_APP.cliente",
+  "pk": 11,
+  "fields": {
+    "idTipo": 2,
+    "nombre": "Andres Castillo",
+    "correo": "andres.castillo@example.com",
+    "telefono": "71234571"
+  }
+},
+{
+  "model": "SIGEA_APP.cliente",
+  "pk": 12,
+  "fields": {
+    "idTipo": 2,
+    "nombre": "Camila Ortiz",
+    "correo": "camila.ortiz@example.com",
+    "telefono": "71234572"
+  }
+},
+{
+  "model": "SIGEA_APP.cliente",
+  "pk": 13,
+  "fields": {
+    "idTipo": 2,
+    "nombre": "Jose Morales",
+    "correo": "jose.morales@example.com",
+    "telefono": "71234573"
+  }
+},
+{
+  "model": "SIGEA_APP.cliente",
+  "pk": 14,
+  "fields": {
+    "idTipo": 2,
+    "nombre": "Elena Rivas",
+    "correo": "elena.rivas@example.com",
+    "telefono": "71234574"
+  }
+},
+{
+  "model": "SIGEA_APP.cliente",
+  "pk": 15,
+  "fields": {
+    "idTipo": 2,
+    "nombre": "Diego Vargas",
+    "correo": "diego.vargas@example.com",
+    "telefono": "71234575"
+  }
+},
+{
+  "model": "SIGEA_APP.cliente",
+  "pk": 16,
+  "fields": {
+    "idTipo": 2,
+    "nombre": "Gabriela Reyes",
+    "correo": "gabriela.reyes@example.com",
+    "telefono": "71234576"
+  }
+},
+{
+  "model": "SIGEA_APP.cliente",
+  "pk": 17,
+  "fields": {
+    "idTipo": 2,
+    "nombre": "Oscar Sanchez",
+    "correo": "oscar.sanchez@example.com",
+    "telefono": "71234577"
+  }
+},
+{
+  "model": "SIGEA_APP.cliente",
+  "pk": 18,
+  "fields": {
+    "idTipo": 2,
+    "nombre": "Daniela Flores",
+    "correo": "daniela.flores@example.com",
+    "telefono": "71234578"
+  }
+},
+{
+  "model": "SIGEA_APP.cliente",
+  "pk": 19,
+  "fields": {
+    "idTipo": 2,
+    "nombre": "Pablo Herrera",
+    "correo": "pablo.herrera@example.com",
+    "telefono": "71234579"
+  }
+},
+{
+  "model": "SIGEA_APP.cliente",
+  "pk": 20,
+  "fields": {
+    "idTipo": 2,
+    "nombre": "Fernanda Vega",
+    "correo": "fernanda.vega@example.com",
+    "telefono": "71234580"
+  }
+},
+{
+  "model": "SIGEA_APP.registroasistencia",
+  "pk": 1,
+  "fields": {
+    "empleado": 6,
+    "fecha": "2024-10-01",
+    "hora_entrada": "08:00:00",
+    "hora_salida": "15:30:00",
+    "horas_trabajadas": "07:30:00"
+  }
+},
+{
+  "model": "SIGEA_APP.registroasistencia",
+  "pk": 2,
+  "fields": {
+    "empleado": 6,
+    "fecha": "2024-10-02",
+    "hora_entrada": "08:15:00",
+    "hora_salida": "14:45:00",
+    "horas_trabajadas": "06:30:00"
+  }
+},
+{
+  "model": "SIGEA_APP.registroasistencia",
+  "pk": 3,
+  "fields": {
+    "empleado": 6,
+    "fecha": "2024-10-03",
+    "hora_entrada": "09:00:00",
+    "hora_salida": "17:00:00",
+    "horas_trabajadas": "08:00:00"
+  }
+},
+{
+  "model": "SIGEA_APP.registroasistencia",
+  "pk": 4,
+  "fields": {
+    "empleado": 7,
+    "fecha": "2024-10-01",
+    "hora_entrada": "08:30:00",
+    "hora_salida": "15:00:00",
+    "horas_trabajadas": "06:30:00"
+  }
+},
+{
+  "model": "SIGEA_APP.registroasistencia",
+  "pk": 5,
+  "fields": {
+    "empleado": 7,
+    "fecha": "2024-10-02",
+    "hora_entrada": "09:00:00",
+    "hora_salida": "16:00:00",
+    "horas_trabajadas": "07:00:00"
+  }
+},
+{
+  "model": "SIGEA_APP.registroasistencia",
+  "pk": 6,
+  "fields": {
+    "empleado": 7,
+    "fecha": "2024-10-03",
+    "hora_entrada": "08:00:00",
+    "hora_salida": "16:00:00",
+    "horas_trabajadas": "08:00:00"
+  }
+},
+{
+  "model": "SIGEA_APP.registroasistencia",
+  "pk": 7,
+  "fields": {
+    "empleado": 8,
+    "fecha": "2024-10-01",
+    "hora_entrada": "07:45:00",
+    "hora_salida": "14:15:00",
+    "horas_trabajadas": "06:30:00"
+  }
+},
+{
+  "model": "SIGEA_APP.registroasistencia",
+  "pk": 8,
+  "fields": {
+    "empleado": 8,
+    "fecha": "2024-10-02",
+    "hora_entrada": "08:00:00",
+    "hora_salida": "15:00:00",
+    "horas_trabajadas": "07:00:00"
+  }
+},
+{
+  "model": "SIGEA_APP.registroasistencia",
+  "pk": 9,
+  "fields": {
+    "empleado": 8,
+    "fecha": "2024-10-03",
+    "hora_entrada": "08:30:00",
+    "hora_salida": "16:30:00",
+    "horas_trabajadas": "08:00:00"
+  }
+},
+{
+  "model": "SIGEA_APP.registroasistencia",
+  "pk": 10,
+  "fields": {
+    "empleado": 9,
+    "fecha": "2024-10-01",
+    "hora_entrada": "09:00:00",
+    "hora_salida": "16:00:00",
+    "horas_trabajadas": "07:00:00"
+  }
+},
+{
+  "model": "SIGEA_APP.registroasistencia",
+  "pk": 11,
+  "fields": {
+    "empleado": 9,
+    "fecha": "2024-10-02",
+    "hora_entrada": "08:30:00",
+    "hora_salida": "16:30:00",
+    "horas_trabajadas": "08:00:00"
+  }
+},
+{
+  "model": "SIGEA_APP.registroasistencia",
+  "pk": 12,
+  "fields": {
+    "empleado": 9,
+    "fecha": "2024-10-03",
+    "hora_entrada": "08:15:00",
+    "hora_salida": "15:15:00",
+    "horas_trabajadas": "07:00:00"
+  }
+},
+{
+  "model": "SIGEA_APP.registroasistencia",
+  "pk": 13,
+  "fields": {
+    "empleado": 10,
+    "fecha": "2024-10-01",
+    "hora_entrada": "08:00:00",
+    "hora_salida": "14:30:00",
+    "horas_trabajadas": "06:30:00"
+  }
+},
+{
+  "model": "SIGEA_APP.registroasistencia",
+  "pk": 14,
+  "fields": {
+    "empleado": 10,
+    "fecha": "2024-10-02",
+    "hora_entrada": "09:15:00",
+    "hora_salida": "16:15:00",
+    "horas_trabajadas": "07:00:00"
+  }
+},
+{
+  "model": "SIGEA_APP.registroasistencia",
+  "pk": 15,
+  "fields": {
+    "empleado": 10,
+    "fecha": "2024-10-03",
+    "hora_entrada": "08:30:00",
+    "hora_salida": "16:30:00",
+    "horas_trabajadas": "08:00:00"
+  }
+},
+{
+  "model": "SIGEA_APP.caso",
+  "pk": 1,
+  "fields": {
+    "nombreCaso": "Caso de Carlos Gonzalez 1",
+    "idCliente": 1,
+    "descripcionCaso": "Descripción del caso 1 para Carlos Gonzalez",
+    "estadoCaso": "Iniciado"
+  }
+},
+{
+  "model": "SIGEA_APP.caso",
+  "pk": 2,
+  "fields": {
+    "nombreCaso": "Caso de Carlos Gonzalez 2",
+    "idCliente": 1,
+    "descripcionCaso": "Descripción del caso 2 para Carlos Gonzalez",
+    "estadoCaso": "En Proceso"
+  }
+},
+{
+  "model": "SIGEA_APP.caso",
+  "pk": 3,
+  "fields": {
+    "nombreCaso": "Caso de María Fernandez 1",
+    "idCliente": 2,
+    "descripcionCaso": "Descripción del caso 1 para María Fernandez",
+    "estadoCaso": "En Proceso"
+  }
+},
+{
+  "model": "SIGEA_APP.caso",
+  "pk": 4,
+  "fields": {
+    "nombreCaso": "Caso de María Fernandez 2",
+    "idCliente": 2,
+    "descripcionCaso": "Descripción del caso 2 para María Fernandez",
+    "estadoCaso": "Finalizado"
+  }
+},
+{
+  "model": "SIGEA_APP.caso",
+  "pk": 5,
+  "fields": {
+    "nombreCaso": "Caso de Luis Perez 1",
+    "idCliente": 3,
+    "descripcionCaso": "Descripción del caso 1 para Luis Perez",
+    "estadoCaso": "Iniciado"
+  }
+},
+{
+  "model": "SIGEA_APP.caso",
+  "pk": 6,
+  "fields": {
+    "nombreCaso": "Caso de Luis Perez 2",
+    "idCliente": 3,
+    "descripcionCaso": "Descripción del caso 2 para Luis Perez",
+    "estadoCaso": "En Proceso"
+  }
+},
+{
+  "model": "SIGEA_APP.caso",
+  "pk": 7,
+  "fields": {
+    "nombreCaso": "Caso de Ana Lopez 1",
+    "idCliente": 4,
+    "descripcionCaso": "Descripción del caso 1 para Ana Lopez",
+    "estadoCaso": "Finalizado"
+  }
+},
+{
+  "model": "SIGEA_APP.caso",
+  "pk": 8,
+  "fields": {
+    "nombreCaso": "Caso de Ana Lopez 2",
+    "idCliente": 4,
+    "descripcionCaso": "Descripción del caso 2 para Ana Lopez",
+    "estadoCaso": "Iniciado"
+  }
+},
+{
+  "model": "SIGEA_APP.caso",
+  "pk": 9,
+  "fields": {
+    "nombreCaso": "Caso de Juan Rodriguez 1",
+    "idCliente": 5,
+    "descripcionCaso": "Descripción del caso 1 para Juan Rodriguez",
+    "estadoCaso": "En Proceso"
+  }
+},
+{
+  "model": "SIGEA_APP.caso",
+  "pk": 10,
+  "fields": {
+    "nombreCaso": "Caso de Juan Rodriguez 2",
+    "idCliente": 5,
+    "descripcionCaso": "Descripción del caso 2 para Juan Rodriguez",
+    "estadoCaso": "Finalizado"
+  }
+},
+{
+  "model": "SIGEA_APP.caso",
+  "pk": 11,
+  "fields": {
+    "nombreCaso": "Caso de Sofia Martinez 1",
+    "idCliente": 6,
+    "descripcionCaso": "Descripción del caso 1 para Sofia Martinez",
+    "estadoCaso": "Iniciado"
+  }
+},
+{
+  "model": "SIGEA_APP.caso",
+  "pk": 12,
+  "fields": {
+    "nombreCaso": "Caso de Sofia Martinez 2",
+    "idCliente": 6,
+    "descripcionCaso": "Descripción del caso 2 para Sofia Martinez",
+    "estadoCaso": "En Proceso"
+  }
+},
+{
+  "model": "SIGEA_APP.caso",
+  "pk": 13,
+  "fields": {
+    "nombreCaso": "Caso de Miguel Torres 1",
+    "idCliente": 7,
+    "descripcionCaso": "Descripción del caso 1 para Miguel Torres",
+    "estadoCaso": "Finalizado"
+  }
+},
+{
+  "model": "SIGEA_APP.caso",
+  "pk": 14,
+  "fields": {
+    "nombreCaso": "Caso de Miguel Torres 2",
+    "idCliente": 7,
+    "descripcionCaso": "Descripción del caso 2 para Miguel Torres",
+    "estadoCaso": "Iniciado"
+  }
+},
+{
+  "model": "SIGEA_APP.caso",
+  "pk": 15,
+  "fields": {
+    "nombreCaso": "Caso de Laura Ramirez 1",
+    "idCliente": 8,
+    "descripcionCaso": "Descripción del caso 1 para Laura Ramirez",
+    "estadoCaso": "En Proceso"
+  }
+},
+{
+  "model": "SIGEA_APP.caso",
+  "pk": 16,
+  "fields": {
+    "nombreCaso": "Caso de Laura Ramirez 2",
+    "idCliente": 8,
+    "descripcionCaso": "Descripción del caso 2 para Laura Ramirez",
+    "estadoCaso": "Finalizado"
+  }
+},
+{
+  "model": "SIGEA_APP.caso",
+  "pk": 17,
+  "fields": {
+    "nombreCaso": "Caso de Ricardo Jimenez 1",
+    "idCliente": 9,
+    "descripcionCaso": "Descripción del caso 1 para Ricardo Jimenez",
+    "estadoCaso": "Iniciado"
+  }
+},
+{
+  "model": "SIGEA_APP.caso",
+  "pk": 18,
+  "fields": {
+    "nombreCaso": "Caso de Ricardo Jimenez 2",
+    "idCliente": 9,
+    "descripcionCaso": "Descripción del caso 2 para Ricardo Jimenez",
+    "estadoCaso": "En Proceso"
+  }
+},
+{
+  "model": "SIGEA_APP.caso",
+  "pk": 19,
+  "fields": {
+    "nombreCaso": "Caso de Patricia Suarez 1",
+    "idCliente": 10,
+    "descripcionCaso": "Descripción del caso 1 para Patricia Suarez",
+    "estadoCaso": "Finalizado"
+  }
+},
+{
+  "model": "SIGEA_APP.caso",
+  "pk": 20,
+  "fields": {
+    "nombreCaso": "Caso de Patricia Suarez 2",
+    "idCliente": 10,
+    "descripcionCaso": "Descripción del caso 2 para Patricia Suarez",
+    "estadoCaso": "Iniciado"
+  }
+},
+{
+  "model": "SIGEA_APP.caso",
+  "pk": 21,
+  "fields": {
+    "nombreCaso": "Caso de Andres Castillo 1",
+    "idCliente": 11,
+    "descripcionCaso": "Descripción del caso 1 para Andres Castillo",
+    "estadoCaso": "En Proceso"
+  }
+},
+{
+  "model": "SIGEA_APP.caso",
+  "pk": 22,
+  "fields": {
+    "nombreCaso": "Caso de Andres Castillo 2",
+    "idCliente": 11,
+    "descripcionCaso": "Descripción del caso 2 para Andres Castillo",
+    "estadoCaso": "Finalizado"
+  }
+},
+{
+  "model": "SIGEA_APP.caso",
+  "pk": 23,
+  "fields": {
+    "nombreCaso": "Caso de Camila Ortiz 1",
+    "idCliente": 12,
+    "descripcionCaso": "Descripción del caso 1 para Camila Ortiz",
+    "estadoCaso": "Iniciado"
+  }
+},
+{
+  "model": "SIGEA_APP.caso",
+  "pk": 24,
+  "fields": {
+    "nombreCaso": "Caso de Camila Ortiz 2",
+    "idCliente": 12,
+    "descripcionCaso": "Descripción del caso 2 para Camila Ortiz",
+    "estadoCaso": "En Proceso"
+  }
+},
+{
+  "model": "SIGEA_APP.caso",
+  "pk": 25,
+  "fields": {
+    "nombreCaso": "Caso de Jose Morales 1",
+    "idCliente": 13,
+    "descripcionCaso": "Descripción del caso 1 para Jose Morales",
+    "estadoCaso": "Finalizado"
+  }
+},
+{
+  "model": "SIGEA_APP.caso",
+  "pk": 26,
+  "fields": {
+    "nombreCaso": "Caso de Jose Morales 2",
+    "idCliente": 13,
+    "descripcionCaso": "Descripción del caso 2 para Jose Morales",
+    "estadoCaso": "Iniciado"
+  }
+},
+{
+  "model": "SIGEA_APP.caso",
+  "pk": 27,
+  "fields": {
+    "nombreCaso": "Caso de Elena Rivas 1",
+    "idCliente": 14,
+    "descripcionCaso": "Descripción del caso 1 para Elena Rivas",
+    "estadoCaso": "En Proceso"
+  }
+},
+{
+  "model": "SIGEA_APP.caso",
+  "pk": 28,
+  "fields": {
+    "nombreCaso": "Caso de Elena Rivas 2",
+    "idCliente": 14,
+    "descripcionCaso": "Descripción del caso 2 para Elena Rivas",
+    "estadoCaso": "Finalizado"
+  }
+},
+{
+  "model": "SIGEA_APP.caso",
+  "pk": 29,
+  "fields": {
+    "nombreCaso": "Caso de Diego Vargas 1",
+    "idCliente": 15,
+    "descripcionCaso": "Descripción del caso 1 para Diego Vargas",
+    "estadoCaso": "Iniciado"
+  }
+},
+{
+  "model": "SIGEA_APP.caso",
+  "pk": 30,
+  "fields": {
+    "nombreCaso": "Caso de Diego Vargas 2",
+    "idCliente": 15,
+    "descripcionCaso": "Descripción del caso 2 para Diego Vargas",
+    "estadoCaso": "En Proceso"
+  }
+},
+{
+  "model": "SIGEA_APP.caso",
+  "pk": 31,
+  "fields": {
+    "nombreCaso": "Caso de Gabriela Reyes 1",
+    "idCliente": 16,
+    "descripcionCaso": "Descripción del caso 1 para Gabriela Reyes",
+    "estadoCaso": "Finalizado"
+  }
+},
+{
+  "model": "SIGEA_APP.caso",
+  "pk": 32,
+  "fields": {
+    "nombreCaso": "Caso de Gabriela Reyes 2",
+    "idCliente": 16,
+    "descripcionCaso": "Descripción del caso 2 para Gabriela Reyes",
+    "estadoCaso": "Iniciado"
+  }
+},
+{
+  "model": "SIGEA_APP.caso",
+  "pk": 33,
+  "fields": {
+    "nombreCaso": "Caso de Oscar Sanchez 1",
+    "idCliente": 17,
+    "descripcionCaso": "Descripción del caso 1 para Oscar Sanchez",
+    "estadoCaso": "En Proceso"
+  }
+},
+{
+  "model": "SIGEA_APP.caso",
+  "pk": 34,
+  "fields": {
+    "nombreCaso": "Caso de Oscar Sanchez 2",
+    "idCliente": 17,
+    "descripcionCaso": "Descripción del caso 2 para Oscar Sanchez",
+    "estadoCaso": "Finalizado"
+  }
+},
+{
+  "model": "SIGEA_APP.caso",
+  "pk": 35,
+  "fields": {
+    "nombreCaso": "Caso de Daniela Flores 1",
+    "idCliente": 18,
+    "descripcionCaso": "Descripción del caso 1 para Daniela Flores",
+    "estadoCaso": "Iniciado"
+  }
+},
+{
+  "model": "SIGEA_APP.caso",
+  "pk": 36,
+  "fields": {
+    "nombreCaso": "Caso de Daniela Flores 2",
+    "idCliente": 18,
+    "descripcionCaso": "Descripción del caso 2 para Daniela Flores",
+    "estadoCaso": "En Proceso"
+  }
+},
+{
+  "model": "SIGEA_APP.caso",
+  "pk": 37,
+  "fields": {
+    "nombreCaso": "Caso de Pablo Herrera 1",
+    "idCliente": 19,
+    "descripcionCaso": "Descripción del caso 1 para Pablo Herrera",
+    "estadoCaso": "Finalizado"
+  }
+},
+{
+  "model": "SIGEA_APP.caso",
+  "pk": 38,
+  "fields": {
+    "nombreCaso": "Caso de Pablo Herrera 2",
+    "idCliente": 19,
+    "descripcionCaso": "Descripción del caso 2 para Pablo Herrera",
+    "estadoCaso": "Iniciado"
+  }
+},
+{
+  "model": "SIGEA_APP.caso",
+  "pk": 39,
+  "fields": {
+    "nombreCaso": "Caso de Fernanda Vega 1",
+    "idCliente": 20,
+    "descripcionCaso": "Descripción del caso 1 para Fernanda Vega",
+    "estadoCaso": "En Proceso"
+  }
+},
+{
+  "model": "SIGEA_APP.caso",
+  "pk": 40,
+  "fields": {
+    "nombreCaso": "Caso de Fernanda Vega 2",
+    "idCliente": 20,
+    "descripcionCaso": "Descripción del caso 2 para Fernanda Vega",
+    "estadoCaso": "Finalizado"
   }
 }
 ]

@@ -3,6 +3,18 @@
 {% block title %}Dashboard{% endblock %}
 
 {% block content %}
+
+<style>
+    .scrollable-content_table {
+        height: 14rem;
+        overflow-y: auto;
+    }
+    .scrollable-content-card {
+        max-height: 20vh; /* Ajusta esta altura según tus necesidades */
+        overflow-y: auto;
+    }
+</style>
+
 <div class="dashboard-container">
     <div class="dashboard-content">
     <h1>Dashboard</h1>
@@ -23,7 +35,7 @@
                         </h5>
                     </div>
 
-                    <div id="collapse{{ forloop.counter }}" class="collapse" aria-labelledby="heading{{ forloop.counter }}" data-parent="#accordionExample">
+                    <div id="collapse{{ forloop.counter }}" class="collapse scrollable-content-card" aria-labelledby="heading{{ forloop.counter }}" data-parent="#accordionExample">
                         <div class="card-body">
                             <table class="table table-striped">
                                 <thead>
@@ -60,14 +72,14 @@
             </div>
 
             <!-- Gráfico de Evaluaciones por Departamento -->
-            <h3>Gráfico de Evaluaciones por Departamento</h3>
-            <div id="evaluacionesPorDepartamento"></div>
+            <h3 class="mt-3">Gráfico de Evaluaciones por Departamento</h3>
+            <div id="evaluacionesPorDepartamento" class="chart-container"></div>
         </div>
 
         <!-- Columna para Actividades Programadas -->
         <div class="col-md-6 d-flex flex-column" style="min-height: 100%;">
             <h3>Actividades Programadas</h3>
-            <div class="table-responsive" style="flex-grow: 1;">
+            <div class="table-responsive scrollable-content_table" style="flex-grow: 1;">
                 <table class="table table-striped">
                     <thead>
                         <tr>
@@ -109,7 +121,7 @@
             </div>
 
             <!-- Gráfico de Actividades Programadas -->
-            <h3>Gráfico de Actividades Programadas</h3>
+            <h3 class="mt-3">Gráfico de Actividades Programadas</h3>
             <div id="actividadesProgramadas"></div>
         </div>
     </div>

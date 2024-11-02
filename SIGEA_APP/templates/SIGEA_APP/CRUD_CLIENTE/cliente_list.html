@@ -1,7 +1,13 @@
 {% extends 'SIGEA_APP/admin/index.html' %}
 {% block title %}Clientes{% endblock %}
 {% block content %}
-<div class="scrollable-content mt-1">
+
+<style>
+    .scrollable-content {
+        overflow-y: auto;
+    }
+</style>
+<div class="mt-1">
     <h1>Clientes</h1>
 
     <form method="get" action="">
@@ -64,7 +70,9 @@
                         <button class="btn btn-danger" data-toggle="modal" onclick="deleteCliente({{ cliente.id }})"><i class="fas fa-trash-alt"></i> Eliminar</button>      
                     </td>
                     <td>
-                        <button type="button" class="btn btn-info" onclick="window.location.href='{% url 'caso_list' %}'" >Ver casos</button>
+                        <button class="btn btn-info" onclick="verCasos({{ cliente.id }})">
+                            <i class="fas fa-eye"></i> Ver casos
+                        </button>
                     </td>
                 </tr>
 
@@ -165,6 +173,27 @@
     </div>
 </div>
 
+<!-- Modal para ver casos activos de un cliente -->
+<div class="modal fade" id="casosModal" tabindex="-1" role="dialog" aria-labelledby="casosModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="casosModalLabel">Casos Activos del Cliente</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body scrollable-content">
+                <!-- Contenido de los casos se cargará aquí -->
+                <div id="casosActivosContent"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
     $(document).ready(function() {
         $('#createModal').on('shown.bs.modal', function () {
@@ -259,6 +288,37 @@
             }
         });
     }
+
+    function verCasos(clienteId) {
+    // Realiza la petición AJAX para obtener los casos activos del cliente
+    $.ajax({
+        url: '/casos_activos/' + clienteId + '/',
+        method: 'GET',
+        success: function(response) {
+            // Limpia el contenido del modal
+            $('#casosActivosContent').empty();
+
+            if (response.casos.length > 0) {
+                response.casos.forEach(caso => {
+                    $('#casosActivosContent').append(`
+                        <p><strong>Nombre:</strong> ${caso.nombreCaso}</p>
+                        <p><strong>Descripción:</strong> ${caso.descripcionCaso}</p>
+                        <hr>
+                    `);
+                });
+            } else {
+                $('#casosActivosContent').html('<p>No hay casos activos para este cliente.</p>');
+            }
+
+            // Abre el modal
+            $('#casosModal').modal('show');
+        },
+        error: function() {
+            Swal.fire('Error', 'No se pudieron cargar los casos activos del cliente.', 'error');
+        }
+    });
+}
+
 </script>
 
 {% endblock %}

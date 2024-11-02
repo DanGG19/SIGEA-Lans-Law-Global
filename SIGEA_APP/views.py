@@ -468,10 +468,22 @@ def actividades_list_template(request):
     actividades = Actividades.objects.all()
     
     estados = EstadoActividad.objects.all()
+
+    query = request.GET.get('q', None)
+    if query:
+        actividades = Actividades.objects.filter(nombreactividad__icontains=query)
+    else:
+        actividades = Actividades.objects.all()
+
+    # Paginación
+    paginator = Paginator(actividades, 8)
+    page_number = request.GET.get("page") or 1
+    posts = paginator.get_page(page_number)
     
     context = {
         'pruebita': user_type,
         'estados': estados,
+        'page_obj':posts,
         'actividades': actividades,
     }
     return render(request, 'SIGEA_APP/CRUD_EVENT/actividades_list.html', context)
@@ -596,8 +608,26 @@ def actividades_update(request, idactividad):
         invs = None
         if data.getlist('invitadosactividad'):
             invs = data.pop('invitadosactividad')
-        form = ActividadesForm(data, instance=actividad)
+        
+        # Guardamos una referencia al archivo actual
+        archivo_actual = actividad.docanexoactividad
+
+        # Cargar el formulario con datos y archivos (si se ha subido uno nuevo)
+        form = ActividadesForm(data, request.FILES, instance=actividad)
+
         if form.is_valid():
+            # Eliminar archivo antiguo si hay un archivo nuevo
+            if 'docanexoactividad' in request.FILES:
+                if archivo_actual:
+                    archivo_actual.delete(save=False)  # Borrar el archivo anterior
+
+                # Asignar el nuevo archivo al campo antes de guardar
+                actividad.docanexoactividad = request.FILES['docanexoactividad']
+            
+            # Guardar la actividad con el nuevo archivo (si se proporcionó)
+            actividad.save()
+
+            # Actualizar invitados
             invitados = invitados_actividad.objects.filter(idactividad=actividad)
             for invitado in invitados:
                 if not invs:
@@ -611,13 +641,17 @@ def actividades_update(request, idactividad):
                         user_ex = Usuario.objects.get(idusuario=i)
                         nuevo_inv = invitados_actividad(idactividad=actividad, idusuario=user_ex)
                         nuevo_inv.save()
-            form.save()
+
             return JsonResponse({'success': True})
         else:
             return JsonResponse({'success': False, 'errors': form.errors})
     else:
         form = ActividadesForm(instance=actividad)
     return render(request, 'SIGEA_APP/CRUD_EVENT/editar_actividad.html', {'form': form})
+
+
+
+
 
 @csrf_exempt
 def recordatorio_create(request):
@@ -830,6 +864,12 @@ def plandesarollo_delete(request, idplandes):
         return JsonResponse({'success': True})
     return JsonResponse({'success': False})
 
+def casos_activos_cliente(request, cliente_id):
+    # Asegúrate de que el filtro esté aplicando los estados "Iniciado" y "En proceso" correctamente.
+    casos_activos = Caso.objects.filter(idCliente_id=cliente_id, estadoCaso__in=["Iniciado", "En proceso"])
+    casos_data = list(casos_activos.values('idCaso', 'nombreCaso', 'descripcionCaso'))
+    
+    return JsonResponse({'casos': casos_data})
 
 @login_required
 @admin_or_secretaria_required
@@ -939,12 +979,18 @@ def registroasistencia_list(request):
     if anio:
         registros = registros.filter(fecha__year=anio)
 
+    # Paginación
+    paginator = Paginator(registros, 7)
+    page_number = request.GET.get("page") or 1
+    posts = paginator.get_page(page_number)
+
     # Cargar el menú con pruebita (tipo de usuario)
     context = {
         'pruebita': user_type,  # Pasar el tipo de usuario al contexto
         'registros': registros,  # Registros filtrados
         'usuarios': usuarios,  # Lista de usuarios para el filtro
         'selected_usuario_id': usuario_id,  # Usuario seleccionado
+        'page_obj':posts,
         'dia': dia,
         'mes': mes,
         'anio': anio,

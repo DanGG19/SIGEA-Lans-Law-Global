@@ -1,7 +1,7 @@
 {% extends 'SIGEA_APP/admin/index.html' %}
 {% block title %}Evaluaciones{% endblock %}
 {% block content %}
-<div class="scrollable-content mt-1">
+<div class="mt-1">
     <h1>Evaluaciones</h1>
 
     <form method="get" action="">
@@ -29,7 +29,6 @@
         <table class="table table-striped table-hover table-borderless table-primary align-middle">
             <thead class="table-dark">
                 <tr>
-                    <th>ID</th>
                     <th>Nombres</th>
                     <th>Tipo de Evaluación</th>
                     <th>Nota</th>
@@ -41,7 +40,6 @@
             <tbody>
                 {% for evaluacion in page_obj %}
                 <tr>
-                    <td>{{ evaluacion.idevaluacion }}</td>
                     <td>{{ evaluacion.idusuario.nombre }} {{ evaluacion.idusuario.apellido }}</td>
                     <td>{{ evaluacion.tipoevaluacion }}</td>
                     <td>{{ evaluacion.notaevaluacio }}</td>

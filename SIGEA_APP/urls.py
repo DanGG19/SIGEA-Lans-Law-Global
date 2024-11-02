@@ -54,6 +54,7 @@ urlpatterns = [
     path('cliente/new/', views.cliente_create, name='cliente_create'),
     path('cliente/<int:id>/edit/', views.cliente_update, name='cliente_update'),
     path('cliente/<int:id>/delete/', views.cliente_delete, name='cliente_delete'),
+    path('casos_activos/<int:cliente_id>/', views.casos_activos_cliente, name='casos_activos_cliente'),
 
     #rutas para acceder a los casos
     path('caso/', views.caso_list, name='caso_list'),

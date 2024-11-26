@@ -1,6 +1,112 @@
 {% extends 'SIGEA_APP/base.html' %}
+{% block title %}Dashboard Secretaria{% endblock %}
 
-{% block title %}SECRETARIA{% endblock %}
 {% block content %}
-    <h1>SECRETARIA</h1>
+<h1>Dashboard Secretaria</h1>
+<div class="row">
+    <!-- Sección para gestión de actividades -->
+    <div class="col-md-6">
+        <h3>Actividades Programadas</h3>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre de la Actividad</th>
+                    <th>Fecha</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for actividad in actividades %}
+                <tr>
+                    <td>{{ actividad.idactividad }}</td>
+                    <td>{{ actividad.nombreactividad }}</td>
+                    <td>{{ actividad.fechaactividad }}</td>
+                    <td>{{ actividad.estadoactividad.descripcion }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Sección para recordatorios -->
+    <div class="col-md-6">
+        <h3>Recordatorios</h3>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre del Recordatorio</th>
+                    <th>Fecha</th>
+                    <th>Descripción</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for recordatorio in recordatorios %}
+                <tr>
+                    <td>{{ recordatorio.idrecordatorio }}</td>
+                    <td>{{ recordatorio.nombrerecordatorio }}</td>
+                    <td>{{ recordatorio.fecharecordatorio }}</td>
+                    <td>{{ recordatorio.descripcionrecordatorio }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Gráfico de Actividades por Estado -->
+<div class="row mt-4 justify-content-center">
+    <div class="col-md-4">
+        <h3>Actividades por Estado</h3>
+        <div style="width: 100%; max-width: 300px; margin: 0 auto;">
+            <canvas id="actividadesChart"></canvas>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const estados = {{ estados|safe }};
+    const totales = {{ totales|safe }};
+
+    // Crear un conjunto único de etiquetas y datos para evitar duplicados
+    const etiquetasUnicas = Array.from(new Set(estados));
+    const datosAgrupados = etiquetasUnicas.map(label => {
+        return totales[estados.indexOf(label)];
+    });
+
+    const ctx = document.getElementById('actividadesChart').getContext('2d');
+    const actividadesChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: etiquetasUnicas,
+            datasets: [{
+                label: 'Actividades por Estado',
+                data: datosAgrupados,
+                backgroundColor: [
+                    'rgba(54, 162, 235, 0.6)',
+                    'rgba(255, 99, 132, 0.6)',
+                    'rgba(255, 206, 86, 0.6)',
+                    'rgba(75, 192, 192, 0.6)'
+                ],
+                borderColor: [
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            layout: {
+                padding: 10
+            }
+        }
+    });
+</script>
+
 {% endblock %}

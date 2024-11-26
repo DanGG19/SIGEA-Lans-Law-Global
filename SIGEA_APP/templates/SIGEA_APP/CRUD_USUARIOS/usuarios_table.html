@@ -25,63 +25,45 @@
       </tr>
 
       <!-- Detail Modal -->
-      <div class="modal fade" id="detailModal{{ usuario.idusuario }}" tabindex="-1" role="dialog" aria-labelledby="detailModalLabel{{ usuario.idusuario }}" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
+<div class="modal fade" id="detailModal{{ usuario.idusuario }}" tabindex="-1" role="dialog" aria-labelledby="detailModalLabel{{ usuario.idusuario }}" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
               <h5 class="modal-title" id="detailModalLabel{{ usuario.idusuario }}">Detalles del Usuario</h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            </div>
-            <div class="modal-body">
-              <div class="card mb-3">
-                {% if usuario.foto_perfil %}
-                  <img src="{{ usuario.foto_perfil.url }}" class="card-img-top profile-img" alt="Foto de perfil" />
-                {% else %}
-                  <img src="url_a_imagen_por_defecto" class="card-img-top profile-img" alt="Foto de perfil" />
-                {% endif %}
-                <div class="card-body">
-                  <h5 class="card-title">{{ usuario.nombre }} {{ usuario.apellido }}</h5>
-                  <ul class="list-group list-group-flush">
-                    <li class="list-group-item">
-                      <strong>Email:</strong> {{ usuario.email }}
-                    </li>
-                    <li class="list-group-item">
-                      <strong>DUI:</strong> {{ usuario.dui }}
-                    </li>
-                    <li class="list-group-item">
-                      <strong>Teléfono:</strong> {{ usuario.telefono }}
-                    </li>
-                    <li class="list-group-item">
-                      <strong>Salario:</strong> {{ usuario.salario }}
-                    </li>
-                    <li class="list-group-item">
-                      <strong>Tipo Usuario:</strong> {{ usuario.tipousuario.descripcion }}
-                    </li>
-                    <li class="list-group-item">
-                      <strong>ID Servicio:</strong> {{ usuario.idservicio.nombreservicio }}
-                    </li>
-                    <li class="list-group-item">
-                      <strong>Departamento:</strong> {{ usuario.idservicio.iddepartamento.divisiondepartamento }}
-                    </li> <!-- Mostrar el departamento en el modal de detalles -->
-                  </ul>
-                  <p class="card-text">
-                    <small class="text-muted">
-                      Último inicio de sesión:{% if usuario.last_login %}
-                        {{ usuario.last_login }}
-                      {% else %}
-                        No hay registro
-                      {% endif %}
-                    </small>
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-            </div>
           </div>
-        </div>
+          <div class="modal-body">
+              <div class="card mb-3">
+                  {% if usuario.foto_perfil %}
+                      <img src="{{ usuario.foto_perfil.url }}" class="profile-img" alt="Foto de perfil" />
+                  {% else %}
+                      <img src="/media/fotos_perfil/perfil-del-usuario.png" class="profile-img" alt="Foto de perfil predeterminada" />
+                  {% endif %}
+                  <div class="card-body">
+                      <h5 class="card-title">{{ usuario.nombre }} {{ usuario.apellido }}</h5>
+                      <ul class="list-group list-group-flush">
+                          <li class="list-group-item"><strong>Email:</strong> {{ usuario.email }}</li>
+                          <li class="list-group-item"><strong>DUI:</strong> {{ usuario.dui }}</li>
+                          <li class="list-group-item"><strong>Teléfono:</strong> {{ usuario.telefono }}</li>
+                          <li class="list-group-item"><strong>Salario:</strong> {{ usuario.salario }}</li>
+                          <li class="list-group-item"><strong>Tipo Usuario:</strong> {{ usuario.tipousuario.descripcion }}</li>
+                          <li class="list-group-item"><strong>Servicio:</strong> {{ usuario.idservicio.nombreservicio }}</li>
+                          <li class="list-group-item"><strong>Departamento:</strong> {{ usuario.idservicio.iddepartamento.divisiondepartamento }}</li>
+                      </ul>
+                      <p class="card-text">
+                          <small class="text-muted">
+                              Último inicio de sesión: {% if usuario.last_login %}{{ usuario.last_login }}{% else %}No hay registro{% endif %}
+                          </small>
+                      </p>
+                  </div>
+              </div>
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+          </div>
       </div>
+  </div>
+</div>
 
       <!-- Update Modal -->
       <div class="modal fade" id="updateModal{{ usuario.idusuario }}" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel{{ usuario.idusuario }}" aria-hidden="true">

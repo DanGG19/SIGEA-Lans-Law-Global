@@ -8,11 +8,21 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from .forms import *
 from django.db.models import Q
+from django.db.models import Count, Avg
 from django.core.mail import send_mail
 from django.conf import settings
 from django.http import JsonResponse
 from django.core.paginator import Paginator
 
+
+def admin_required(view_func):
+    def _wrapped_view_func(request, *args, **kwargs):
+        user_type = request.user.tipousuario.idtipousuario
+        if user_type == 1:
+            return view_func(request, *args, **kwargs)
+        else:
+            return redirect('404')
+    return _wrapped_view_func
 
 def admin_or_secretaria_required(view_func):
     def _wrapped_view_func(request, *args, **kwargs):
@@ -59,7 +69,7 @@ def vista404(request):
 @login_required
 def index(request):
     user_type = request.user.tipousuario.idtipousuario
-    context = {'pruebita': user_type}
+    context = {'pruebita': user_type}  # Define `pruebita` en el contexto inicial
 
     if request.method == 'POST':
         # Cambiar el estado de una actividad
@@ -72,12 +82,12 @@ def index(request):
                 actividad.estadoactividad_id = nuevo_estado
                 actividad.save()
             except Actividades.DoesNotExist:
-                pass  # Manejar el error según sea necesario
+                pass
 
     if user_type == 1:  # Administrador
         # Obtener las actividades programadas
         actividades_programadas = Actividades.objects.all().order_by('fechaactividad')
-
+        
         # Obtener los departamentos y las evaluaciones por departamento
         departamentos = Departamentos.objects.all()
         evaluaciones_por_departamento = []
@@ -88,7 +98,6 @@ def index(request):
                 'departamento': departamento.divisiondepartamento,
                 'evaluaciones': evaluaciones
             })
-            # Datos para el gráfico
             evaluaciones_data.append({
                 'departamento': departamento.divisiondepartamento,
                 'evaluaciones_count': evaluaciones.count()
@@ -100,29 +109,90 @@ def index(request):
             for actividad in actividades_programadas
         ]
 
-        # Agregar los datos al contexto
+        # Actualizar el contexto
         context.update({
             'actividades_programadas': actividades_programadas,
             'evaluaciones_por_departamento': evaluaciones_por_departamento,
             'evaluaciones_data': evaluaciones_data,
             'actividades_data': actividades_data,
-            'estados': EstadoActividad.objects.all()  # Para los botones de cambio de estado
+            'estados': EstadoActividad.objects.all(),
         })
 
         return render(request, 'SIGEA_APP/admin/index.html', context)
 
-    # Otros tipos de usuarios
     elif user_type == 2:  # Secretaria
+        actividades = Actividades.objects.filter(idusuario=request.user).order_by('fechaactividad')
+        recordatorios = Recordatorio.objects.filter(idactividad__idusuario=request.user).order_by('fecharecordatorio')
+
+        # Obtener los totales de actividades agrupadas por estado
+        actividades_por_estado = (
+            Actividades.objects
+            .filter(idusuario=request.user)
+            .values('estadoactividad__descripcion')
+            .annotate(total=Count('idactividad'))
+        )
+
+        # Extraer los datos de la consulta para el gráfico
+        estados = [item['estadoactividad__descripcion'] for item in actividades_por_estado]
+        totales = [item['total'] for item in actividades_por_estado]
+
+        context.update({
+            'actividades': actividades,
+            'recordatorios': recordatorios,
+            'estados': estados,
+            'totales': totales,
+        })
+
         return render(request, 'SIGEA_APP/secretaria/index.html', context)
-    
-    elif user_type == 3:  # Jefe de departamento
+
+    elif user_type == 3:  # Jefe de Departamento
+        departamento = Departamentos.objects.filter(responsabledepartamento=request.user).first()
+        empleados = Usuario.objects.filter(idservicio__iddepartamento=departamento)
+        evaluaciones = Evaluacion.objects.filter(idusuario__idservicio__iddepartamento=departamento).order_by('-fechaevaluacion')[:10]
+
+        # Obtener el promedio de notas por tipo de evaluación y convertir a float
+        promedio_por_tipo = (
+            Evaluacion.objects.filter(idusuario__idservicio__iddepartamento=departamento)
+            .values('tipoevaluacion')
+            .annotate(promedio_nota=Avg('notaevaluacio'))
+        )
+
+        # Convertir valores Decimal a float para el gráfico
+        tipos = [item['tipoevaluacion'] for item in promedio_por_tipo]
+        promedios = [float(item['promedio_nota']) for item in promedio_por_tipo]
+
+        context.update({
+            'empleados': empleados,
+            'evaluaciones': evaluaciones,
+            'tipos': tipos,
+            'promedios': promedios,
+        })
+
         return render(request, 'SIGEA_APP/jefe_departamento/index.html', context)
-    
+
     elif user_type == 4:  # Abogado
+        # Dashboard del abogado
+        clientes = Cliente.objects.all()
+        casos_por_estado = (
+            Caso.objects.values('estadoCaso')
+            .annotate(total=models.Count('idCaso'))
+        )
+
+        estados = [caso['estadoCaso'] for caso in casos_por_estado]
+        totales = [caso['total'] for caso in casos_por_estado]
+
+        context.update({
+            'casos_por_estado': casos_por_estado,
+            'clientes': clientes,
+            'estados': estados,
+            'totales': totales,
+        })
+
         return render(request, 'SIGEA_APP/abogado/index.html', context)
-    
+
     else:
         return redirect('login')
+
 
 
 @login_required
@@ -168,22 +238,39 @@ def exit(request):
 #Perfil de usuario
 @login_required
 def edit_profile(request):
-    user_type = request.user.tipousuario.idtipousuario
+    user_type = request.user.tipousuario.idtipousuario  # Obtener el tipo de usuario
+
     if request.method == 'POST':
         form = EditProfileForm(request.POST, request.FILES, instance=request.user)
         if form.is_valid():
-            form.save()
-            return redirect('edit_profile')
+            usuario = form.save(commit=False)
+
+            # Verificar si se debe eliminar la foto de perfil
+            if form.cleaned_data.get('eliminar_foto') and usuario.foto_perfil and usuario.foto_perfil.url != '/media/fotos_perfil/perfil-del-usuario.png':
+                usuario.foto_perfil.delete()  # Eliminar la foto actual
+                usuario.foto_perfil = 'fotos_perfil/perfil-del-usuario.png'  # Asignar la foto por defecto
+
+            usuario.save()
+
+            # Enviar un correo de confirmación
+            email = request.user.email
+            subject = "Actualización de perfil exitosa"
+            message = f"Tu perfil en LANS LAW GLOBAL se ha actualizado correctamente."
+            email_from = settings.EMAIL_HOST_USER
+            send_mail(subject, message, email_from, [email], fail_silently=False)
+
+            return JsonResponse({'success': True, 'message': 'Perfil actualizado correctamente'})
+        else:
+            return JsonResponse({'success': False, 'errors': form.errors})
     else:
         form = EditProfileForm(instance=request.user)
-    
+
     context = {
-        'pruebita': user_type,
-        'form': form
+        'form': form,
+        'pruebita': user_type,  # Pasar el tipo de usuario al contexto
     }
     
     return render(request, 'SIGEA_APP/CRUD_USUARIOS/edit_profile.html', context)
-
 
 
 @require_POST
@@ -196,12 +283,12 @@ def usuario_delete(request, pk):
 
 
 @login_required
-@csrf_exempt # Decorador para deshabilitar la protección CSRF
-@admin_or_secretaria_required # Decorador para permitir solo a los administradores y secretarias acceder a la vista
+@csrf_exempt
+@admin_required
 def usuario_list(request):
-    user_type = request.user.tipousuario.idtipousuario  # Obtener el tipo de usuario
-    query = request.GET.get('q', '')  # Obtener el valor del parámetro 'q' de la URL
-    departamento_id = request.GET.get('departamento', None)  # Obtener el valor del parámetro 'departamento' de la URL
+    user_type = request.user.tipousuario.idtipousuario
+    query = request.GET.get('q', '')
+    departamento_id = request.GET.get('departamento', None)
 
     usuarios = Usuario.objects.all().select_related('idservicio__iddepartamento')
 
@@ -211,9 +298,9 @@ def usuario_list(request):
     if departamento_id:
         usuarios = usuarios.filter(idservicio__iddepartamento__iddepartamento=departamento_id)
 
-    departamentos = Departamentos.objects.all()  # Obtener todos los departamentos para el filtro
+    departamentos = Departamentos.objects.all()
 
-    paginator=Paginator(usuarios,7)
+    paginator = Paginator(usuarios, 7)
     pagina = request.GET.get("page") or 1
     posts = paginator.get_page(pagina)
 
@@ -221,7 +308,7 @@ def usuario_list(request):
         'pruebita': user_type,
         'usuarios': usuarios,
         'query': query,
-        'page_obj':posts,
+        'page_obj': posts,
         'departamentos': departamentos,
         'selected_departamento': int(departamento_id) if departamento_id else None,
     }
@@ -229,20 +316,28 @@ def usuario_list(request):
 
 @login_required
 @csrf_exempt
-@admin_or_secretaria_required
+@admin_required
 def usuario_create(request):
     if request.method == 'POST':
-        
-        #ALLAN ESTUVO AQUI, CORREO DE CONFIRMACIÖN DE CREACIÖN DE USUARIO
-        subject = "¡Excelente! Se ha creado un usuario"
-        message ="Ahora formas parte de nuestra empresa, LANS LAW GLOBAL está feliz de tenerte, tus credenciales son:\nCorreo: "+request.POST["email"]+"\nContraseña: "+request.POST["password"]
-        email_from=settings.EMAIL_HOST_USER
-        recipient_list=[request.POST["email"]]
-        send_mail(subject, message, email_from, recipient_list, fail_silently=False)
-        
+        email = request.POST.get("email")
+        password = request.POST.get("password")
+
+        if email and password:
+            subject = "¡Excelente! Se ha creado un usuario"
+            message = (
+                "Ahora formas parte de nuestra empresa, LANS LAW GLOBAL está feliz de tenerte, "
+                "tus credenciales son:\nCorreo: " + email + "\nContraseña: " + password
+            )
+            email_from = settings.EMAIL_HOST_USER
+            recipient_list = [email]
+            send_mail(subject, message, email_from, recipient_list, fail_silently=False)
+
         form = UsuarioForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            usuario = form.save(commit=False)
+            if not usuario.foto_perfil:
+                usuario.foto_perfil = 'fotos_perfil/perfil-del-usuario.png'
+            usuario.save()
             return JsonResponse({'success': True})
         else:
             return JsonResponse({'success': False, 'errors': form.errors})
@@ -261,23 +356,39 @@ def usuario_create(request):
 
 @login_required
 @csrf_exempt
-@admin_or_secretaria_required
+@admin_required
 def usuario_update(request, idusuario):
     usuario = get_object_or_404(Usuario, idusuario=idusuario)
+    
     if request.method == 'POST':
         form = UsuarioForm(request.POST, request.FILES, instance=usuario)
+        correo_anterior = usuario.email
+
         if form.is_valid():
-            form.save()
-            return JsonResponse({'success': True})
+            usuario = form.save(commit=False)
+
+            # Chequear si se cambió el correo y enviar notificación
+            if correo_anterior != usuario.email:
+                subject = "Actualización de correo electrónico"
+                message = f"Estimado {usuario.nombre}, tu correo en LANS LAW GLOBAL ha sido actualizado correctamente a: {usuario.email}."
+                email_from = settings.EMAIL_HOST_USER
+                recipient_list = [usuario.email]
+                send_mail(subject, message, email_from, recipient_list, fail_silently=False)
+
+                # Reautenticar al usuario si el email cambia para mantener la sesión
+                login(request, usuario)
+            
+            usuario.save()
+            return JsonResponse({'success': True, 'message': 'Usuario actualizado correctamente.'})
         else:
             return JsonResponse({'success': False, 'errors': form.errors})
+
     else:
         form = UsuarioForm(instance=usuario)
-        initial_data = {
-            'divisiondepartamento': usuario.idservicio.iddepartamento.divisiondepartamento if usuario.idservicio else ''
-        }
-        form.initial.update(initial_data)
-    return render(request, 'SIGEA_APP/CRUD_USUARIOS/usuario_form.html', {'form': form})
+    
+    return render(request, 'SIGEA_APP/CRUD_USUARIOS/usuario_form.html', {'form': form, 'usuario': usuario})
+
+
 
 def usuario_detail(request, idusuario):
     usuario = get_object_or_404(Usuario, idusuario=idusuario)
@@ -285,7 +396,7 @@ def usuario_detail(request, idusuario):
 
 @login_required
 @csrf_exempt
-@admin_or_secretaria_required
+@admin_required
 def usuario_delete(request, idusuario):
     usuario = get_object_or_404(Usuario, idusuario=idusuario)
     if request.method == 'POST':
@@ -345,6 +456,7 @@ def departamento_update(request, iddepartamento):
         form = DepartamentosForm(instance=departamento)
     return render(request, 'SIGEA_APP/CRUD_DEPARTAMENTOS/departamento_form.html', {'form': form})
 
+@login_required
 @admin_jefe_required
 def departameto_detail(request, iddepartamento):
     departamento = get_object_or_404(Departamentos, iddepartamento=iddepartamento)
@@ -467,7 +579,6 @@ def actividades(request):
 
 @login_required
 @csrf_exempt
-@admin_or_secretaria_required
 def actividades_list_template(request):
     user_type = request.user.tipousuario.idtipousuario  # Obtener el tipo de usuario
     
@@ -554,7 +665,7 @@ def actividades_create(request):
             subject = "Se te ha invitado a una Actividad"
             message = "Se le informa que ha sido invitado a participar en la actividad "+request.POST['nombreactividad']+", la actividad se llevará acabo desde: \nInicio: "+request.POST['fechaactividad']+"\nFin: "+request.POST['fechafin']+"\n¡TE ESPERAMOS!"
             email_from=settings.EMAIL_HOST_USER
-            recipient_list=[invitado.idusuario.email] #QUE PENDEJO EL QUE LO CAMBIÓ EN EL MODELO Y NO LE AVISÓ A NADIE
+            recipient_list=[invitado.idusuario.email] # EN EL MODELO Y NO LE AVISÓ A NADIE
             send_mail(subject, message, email_from, recipient_list, fail_silently=False)
 
         return JsonResponse({'success': True, 'message': 'Has creado un evento exitosamente'})
@@ -563,7 +674,6 @@ def actividades_create(request):
 
 @login_required
 @csrf_exempt # Decorador para deshabilitar la protección CSRF
-@admin_or_secretaria_required # Decorador para permitir solo a los administradores y secretarias acceder a la vista
 def cambiar_estado(request, idactividad):
     if request.method == 'POST':
         try:
@@ -592,7 +702,6 @@ def search_users(request):
     return JsonResponse(results, safe=False)
 
 @csrf_exempt # Decorador para deshabilitar la protección CSRF
-@admin_or_secretaria_or_jefe_required
 def actividad_delete(request, idactividad):  # Usamos idusuario aquí #Vista para eliminar un usuario
     actividad = get_object_or_404(Actividades, idactividad=idactividad)  # y aquí también #Se obtiene el usuario a eliminar.
     if request.method == 'POST': #Si el método es POST, se elimina el usuario de la base de datos.
@@ -605,7 +714,6 @@ def actividad_delete(request, idactividad):  # Usamos idusuario aquí #Vista par
 
 
 @csrf_exempt
-@admin_or_secretaria_or_jefe_required
 def actividades_update(request, idactividad):
     actividad = get_object_or_404(Actividades, idactividad=idactividad)
 
@@ -682,6 +790,8 @@ def recordatorio_create(request):
         # Si la solicitud no es de tipo POST, devuelve un error
         return JsonResponse({'success': False, 'message': 'La solicitud debe ser de tipo POST'})
 
+
+#VISTAS PARA EVALUACIÓN
 @login_required
 @admin_jefe_required
 @csrf_exempt
@@ -748,6 +858,7 @@ def evaluacion_create(request):
 
 @login_required
 @csrf_exempt
+@admin_jefe_required
 def evaluacion_update(request, id):
     evaluacion = get_object_or_404(Evaluacion, idevaluacion=id)
     if request.method == 'POST':
@@ -763,6 +874,7 @@ def evaluacion_update(request, id):
 
 @login_required
 @csrf_exempt
+@admin_jefe_required
 def evaluacion_delete(request, id):
     evaluacion = get_object_or_404(Evaluacion, idevaluacion=id)
     if request.method == 'POST':
@@ -878,7 +990,6 @@ def casos_activos_cliente(request, cliente_id):
     return JsonResponse({'casos': casos_data})
 
 @login_required
-@admin_or_secretaria_required
 @csrf_exempt
 def cliente_list(request):
     user_type = request.user.tipousuario.idtipousuario
@@ -917,7 +1028,6 @@ def cliente_list(request):
 
 @login_required
 @csrf_exempt
-@admin_or_secretaria_required
 def cliente_create(request):
     if request.method == 'POST':
         form = ClienteForm(request.POST)
@@ -932,7 +1042,6 @@ def cliente_create(request):
 
 @login_required
 @csrf_exempt
-@admin_or_secretaria_required
 def cliente_update(request, id):
     cliente = get_object_or_404(Cliente, id=id)
     if request.method == 'POST':
@@ -948,7 +1057,6 @@ def cliente_update(request, id):
 
 @login_required
 @csrf_exempt
-@admin_or_secretaria_required
 def cliente_delete(request, id):
     cliente = get_object_or_404(Cliente, id=id)
     if request.method == 'POST':
@@ -960,6 +1068,7 @@ def cliente_delete(request, id):
 # CONTROL DE ASISTENCIA
 @login_required
 @csrf_exempt
+@admin_or_secretaria_required
 def registroasistencia_list(request):
     user_type = request.user.tipousuario.idtipousuario  # Obtener el tipo de usuario
     usuario_id = request.GET.get('usuario_id')
@@ -1007,6 +1116,7 @@ def registroasistencia_list(request):
 
 
 @csrf_exempt
+@admin_or_secretaria_required
 def registroasistencia_create(request):
     if request.method == 'POST':
         form = RegistroAsistenciaForm(request.POST)
@@ -1021,6 +1131,7 @@ def registroasistencia_create(request):
 
 
 @csrf_exempt
+@admin_or_secretaria_required
 def registroasistencia_update(request, idregistro):
     registro = get_object_or_404(RegistroAsistencia, idregistro=idregistro)
     
@@ -1039,6 +1150,7 @@ def registroasistencia_update(request, idregistro):
 
 @require_POST
 @csrf_exempt
+@admin_or_secretaria_required
 def registroasistencia_delete(request, idregistro):
     registro = get_object_or_404(RegistroAsistencia, idregistro=idregistro)
     try:

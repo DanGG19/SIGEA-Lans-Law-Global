@@ -69,7 +69,7 @@ WSGI_APPLICATION = 'SIGEA.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'sigeabd',
+        'NAME': 'sigeabd2',
         'USER': 'root',
         'PASSWORD': '',
         'HOST': 'localhost',
@@ -102,7 +102,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'es'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/El_Salvador'
 
 USE_I18N = True
 

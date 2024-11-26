@@ -123,7 +123,7 @@ class Usuario(AbstractBaseUser):
     salario = models.DecimalField(db_column='SALARIO', max_digits=10, decimal_places=0)
     email = models.EmailField(db_column='EMAIL', max_length=255, unique=True)
     password = models.CharField(db_column='PASSWORD', max_length=255)
-    foto_perfil = models.ImageField(upload_to='fotos_perfil/', blank=True, null=True)
+    foto_perfil = models.ImageField(upload_to='fotos_perfil/', blank=True, null=True, default='fotos_perfil/perfil-del-usuario.png')
 
     objects = UsuarioManager()
     USERNAME_FIELD = 'email'

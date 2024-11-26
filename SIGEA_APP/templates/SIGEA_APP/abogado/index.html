@@ -1,6 +1,58 @@
-{% extends 'SIGEA_APP/base.html' %}
-
-{% block title %}ABOGADRO{% endblock %}
+{% extends 'SIGEA_APP/admin/index.html' %}
+{% block title %}Dashboard Abogado{% endblock %}
 {% block content %}
-    <h1>ABOGADO</h1>
+
+<h1>Dashboard de Abogados</h1>
+
+<div class="container mt-4">
+    <h3>Distribución de Casos por Estado</h3>
+    <canvas id="casosChart" width="400" height="200"></canvas>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Obtener datos desde Django
+    const estados = {{ estados|safe }};
+    const totales = {{ totales|safe }};
+
+    // Crear el gráfico de barras
+    const ctx = document.getElementById('casosChart').getContext('2d');
+    const casosChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: estados,
+            datasets: [{
+                label: 'Cantidad de Casos',
+                data: totales,
+                backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Cantidad de Casos'
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Estado de los Casos'
+                    }
+                }
+            },
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: false
+                }
+            }
+        }
+    });
+</script>
+
 {% endblock %}

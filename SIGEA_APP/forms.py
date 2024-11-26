@@ -1,6 +1,7 @@
 from django import forms 
 from django.contrib.auth.hashers import make_password #Se importa la función make_password para encriptar la contraseña.
 from .models import * #Se importan todos los modelos de la aplicación.
+from django.core.exceptions import ValidationError
 
 # forms.py
 
@@ -8,12 +9,11 @@ class UsuarioForm(forms.ModelForm):
     departamento = forms.ModelChoiceField(
         queryset=Departamentos.objects.all(),
         empty_label="Selecciona un Departamento",
-        required=False,  # Cambiado a False
+        required=False,
         label='Departamento',
         widget=forms.Select(attrs={'class': 'form-control'})
     )
     divisiondepartamento = forms.CharField(
-        
         required=False,
         widget=forms.HiddenInput()
     )
@@ -24,32 +24,38 @@ class UsuarioForm(forms.ModelForm):
         label='Tipo de Usuario',
         widget=forms.Select(attrs={'class': 'form-control'})
     )
+    eliminar_foto = forms.BooleanField(
+        required=False,
+        label="Eliminar foto de perfil actual",
+        widget=forms.CheckboxInput(attrs={'class': 'form-check-input'})
+    )
 
     class Meta:
         model = Usuario
         fields = [
-            'departamento', 'idservicio', 'nombre', 'apellido', 'dui', 'telefono', 'salario', 'email', 'password', 'tipousuario', 'foto_perfil', 'divisiondepartamento'
+            'departamento', 'idservicio', 'nombre', 'apellido', 'dui', 'telefono', 
+            'salario', 'email', 'password', 'tipousuario', 'foto_perfil', 'divisiondepartamento'
         ]
         labels = {
-            'departamento': 'Departamento ',
-            'idservicio': 'Servicio ',
-            'nombre': 'Nombre ',
-            'apellido': 'Apellido ',
-            'dui': 'DUI ',
-            'telefono': 'Teléfono ',
-            'salario': 'Salario ',
-            'email': 'Email ',
-            'password': 'Contraseña ',
-            'tipousuario': 'Tipo de Usuario ',
-            'foto_perfil': 'Foto de Perfil ',
+            'departamento': 'Departamento',
+            'idservicio': 'Servicio',
+            'nombre': 'Nombre',
+            'apellido': 'Apellido',
+            'dui': 'DUI',
+            'telefono': 'Teléfono',
+            'salario': 'Salario',
+            'email': 'Email',
+            'password': 'Contraseña',
+            'tipousuario': 'Tipo de Usuario',
+            'foto_perfil': 'Foto de Perfil',
             'divisiondepartamento': ''
         }
         widgets = {
             'idservicio': forms.Select(attrs={'class': 'form-control'}),
             'nombre': forms.TextInput(attrs={'class': 'form-control'}),
             'apellido': forms.TextInput(attrs={'class': 'form-control'}),
-            'dui': forms.TextInput(attrs={'class': 'form-control', 'placeholder': '12345678-9', 'pattern': '\d{8}-\d', 'title': 'El DUI debe tener el formato 12345678-9'}),
-            'telefono': forms.TextInput(attrs={'class': 'form-control', 'placeholder': '1234-5678', 'pattern': '\d{4}-\d{4}', 'title': 'El teléfono debe tener el formato 1234-5678'}),
+            'dui': forms.TextInput(attrs={'class': 'form-control', 'placeholder': '12345678-9', 'pattern': '\\d{8}-\\d', 'title': 'El DUI debe tener el formato 12345678-9'}),
+            'telefono': forms.TextInput(attrs={'class': 'form-control', 'placeholder': '1234-5678', 'pattern': '\\d{4}-\\d{4}', 'title': 'El teléfono debe tener el formato 1234-5678'}),
             'salario': forms.NumberInput(attrs={'class': 'form-control'}),
             'email': forms.EmailInput(attrs={'class': 'form-control'}),
             'password': forms.PasswordInput(attrs={'class': 'form-control'}),
@@ -69,12 +75,18 @@ class UsuarioForm(forms.ModelForm):
 
     def save(self, commit=True):
         usuario = super().save(commit=False)
-        # Solo actualizar la contraseña si se proporciona una nueva
+        
+        # Eliminar la foto actual si se selecciona "Eliminar foto" y no es la predeterminada
+        if self.cleaned_data.get('eliminar_foto') and usuario.foto_perfil and usuario.foto_perfil.name != 'fotos_perfil/perfil-del-usuario.png':
+            usuario.foto_perfil.delete(save=False)  # Elimina la imagen actual del almacenamiento
+            usuario.foto_perfil = 'fotos_perfil/perfil-del-usuario.png'  # Asigna la imagen por defecto
+
+        # Actualiza la contraseña solo si se proporciona una nueva
         if self.cleaned_data['password']:
             usuario.password = make_password(self.cleaned_data['password'])
         else:
-            # No cambiar la contraseña existente
             usuario.password = Usuario.objects.get(pk=self.instance.pk).password
+
         if commit:
             usuario.save()
         return usuario
@@ -129,18 +141,38 @@ class ServiciosForm(forms.ModelForm):
             'descripcionservicio': forms.Textarea(attrs={'class': 'form-control'}),
         }
 
+
+
 class EditProfileForm(forms.ModelForm):
+    eliminar_foto = forms.BooleanField(
+        required=False,
+        label="Eliminar foto de perfil actual",
+        widget=forms.CheckboxInput(attrs={'class': 'form-check-input'})
+    )
+
     class Meta:
         model = Usuario
         fields = ['nombre', 'apellido', 'dui', 'telefono', 'email', 'foto_perfil']
         widgets = {
             'nombre': forms.TextInput(attrs={'class': 'form-control'}),
             'apellido': forms.TextInput(attrs={'class': 'form-control'}),
-            'dui': forms.TextInput(attrs={'class': 'form-control', 'placeholder': '12345678-9', 'pattern': '\d{8}-\d', 'title': 'El DUI debe tener el formato 12345678-9'}),
-            'telefono': forms.TextInput(attrs={'class': 'form-control', 'placeholder': '1234-5678', 'pattern': '\d{4}-\d{4}', 'title': 'El teléfono debe tener el formato 1234-5678'}),
+            'dui': forms.TextInput(attrs={'class': 'form-control', 'placeholder': '12345678-9', 'pattern': '\\d{8}-\\d', 'title': 'El DUI debe tener el formato 12345678-9'}),
+            'telefono': forms.TextInput(attrs={'class': 'form-control', 'placeholder': '1234-5678', 'pattern': '\\d{4}-\\d{4}', 'title': 'El teléfono debe tener el formato 1234-5678'}),
             'email': forms.EmailInput(attrs={'class': 'form-control'}),
             'foto_perfil': forms.FileInput(attrs={'class': 'form-control'}),
         }
+
+    def save(self, commit=True):
+        usuario = super().save(commit=False)
+        
+        # Eliminar la foto si se selecciona "Eliminar foto" y no es la predeterminada
+        if self.cleaned_data.get('eliminar_foto') and usuario.foto_perfil and usuario.foto_perfil.name != 'fotos_perfil/perfil-del-usuario.png':
+            usuario.foto_perfil.delete(save=False)
+            usuario.foto_perfil = 'fotos_perfil/perfil-del-usuario.png'
+        
+        if commit:
+            usuario.save()
+        return usuario
 
         
 
@@ -205,41 +237,58 @@ class ActividadesForm(forms.ModelForm):
 
 
 class EvaluacionForm(forms.ModelForm):
-    idusuario = UsuarioChoiceField(
+    TIPO_EVALUACION_CHOICES = [
+        ('Evaluación de Desempeño', 'Evaluación de Desempeño'),
+        ('Evaluación Técnica', 'Evaluación Técnica'),
+        ('Evaluación de Habilidades Blandas', 'Evaluación de Habilidades Blandas'),
+        ('Evaluación de Cumplimiento', 'Evaluación de Cumplimiento'),
+        ('Evaluación de Productividad', 'Evaluación de Productividad'),
+        ('Evaluación de Conocimientos', 'Evaluación de Conocimientos'),
+    ]
+
+    tipoevaluacion = forms.ChoiceField(
+        choices=TIPO_EVALUACION_CHOICES,
+        widget=forms.Select(attrs={'class': 'form-control'}),
+        label='Tipo de Evaluación'
+    )
+    
+    idusuario = forms.ModelChoiceField(
         queryset=Usuario.objects.all(),
         empty_label="Seleccione usuario",
         widget=forms.Select(attrs={'class': 'form-control'}),
         label='Empleado',
-        required=True  # El campo 'idusuario' es obligatorio para la evaluación de empleados
+        required=True
     )
 
     class Meta:
         model = Evaluacion
         fields = ['idusuario', 'tipoevaluacion', 'notaevaluacio', 'comentarioevaluacio', 'fechaevaluacion']
         labels = {
-            'idusuario': 'Empleado: ',
-            'tipoevaluacion': 'Descripción de la Evaluación: ',
-            'notaevaluacio': 'Nota de Evaluación: ',
-            'comentarioevaluacio': 'Comentario: ',
-            'fechaevaluacion': 'Fecha de Evaluación: '
+            'notaevaluacio': 'Nota de Evaluación:',
+            'comentarioevaluacio': 'Comentario:',
+            'fechaevaluacion': 'Fecha de Evaluación:'
         }
         widgets = {
-            'idusuario': forms.Select(attrs={'class': 'form-control'}),
-            'tipoevaluacion': forms.TextInput(attrs={'class': 'form-control'}),
-            'notaevaluacio': forms.NumberInput(attrs={'class': 'form-control', 'min': 1, 'max': 10}),
+            'notaevaluacio': forms.NumberInput(attrs={'class': 'form-control', 'min': 0, 'max': 100}),
             'comentarioevaluacio': forms.Textarea(attrs={'class': 'form-control'}),
             'fechaevaluacion': forms.DateTimeInput(attrs={'class': 'form-control', 'type': 'datetime-local'}, format='%Y-%m-%dT%H:%M'),
         }
+
+    def clean_notaevaluacio(self):
+        nota = self.cleaned_data.get('notaevaluacio')
+        if nota < 0 or nota > 100:
+            raise forms.ValidationError("La nota debe estar entre 0 y 100.")
+        return nota
 
     def __init__(self, *args, **kwargs):
         jefe_departamento = kwargs.pop('jefe_departamento', None)
         super(EvaluacionForm, self).__init__(*args, **kwargs)
 
-        # Si es jefe de departamento, mostrar empleados de su departamento
+        # Filtra usuarios según el jefe de departamento, si es necesario
         if jefe_departamento:
             self.fields['idusuario'].queryset = Usuario.objects.filter(idservicio__iddepartamento=jefe_departamento)
-
-        # Prepopulate the fechaevaluacion field
+        
+        # Predefine la fecha de evaluación
         if self.instance and self.instance.pk:
             self.fields['fechaevaluacion'].initial = self.instance.fechaevaluacion.strftime('%Y-%m-%dT%H:%M')
 

@@ -8,15 +8,13 @@
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(to bottom, #000000, #1a1a1a);
+            background-color: #f9f9f9;
             margin: 0;
             padding: 0;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            overflow: hidden;
-            color: #ffffff;
         }
         .stars, .twinkling, .clouds {
             position: absolute;
@@ -51,46 +49,39 @@
             to { background-position: 10000px 0; }
         }
         .container {
-            z-index: 3;
             text-align: center;
-            background-color: rgba(255, 255, 255, 0.1);
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-            max-width: 500px;
-            width: 90%;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: relative; /* Añadido para establecer un contexto de apilamiento */
+            z-index: 3; /* Añadido para asegurar que el contenido esté por encima del fondo */
         }
         h1 {
-            font-size: 36px;
-            color: #4a90e2;
+            color: #333;
+            font-size: 24px;
             margin-bottom: 10px;
         }
         p {
-            font-size: 18px;
-            color: #b3cde3;
-            margin: 10px 0;
+            color: #666;
+            margin-bottom: 20px;
         }
         .countdown {
-            font-weight: bold;
-            color: #4a90e2;
+            font-size: 18px;
+            color: #555;
         }
         .loader {
-            border: 4px solid rgba(255, 255, 255, 0.3);
-            border-top: 4px solid #4a90e2;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
             border-radius: 50%;
             width: 30px;
             height: 30px;
             animation: spin 1s linear infinite;
-            margin: 20px auto;
+            margin: 0 auto;
         }
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
-        }
-        .home-link {
-            color: #4a90e2;
-            text-decoration: none;
-            font-weight: bold;
         }
         .dog {
             width: 200px;
@@ -108,15 +99,15 @@
     <div class="clouds"></div>
 
     <div class="container">
+        <img src="https://i.gifer.com/3ww9.gif" alt="Dog" class="dog">
         <h1>¡Acceso Denegado!</h1>
         <p>No tienes permiso para acceder a esta página.</p>
-        <p>Serás redirigido en <span id="countdown" class="countdown">10</span> segundos.</p>
+        <p>Serás redirigido en <span id="countdown" class="countdown">5</span> segundos.</p>
         <div class="loader"></div>
-        <p><a href="/" class="home-link">Volver a la página de inicio</a></p>
     </div>
 
     <script>
-        let seconds = 10; // Define el número de segundos para el contador regresivo
+        let seconds = 1000; // Define el número de segundos para el contador regresivo
         let countdownElement = document.getElementById('countdown');
 
         let countdownInterval = setInterval(() => {
